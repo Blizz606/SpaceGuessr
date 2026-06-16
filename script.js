@@ -553,9 +553,11 @@ function handleAnswer(selectedButton, selectedAnswer) {
   const isCorrect = selectedAnswer === currentQuestion.correctAnswer;
 
   if (isCorrect) {
-    score += 100;
-    updateScore();
+    score += 50;
+  } else {
+    score -= 25;
   }
+  updateScore();
 
   answerButtons.forEach((button) => {
     const isMatchingCorrectAnswer = button.textContent === currentQuestion.correctAnswer;
