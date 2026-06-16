@@ -12,38 +12,57 @@
 <body>
   <main class="app-shell">
     <section id="start-screen" class="screen active">
-      <div class="panel hero-panel intro-panel">
-        <p class="eyebrow">Space Quiz</p>
-        <h1>SpaceGuessr</h1>
-        <p class="subtitle">Guess where in space you are.</p>
+      <div class="start-layout">
+        <div class="panel hero-panel intro-panel">
+          <p class="eyebrow">Space Quiz</p>
+          <h1>SpaceGuessr</h1>
+          <p class="subtitle">Guess where in space you are.</p>
 
-        <div class="mode-grid" id="mode-grid" aria-label="Choose game mode">
-          <div class="mode-indicator" aria-hidden="true"></div>
-          <button class="mode-card" data-mode="quick">
-            <span class="mode-name">Quick</span>
-            <span class="mode-meta">3 rounds</span>
-          </button>
-          <button class="mode-card selected" data-mode="classic">
-            <span class="mode-name">Classic</span>
-            <span class="mode-meta">5 rounds</span>
-          </button>
-          <button class="mode-card" data-mode="full">
-            <span class="mode-name">Full Tour</span>
-            <span class="mode-meta">6 rounds</span>
-          </button>
-          <button class="mode-card" data-mode="infinite">
-            <span class="mode-name">Infinite</span>
-            <span class="mode-meta">Endless</span>
-          </button>
+          <div class="mode-grid" id="mode-grid" aria-label="Choose game mode">
+            <div class="mode-indicator" aria-hidden="true"></div>
+            <button class="mode-card" data-mode="quick">
+              <span class="mode-name">Quick</span>
+              <span class="mode-meta">3 rounds</span>
+            </button>
+            <button class="mode-card selected" data-mode="classic">
+              <span class="mode-name">Classic</span>
+              <span class="mode-meta">5 rounds</span>
+            </button>
+            <button class="mode-card" data-mode="full">
+              <span class="mode-name">Full Tour</span>
+              <span class="mode-meta">6 rounds</span>
+            </button>
+            <button class="mode-card" data-mode="infinite">
+              <span class="mode-name">Infinite</span>
+              <span class="mode-meta">Endless</span>
+            </button>
+          </div>
+
+          <button id="start-button" class="primary-button start-game-button">Start Classic</button>
+
+          <div class="menu-scoreboard leaderboard-only hidden">
+            <button id="menu-scoreboard-toggle" class="scoreboard-toggle" type="button" aria-expanded="false">
+              Scoreboard
+            </button>
+            <div id="menu-scoreboard-panel" class="scoreboard-collapse">
+              <div class="leaderboard-panel menu-leaderboard-panel">
+                <div class="leaderboard-header">
+                  <h3>Global leaderboard</h3>
+                  <span id="menu-leaderboard-mode">Classic</span>
+                </div>
+                <ol id="menu-leaderboard-list" class="leaderboard-list"></ol>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <button id="start-button" class="primary-button start-game-button">Start Classic</button>
       </div>
     </section>
 
     <section id="game-screen" class="screen">
       <div class="game-panel">
         <header class="game-header">
+          <button class="home-button" type="button" aria-label="Back to menu">Home</button>
           <div class="status-pill" id="round-label">Round 1 / 5</div>
           <div class="status-pill" id="score-label">Score: 0</div>
         </header>
@@ -63,7 +82,7 @@
             <p id="source-text" class="source-text"></p>
             <button id="next-button" class="next-icon-button" aria-label="Next round">
               <span>Next</span>
-              <span aria-hidden="true">&rarr;</span>
+              <span class="next-arrow" aria-hidden="true"></span>
             </button>
           </div>
 
@@ -74,14 +93,40 @@
 
     <section id="end-screen" class="screen">
       <div class="panel end-panel intro-panel">
-        <p class="eyebrow">Mission Complete</p>
-        <h2>Your final score: <span id="final-score">0</span></h2>
-        <p id="rating-text" class="subtitle"></p>
-        <button id="play-again-button" class="primary-button">Play Again</button>
+        <div class="score-hero">
+          <p class="eyebrow">Mission Complete</p>
+          <h2>Your final score</h2>
+          <p id="final-score" class="score-value">0</p>
+          <p id="rating-text" class="subtitle"></p>
+        </div>
+
+        <form id="score-form" class="score-form leaderboard-only hidden">
+          <label class="score-label" for="player-name">Save your score</label>
+          <p id="saved-player-name" class="saved-player-name"></p>
+          <div class="score-input-row">
+            <input id="player-name" class="score-input" type="text" maxlength="18" placeholder="Your name" autocomplete="off">
+            <button class="save-score-button" type="submit">Save</button>
+          </div>
+          <p id="save-message" class="save-message" aria-live="polite"></p>
+        </form>
+
+        <div class="leaderboard-panel end-leaderboard-panel leaderboard-only hidden">
+          <div class="leaderboard-header">
+            <h3>Global leaderboard</h3>
+            <span id="leaderboard-mode">Classic</span>
+          </div>
+          <ol id="leaderboard-list" class="leaderboard-list"></ol>
+        </div>
+
+        <div class="end-actions">
+          <button id="play-again-button" class="primary-button">Play Again</button>
+          <button class="subtle-link-button end-home-button" type="button">Home</button>
+        </div>
       </div>
     </section>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="script.js"></script>
 </body>
 </html>

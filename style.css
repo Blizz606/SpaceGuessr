@@ -66,6 +66,10 @@ button {
   background: #000000;
 }
 
+#start-screen.active {
+  align-items: center;
+}
+
 .panel {
   background: var(--panel);
   border: 1px solid var(--border);
@@ -78,6 +82,14 @@ button {
   padding: 52px 34px 34px;
   text-align: center;
   border-radius: 24px;
+}
+
+.start-layout {
+  display: grid;
+  grid-template-columns: minmax(520px, 720px);
+  justify-content: center;
+  align-items: start;
+  width: min(720px, 100%);
 }
 
 .eyebrow {
@@ -117,6 +129,207 @@ h2 {
   letter-spacing: 0.02em;
 }
 
+.score-value {
+  display: block;
+  margin-top: 8px;
+  font-family: "Anton", sans-serif;
+  font-size: 5rem;
+  line-height: 0.95;
+  color: #32d36b;
+  text-shadow: 0 0 24px rgba(50, 211, 107, 0.26);
+}
+
+.end-panel {
+  width: min(760px, 100%);
+  padding: 38px;
+}
+
+.score-hero,
+.score-form,
+.end-panel .leaderboard-panel,
+.end-actions {
+  animation: endReveal 0.58s ease both;
+}
+
+.score-hero {
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.score-hero h2 {
+  font-size: 2.35rem;
+}
+
+.score-hero .subtitle {
+  margin-top: 12px;
+}
+
+.score-form {
+  animation-delay: 90ms;
+}
+
+.end-panel .leaderboard-panel {
+  animation-delay: 160ms;
+}
+
+.end-actions {
+  display: grid;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 24px;
+  animation-delay: 220ms;
+}
+
+.score-form,
+.leaderboard-panel {
+  margin-top: 24px;
+}
+
+.score-label {
+  display: block;
+  margin-bottom: 10px;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.saved-player-name {
+  display: none;
+  margin: 0 0 12px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.92rem;
+  font-weight: 800;
+}
+
+.score-form.has-saved-name .saved-player-name {
+  display: block;
+}
+
+.score-form.has-saved-name .score-input {
+  display: none;
+}
+
+.score-form.has-saved-name .score-input-row {
+  grid-template-columns: auto;
+  justify-content: center;
+}
+
+.score-input-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  width: min(420px, 100%);
+  margin: 0 auto;
+}
+
+.score-input,
+.save-score-button {
+  min-height: 48px;
+  border-radius: 14px;
+  font: inherit;
+  font-weight: 800;
+}
+
+.score-input {
+  width: 100%;
+  padding: 0 14px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.06);
+  color: #ffffff;
+  outline: 0;
+}
+
+.score-input:focus {
+  border-color: rgba(255, 255, 255, 0.38);
+}
+
+.score-input::placeholder {
+  color: rgba(255, 255, 255, 0.42);
+}
+
+.save-score-button {
+  padding: 0 18px;
+  background: #ffffff;
+  color: #000000;
+  transition: background 0.28s ease, transform 0.28s ease;
+}
+
+.save-score-button:hover {
+  background: #e8e8e8;
+  transform: translateY(-1px);
+}
+
+.save-message {
+  min-height: 1.2em;
+  margin: 10px 0 0;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.leaderboard-panel {
+  padding: 14px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: left;
+}
+
+.leaderboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.leaderboard-header h3 {
+  margin: 0;
+  font-size: 0.96rem;
+}
+
+.leaderboard-header span {
+  color: rgba(255, 255, 255, 0.52);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.leaderboard-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style-position: inside;
+}
+
+.leaderboard-list li {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.28);
+}
+
+.leaderboard-name,
+.leaderboard-score,
+.leaderboard-meta {
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.leaderboard-score {
+  color: #32d36b;
+}
+
+.leaderboard-meta,
+.leaderboard-empty {
+  color: rgba(255, 255, 255, 0.48);
+}
+
 .subtitle {
   margin-top: 18px;
   max-width: 34rem;
@@ -151,6 +364,45 @@ h2 {
   min-width: 190px;
   padding-inline: 30px;
   animation: startButtonBounce 0.42s cubic-bezier(0.25, 1.15, 0.4, 1) both;
+}
+
+.menu-scoreboard {
+  margin-top: 22px;
+}
+
+.scoreboard-toggle {
+  margin-inline: auto;
+  padding: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.56);
+  font-size: 0.88rem;
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+  transition: color 0.28s ease, transform 0.28s ease;
+}
+
+.scoreboard-toggle:hover {
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.scoreboard-collapse {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: max-height 0.45s ease, opacity 0.32s ease, transform 0.32s ease;
+}
+
+.scoreboard-collapse.open {
+  max-height: 360px;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.menu-leaderboard-panel {
+  margin-top: 12px;
 }
 
 @keyframes startButtonBounce {
@@ -279,9 +531,14 @@ h2 {
   left: 20px;
   right: 20px;
   z-index: 2;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
   gap: 12px;
+}
+
+#round-label {
+  justify-self: center;
 }
 
 .status-pill {
@@ -293,6 +550,50 @@ h2 {
   color: var(--text-main);
   font-size: 0.94rem;
   font-weight: 700;
+}
+
+.home-button {
+  padding: 10px 15px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+  font-size: 0.94rem;
+  font-weight: 800;
+  transition: background 0.28s ease, border-color 0.28s ease;
+}
+
+.home-button:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+.subtle-link-button {
+  margin: 0 auto;
+  padding: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.56);
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+  transition: color 0.28s ease, transform 0.28s ease;
+}
+
+.subtle-link-button:hover {
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+@keyframes endReveal {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .bottom-dock {
@@ -439,6 +740,36 @@ h2 {
   transform: translateX(2px);
 }
 
+.next-arrow {
+  position: relative;
+  width: 15px;
+  height: 10px;
+}
+
+.next-arrow::before,
+.next-arrow::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 0;
+  background: currentColor;
+}
+
+.next-arrow::before {
+  width: 15px;
+  height: 2px;
+  transform: translateY(-50%);
+}
+
+.next-arrow::after {
+  width: 7px;
+  height: 7px;
+  border-top: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+  background: transparent;
+  transform: translateY(-50%) rotate(45deg);
+}
+
 .hidden {
   display: none;
 }
@@ -466,6 +797,15 @@ h2 {
     border-radius: 24px;
   }
 
+  .start-layout {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .start-layout .intro-panel {
+    grid-row: 1;
+  }
+
   h1 {
     font-size: 3.4rem;
   }
@@ -474,10 +814,36 @@ h2 {
     font-size: 2.5rem;
   }
 
+  .end-panel {
+    padding: 28px 18px;
+  }
+
+  .score-hero h2 {
+    font-size: 2rem;
+  }
+
+  .score-value {
+    font-size: 4rem;
+  }
+
+  .end-actions .primary-button,
+  .score-form.has-saved-name .save-score-button {
+    width: 100%;
+  }
+
   .subtitle {
     margin-top: 14px;
     font-size: 0.98rem;
     line-height: 1.5;
+  }
+
+  .score-input-row,
+  .leaderboard-list li {
+    grid-template-columns: 1fr;
+  }
+
+  .leaderboard-list li {
+    gap: 4px;
   }
 
   .mode-grid {
@@ -532,10 +898,18 @@ h2 {
     top: 14px;
     left: 14px;
     right: 14px;
-    flex-wrap: wrap;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  #round-label {
+    justify-self: start;
   }
 
   .status-pill {
+    font-size: 0.88rem;
+  }
+
+  .home-button {
     font-size: 0.88rem;
   }
 
@@ -599,6 +973,18 @@ h2 {
     width: calc(100% - 14px);
     padding: 12px;
   }
+}
+
+@media (max-width: 1180px) and (min-width: 641px) {
+  .start-layout {
+    grid-template-columns: minmax(0, 720px);
+    justify-content: center;
+  }
+
+  .start-layout .intro-panel {
+    grid-row: 1;
+  }
+
 }
 
 @media (max-height: 620px) and (orientation: landscape) {
