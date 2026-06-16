@@ -421,6 +421,8 @@ let score = 0;
 let hasAnswered = false;
 let selectedModeKey = "classic";
 let hasSavedCurrentScore = false;
+let wrongAnswerCount = 0;
+const MAX_WRONG_ANSWERS_INFINITE = 10;
 
 function isInfiniteMode() {
   return selectedModeKey === "infinite";
@@ -497,6 +499,7 @@ function startGame(modeKey = selectedModeKey) {
   score = 0;
   hasAnswered = false;
   hasSavedCurrentScore = false;
+  wrongAnswerCount = 0;
   saveMessage.textContent = "";
   playerNameInput.value = localStorage.getItem(playerNameStorageKey) || "";
   updateScoreFormState();
@@ -556,6 +559,7 @@ function handleAnswer(selectedButton, selectedAnswer) {
     score += 50;
   } else {
     score -= 25;
+    wrongAnswerCount += 1;
   }
   updateScore();
 
@@ -569,12 +573,23 @@ function handleAnswer(selectedButton, selectedAnswer) {
     }
   });
 
+  // Check if game over in infinite mode
+  const isGameOver = isInfiniteMode() && wrongAnswerCount >= MAX_WRONG_ANSWERS_INFINITE;
+
   feedbackText.textContent = isCorrect
     ? "Correct! Nice navigation."
     : `Not quite. The correct answer was ${currentQuestion.correctAnswer}.`;
 
+  const errorCountText = isInfiniteMode() 
+    ? `\nErrors: ${wrongAnswerCount}/${MAX_WRONG_ANSWERS_INFINITE}` 
+    : "";
+
+  if (isGameOver) {
+    feedbackText.textContent += `\n\n⚠️ Game Over! You've reached the maximum number of errors.`;
+  }
+
   factText.textContent = currentQuestion.fact;
-  sourceText.textContent = `Source: ${currentQuestion.source} (${currentQuestion.nasaId})`;
+  sourceText.textContent = `Source: ${currentQuestion.source} (${currentQuestion.nasaId})${errorCountText}`;
   feedbackPanel.classList.add("open");
 }
 
@@ -846,6 +861,17 @@ async function saveCurrentScore(event) {
 }
 
 function goToNextStep() {
+  // Check game over in infinite mode
+  if (isInfiniteMode() && wrongAnswerCount >= MAX_WRONG_ANSWERS_INFINITE) {
+    ratingText.textContent = getRating(score);
+    saveMessage.textContent = "";
+    updateLeaderboardVisibility();
+    renderLeaderboard();
+    showScreen("end");
+    animateFinalScore(score);
+    return;
+  }
+
   currentRound += 1;
 
   if (selectedModeKey === "infinite") {
