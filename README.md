@@ -7,6 +7,7 @@
 ![Supabase](https://img.shields.io/badge/leaderboard-Supabase-green?style=flat-square&labelColor=111111)
 
 SpaceGuessr is a tiny space guessing game: you get dropped into a real NASA space image and have to guess what you are looking at. Mars? Jupiter? A nebula? One of Saturn's moons? It is basically the spirit of GeoGuessr, but pointed at space instead of streets.
+https://blizz606.github.io/SpaceGuessr/
 
 The goal of this project is not to be huge or over-engineered. It is a clean browser game prototype that opens fast, feels polished, and is easy to keep extending.
 
