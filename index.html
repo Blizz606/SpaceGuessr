@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SpaceGuessr</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app-shell">
+    <section id="start-screen" class="screen active">
+      <div class="panel hero-panel intro-panel">
+        <p class="eyebrow">Space Quiz</p>
+        <h1>SpaceGuessr</h1>
+        <p class="subtitle">Guess where in space you are.</p>
+
+        <div class="mode-grid" id="mode-grid" aria-label="Choose game mode">
+          <div class="mode-indicator" aria-hidden="true"></div>
+          <button class="mode-card" data-mode="quick">
+            <span class="mode-name">Quick</span>
+            <span class="mode-meta">3 rounds</span>
+          </button>
+          <button class="mode-card selected" data-mode="classic">
+            <span class="mode-name">Classic</span>
+            <span class="mode-meta">5 rounds</span>
+          </button>
+          <button class="mode-card" data-mode="full">
+            <span class="mode-name">Full Tour</span>
+            <span class="mode-meta">6 rounds</span>
+          </button>
+          <button class="mode-card" data-mode="infinite">
+            <span class="mode-name">Infinite</span>
+            <span class="mode-meta">Endless</span>
+          </button>
+        </div>
+
+        <button id="start-button" class="primary-button start-game-button">Start Classic</button>
+      </div>
+    </section>
+
+    <section id="game-screen" class="screen">
+      <div class="game-panel">
+        <header class="game-header">
+          <div class="status-pill" id="round-label">Round 1 / 5</div>
+          <div class="status-pill" id="score-label">Score: 0</div>
+        </header>
+
+        <div class="image-frame">
+          <img id="space-image" src="" alt="A space scene to identify">
+        </div>
+
+        <div class="bottom-dock">
+          <div class="prompt-block">
+            <p class="prompt-label">Where are you?</p>
+          </div>
+
+          <div id="feedback-panel" class="feedback-panel">
+            <p id="feedback-text" class="feedback-text"></p>
+            <p id="fact-text" class="fact-text"></p>
+            <p id="source-text" class="source-text"></p>
+            <button id="next-button" class="next-icon-button" aria-label="Next round">
+              <span>Next</span>
+              <span aria-hidden="true">&rarr;</span>
+            </button>
+          </div>
+
+          <div id="answers-container" class="answers-grid"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="end-screen" class="screen">
+      <div class="panel end-panel intro-panel">
+        <p class="eyebrow">Mission Complete</p>
+        <h2>Your final score: <span id="final-score">0</span></h2>
+        <p id="rating-text" class="subtitle"></p>
+        <button id="play-again-button" class="primary-button">Play Again</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
