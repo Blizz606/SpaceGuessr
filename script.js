@@ -383,6 +383,7 @@ const homeButtons = document.querySelectorAll(".home-button, .end-home-button");
 const playAgainButton = document.getElementById("play-again-button");
 const nextButton = document.getElementById("next-button");
 const roundLabel = document.getElementById("round-label");
+const mistakesLabel = document.getElementById("mistakes-label");
 const scoreLabel = document.getElementById("score-label");
 const spaceImage = document.getElementById("space-image");
 const answersContainer = document.getElementById("answers-container");
@@ -422,16 +423,37 @@ let hasAnswered = false;
 let selectedModeKey = "classic";
 let hasSavedCurrentScore = false;
 let wrongAnswerCount = 0;
+let scoreFeedbackTimer;
+let rewardFeedbackTimer;
+let gameOverTimer;
 const MAX_WRONG_ANSWERS_INFINITE = 10;
 
 function isInfiniteMode() {
   return selectedModeKey === "infinite";
 }
 
+function updateMistakesLabel() {
+  const missesLeft = Math.max(0, MAX_WRONG_ANSWERS_INFINITE - wrongAnswerCount);
+  const dots = Array.from({ length: MAX_WRONG_ANSWERS_INFINITE }, (_, index) => {
+    const isLost = index < wrongAnswerCount;
+    return `<span class="miss-dot${isLost ? " lost" : ""}" aria-hidden="true"></span>`;
+  }).join("");
+
+  mistakesLabel.innerHTML = `
+    <span class="miss-track-label">${missesLeft} left</span>
+    <span class="miss-dots" aria-hidden="true">${dots}</span>
+  `;
+  mistakesLabel.setAttribute("aria-label", `${missesLeft} misses left before game over`);
+  mistakesLabel.classList.toggle("hidden", !isInfiniteMode());
+  mistakesLabel.classList.toggle("danger", isInfiniteMode() && missesLeft <= 3);
+}
+
 function updateLeaderboardVisibility() {
   leaderboardOnlyElements.forEach((element) => {
     element.classList.toggle("hidden", !isInfiniteMode());
   });
+
+  updateMistakesLabel();
 
   if (!isInfiniteMode()) {
     menuScoreboardPanel.classList.remove("open");
@@ -466,8 +488,11 @@ function showScreen(screenName) {
 }
 
 function goHome() {
+  clearTimeout(gameOverTimer);
   hasAnswered = false;
   feedbackPanel.classList.remove("open");
+  nextButton.disabled = false;
+  nextButton.classList.remove("hidden");
   showScreen("start");
 }
 
@@ -502,6 +527,11 @@ function startGame(modeKey = selectedModeKey) {
   wrongAnswerCount = 0;
   saveMessage.textContent = "";
   playerNameInput.value = localStorage.getItem(playerNameStorageKey) || "";
+  clearTimeout(scoreFeedbackTimer);
+  clearTimeout(rewardFeedbackTimer);
+  clearTimeout(gameOverTimer);
+  scoreLabel.classList.remove("penalty");
+  scoreLabel.classList.remove("reward");
   updateScoreFormState();
   updateLeaderboardVisibility();
 
@@ -512,6 +542,43 @@ function startGame(modeKey = selectedModeKey) {
 
 function updateScore() {
   scoreLabel.textContent = `Score: ${score}`;
+  scoreLabel.classList.toggle("zero-score", score === 0);
+}
+
+function setScore(nextScore) {
+  // Penalties should feel clear, but the visible score never goes below zero.
+  score = Math.max(0, nextScore);
+  updateScore();
+}
+
+function showScorePenaltyFeedback() {
+  clearTimeout(scoreFeedbackTimer);
+  scoreLabel.classList.add("penalty");
+  scoreFeedbackTimer = setTimeout(() => {
+    scoreLabel.classList.remove("penalty");
+  }, 650);
+}
+
+function showCorrectAnswerReward() {
+  clearTimeout(rewardFeedbackTimer);
+  scoreLabel.classList.add("reward");
+  rewardFeedbackTimer = setTimeout(() => {
+    scoreLabel.classList.remove("reward");
+  }, 760);
+}
+
+function endGame() {
+  clearTimeout(gameOverTimer);
+  ratingText.textContent = getRating(score);
+  saveMessage.textContent = "";
+  updateLeaderboardVisibility();
+
+  if (isInfiniteMode()) {
+    renderLeaderboard();
+  }
+
+  showScreen("end");
+  animateFinalScore(score);
 }
 
 function renderRound() {
@@ -528,10 +595,20 @@ function renderRound() {
   roundLabel.textContent = selectedModeKey === "infinite"
     ? `Round ${currentRound + 1}`
     : `Round ${currentRound + 1} / ${totalRounds}`;
+  updateMistakesLabel();
+  spaceImage.classList.remove("loaded");
+  spaceImage.onload = () => {
+    spaceImage.classList.add("loaded");
+  };
   spaceImage.src = currentQuestion.imageUrl;
+  if (spaceImage.complete) {
+    spaceImage.classList.add("loaded");
+  }
   spaceImage.alt = `Space image for ${currentQuestion.correctAnswer}`;
   answersContainer.innerHTML = "";
   feedbackPanel.classList.remove("open");
+  nextButton.disabled = false;
+  nextButton.classList.remove("hidden");
   hasAnswered = false;
 
   answerOptions.forEach((answer, index) => {
@@ -556,12 +633,14 @@ function handleAnswer(selectedButton, selectedAnswer) {
   const isCorrect = selectedAnswer === currentQuestion.correctAnswer;
 
   if (isCorrect) {
-    score += 50;
+    setScore(score + 50);
+    showCorrectAnswerReward();
   } else {
-    score -= 25;
+    setScore(score - 25);
+    showScorePenaltyFeedback();
     wrongAnswerCount += 1;
+    updateMistakesLabel();
   }
-  updateScore();
 
   answerButtons.forEach((button) => {
     const isMatchingCorrectAnswer = button.textContent === currentQuestion.correctAnswer;
@@ -577,7 +656,7 @@ function handleAnswer(selectedButton, selectedAnswer) {
   const isGameOver = isInfiniteMode() && wrongAnswerCount >= MAX_WRONG_ANSWERS_INFINITE;
 
   feedbackText.textContent = isCorrect
-    ? "Correct! Nice navigation."
+    ? "+50 points. Clean guess."
     : `Not quite. The correct answer was ${currentQuestion.correctAnswer}.`;
 
   const errorCountText = isInfiniteMode() 
@@ -585,7 +664,10 @@ function handleAnswer(selectedButton, selectedAnswer) {
     : "";
 
   if (isGameOver) {
-    feedbackText.textContent += `\n\n⚠️ Game Over! You've reached the maximum number of errors.`;
+    feedbackText.textContent += "\n\nGame over. You reached 10 wrong answers.";
+    nextButton.disabled = true;
+    nextButton.classList.add("hidden");
+    gameOverTimer = setTimeout(endGame, 1400);
   }
 
   factText.textContent = currentQuestion.fact;
@@ -594,20 +676,41 @@ function handleAnswer(selectedButton, selectedAnswer) {
 }
 
 function getRating(scoreValue) {
-  if (scoreValue >= 400) {
+  if (scoreValue >= 600) {
+    return "Universe Legend";
+  }
+
+  if (scoreValue >= 500) {
     return "Cosmic Genius";
+  }
+
+  if (scoreValue >= 400) {
+    return "Galaxy Brain";
+  }
+
+  if (scoreValue >= 300) {
+    return "Star Navigator";
   }
 
   if (scoreValue >= 200) {
     return "Moon Explorer";
   }
 
-  return "Space Rookie";
+  if (scoreValue >= 100) {
+    return "Space Rookie";
+  }
+
+  if (scoreValue >= 50) {
+    return "Asteroid Intern";
+  }
+
+  return "Space Noob";
 }
 
 function animateFinalScore(targetScore) {
   const duration = 900;
   const startTime = performance.now();
+  finalScore.classList.toggle("zero-score", targetScore === 0);
 
   function updateScoreCounter(currentTime) {
     const elapsed = currentTime - startTime;
@@ -863,12 +966,7 @@ async function saveCurrentScore(event) {
 function goToNextStep() {
   // Check game over in infinite mode
   if (isInfiniteMode() && wrongAnswerCount >= MAX_WRONG_ANSWERS_INFINITE) {
-    ratingText.textContent = getRating(score);
-    saveMessage.textContent = "";
-    updateLeaderboardVisibility();
-    renderLeaderboard();
-    showScreen("end");
-    animateFinalScore(score);
+    endGame();
     return;
   }
 
@@ -884,16 +982,7 @@ function goToNextStep() {
     return;
   }
 
-  ratingText.textContent = getRating(score);
-  saveMessage.textContent = "";
-  updateLeaderboardVisibility();
-
-  if (isInfiniteMode()) {
-    renderLeaderboard();
-  }
-
-  showScreen("end");
-  animateFinalScore(score);
+  endGame();
 }
 
 modeButtons.forEach((button) => {
