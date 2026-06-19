@@ -19,11 +19,11 @@ The goal of this project is not to be huge or over-engineered. It is a clean bro
 
 ## What It Has
 
-- Four modes: `Quick`, `Classic`, `Full Tour`, and `Infinite`.
+- Five modes: `Quick`, `Classic`, `Full Tour`, `Daily`, and `Infinite`.
 - A curated pool of real NASA image assets.
 - Randomized rounds with no repeat until the image bag is used up.
 - Smooth answer states, details panel, and final score animation.
-- Infinite-mode global leaderboard powered by Supabase.
+- Daily and Infinite leaderboards powered by Supabase.
 - Local fallback if the global leaderboard is unavailable.
 - Responsive layout for desktop and mobile.
 - No framework, no build step, no backend code in this repo.
@@ -35,9 +35,10 @@ The goal of this project is not to be huge or over-engineered. It is a clean bro
 | `Quick` | 3 | A fast run |
 | `Classic` | 5 | The normal SpaceGuessr feel |
 | `Full Tour` | 6 | A slightly longer round |
+| `Daily` | 1 | One shared image for everyone each day |
 | `Infinite` | Endless | Score chasing and leaderboard runs |
 
-Only `Infinite` uses the global leaderboard. That keeps the leaderboard fair, because fixed-round scores and endless scores should not be mixed together.
+Only `Daily` and `Infinite` use the global leaderboard. Daily scores are filtered to the current day.
 
 ## How To Run
 
@@ -92,7 +93,7 @@ Example:
 
 ## Leaderboard
 
-The global leaderboard uses Supabase and stores scores for `Infinite` mode.
+The global leaderboard uses Supabase and stores scores for `Daily` and `Infinite` mode.
 
 Recommended table:
 
@@ -126,7 +127,7 @@ with check (
   char_length(name) between 1 and 18
   and score >= 0
   and rounds > 0
-  and mode in ('quick', 'classic', 'full', 'infinite')
+  and mode in ('quick', 'classic', 'full', 'daily', 'infinite')
 );
 ```
 

@@ -363,10 +363,15 @@ const gameModes = {
     rounds: 6,
     index: 2
   },
+  daily: {
+    label: "Daily",
+    rounds: 1,
+    index: 3
+  },
   infinite: {
     label: "Infinite",
     rounds: Infinity,
-    index: 3
+    index: 4
   }
 };
 
@@ -432,6 +437,24 @@ function isInfiniteMode() {
   return selectedModeKey === "infinite";
 }
 
+function isDailyMode() {
+  return selectedModeKey === "daily";
+}
+
+function hasLeaderboardMode() {
+  return isInfiniteMode() || isDailyMode();
+}
+
+function getDailyKey(date = new Date()) {
+  return date.toISOString().slice(0, 10);
+}
+
+function getDailyQuestion() {
+  const dailyKey = getDailyKey();
+  const seed = [...dailyKey].reduce((total, character) => total + character.charCodeAt(0), 0);
+  return spaceLocations[seed % spaceLocations.length];
+}
+
 function updateMistakesLabel() {
   const missesLeft = Math.max(0, MAX_WRONG_ANSWERS_INFINITE - wrongAnswerCount);
   const dots = Array.from({ length: MAX_WRONG_ANSWERS_INFINITE }, (_, index) => {
@@ -450,12 +473,12 @@ function updateMistakesLabel() {
 
 function updateLeaderboardVisibility() {
   leaderboardOnlyElements.forEach((element) => {
-    element.classList.toggle("hidden", !isInfiniteMode());
+    element.classList.toggle("hidden", !hasLeaderboardMode());
   });
 
   updateMistakesLabel();
 
-  if (!isInfiniteMode()) {
+  if (!hasLeaderboardMode()) {
     menuScoreboardPanel.classList.remove("open");
     menuScoreboardToggle.setAttribute("aria-expanded", "false");
   }
@@ -508,6 +531,10 @@ function shuffleArray(items) {
 }
 
 function drawRandomQuestion() {
+  if (isDailyMode()) {
+    return getDailyQuestion();
+  }
+
   if (randomBag.length === 0) {
     randomBag = shuffleArray(spaceLocations);
   }
@@ -754,7 +781,10 @@ function saveLeaderboard(scores) {
 
 function getCurrentModeEntries() {
   return getLeaderboard()
-    .filter((entry) => entry.mode === selectedModeKey)
+    .filter((entry) => (
+      entry.mode === selectedModeKey
+      && (!isDailyMode() || entry.dailyKey === getDailyKey())
+    ))
     .sort((a, b) => b.score - a.score || b.rounds - a.rounds)
     .slice(0, 5);
 }
@@ -768,6 +798,7 @@ function upsertLocalScore(scoreEntry) {
   const normalizedName = normalizeName(scoreEntry.name);
   const existingIndex = scores.findIndex((entry) => (
     normalizeName(entry.name) === normalizedName && entry.mode === scoreEntry.mode
+    && (!scoreEntry.dailyKey || entry.dailyKey === scoreEntry.dailyKey)
   ));
 
   if (existingIndex === -1) {
@@ -793,7 +824,9 @@ function upsertLocalScore(scoreEntry) {
 }
 
 function renderLeaderboardEntries(entries, listElement = leaderboardList, modeElement = leaderboardMode) {
-  modeElement.textContent = gameModes[selectedModeKey].label;
+  modeElement.textContent = isDailyMode()
+    ? `Daily ${getDailyKey()}`
+    : gameModes[selectedModeKey].label;
   listElement.innerHTML = "";
 
   if (entries.length === 0) {
@@ -815,7 +848,9 @@ function renderLeaderboardEntries(entries, listElement = leaderboardList, modeEl
     rounds.className = "leaderboard-meta";
     name.textContent = entry.name;
     points.textContent = `${entry.score} pts`;
-    rounds.textContent = `${entry.rounds} rounds`;
+    rounds.textContent = isDailyMode()
+      ? "Today"
+      : `${entry.rounds} rounds`;
 
     item.append(name, points, rounds);
     listElement.appendChild(item);
@@ -827,7 +862,9 @@ async function renderLeaderboard(
   modeElement = leaderboardMode,
   messageElement = saveMessage
 ) {
-  modeElement.textContent = gameModes[selectedModeKey].label;
+  modeElement.textContent = isDailyMode()
+    ? `Daily ${getDailyKey()}`
+    : gameModes[selectedModeKey].label;
   listElement.innerHTML = "";
 
   const loadingItem = document.createElement("li");
@@ -840,10 +877,18 @@ async function renderLeaderboard(
     return;
   }
 
-  const { data, error } = await supabaseClient
+  let query = supabaseClient
     .from(leaderboardTable)
     .select("name, score, mode, rounds, created_at")
-    .eq("mode", selectedModeKey)
+    .eq("mode", selectedModeKey);
+
+  if (isDailyMode()) {
+    const dailyStart = `${getDailyKey()}T00:00:00.000Z`;
+    const dailyEnd = `${getDailyKey()}T23:59:59.999Z`;
+    query = query.gte("created_at", dailyStart).lte("created_at", dailyEnd);
+  }
+
+  const { data, error } = await query
     .order("score", { ascending: false })
     .order("rounds", { ascending: false })
     .limit(5);
@@ -864,8 +909,8 @@ async function renderLeaderboard(
 async function saveCurrentScore(event) {
   event.preventDefault();
 
-  if (!isInfiniteMode()) {
-    saveMessage.textContent = "Scores are only saved in Infinite mode.";
+  if (!hasLeaderboardMode()) {
+    saveMessage.textContent = "Scores are only saved in Daily or Infinite mode.";
     return;
   }
 
@@ -888,7 +933,8 @@ async function saveCurrentScore(event) {
     score,
     mode: selectedModeKey,
     rounds: selectedModeKey === "infinite" ? currentRound + 1 : totalRounds,
-    date: new Date().toISOString()
+    date: new Date().toISOString(),
+    dailyKey: isDailyMode() ? getDailyKey() : null
   };
 
   localStorage.setItem(playerNameStorageKey, playerName);
@@ -896,12 +942,19 @@ async function saveCurrentScore(event) {
   const localSaveResult = upsertLocalScore(scoreEntry);
 
   if (supabaseClient) {
-    const { data: existingEntries, error: selectError } = await supabaseClient
+    let existingQuery = supabaseClient
       .from(leaderboardTable)
       .select("id, score, rounds")
       .eq("mode", scoreEntry.mode)
-      .ilike("name", scoreEntry.name)
-      .limit(1);
+      .ilike("name", scoreEntry.name);
+
+    if (isDailyMode()) {
+      existingQuery = existingQuery
+        .gte("created_at", `${getDailyKey()}T00:00:00.000Z`)
+        .lte("created_at", `${getDailyKey()}T23:59:59.999Z`);
+    }
+
+    const { data: existingEntries, error: selectError } = await existingQuery.limit(1);
 
     if (selectError) {
       saveMessage.textContent = "Saved locally, but global save failed.";
@@ -944,7 +997,8 @@ async function saveCurrentScore(event) {
         name: scoreEntry.name,
         score: scoreEntry.score,
         mode: scoreEntry.mode,
-        rounds: scoreEntry.rounds
+        rounds: scoreEntry.rounds,
+        created_at: scoreEntry.date
       });
 
       if (insertError) {

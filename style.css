@@ -609,8 +609,9 @@ h2 {
 
 .mode-grid {
   --selected-mode-index: 1;
+  --mode-count: 5;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(var(--mode-count), minmax(0, 1fr));
   gap: 10px;
   position: relative;
   margin-top: 28px;
@@ -639,7 +640,7 @@ h2 {
   bottom: 6px;
   left: 6px;
   z-index: 0;
-  width: calc((100% - 12px - 30px) / 4);
+  width: calc((100% - 12px - ((var(--mode-count) - 1) * 10px)) / var(--mode-count));
   border-radius: 14px;
   background: #ffffff;
   box-shadow: 0 10px 28px rgba(255, 255, 255, 0.14);
