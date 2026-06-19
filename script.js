@@ -397,6 +397,7 @@ const feedbackPanel = document.getElementById("feedback-panel");
 const feedbackText = document.getElementById("feedback-text");
 const factText = document.getElementById("fact-text");
 const sourceText = document.getElementById("source-text");
+const finalHeading = document.getElementById("final-heading");
 const finalScore = document.getElementById("final-score");
 const ratingText = document.getElementById("rating-text");
 const scoreForm = document.getElementById("score-form");
@@ -433,6 +434,20 @@ let scoreFeedbackTimer;
 let rewardFeedbackTimer;
 let gameOverTimer;
 const MAX_WRONG_ANSWERS_INFINITE = 10;
+
+function getSupabaseErrorMessage(error, fallbackText) {
+  if (!error) {
+    return fallbackText;
+  }
+
+  const details = [error.message, error.details, error.hint]
+    .filter(Boolean)
+    .join(" ");
+
+  return details
+    ? `${fallbackText} (${details})`
+    : fallbackText;
+}
 
 function isInfiniteMode() {
   return selectedModeKey === "infinite";
@@ -599,7 +614,10 @@ function showCorrectAnswerReward() {
 
 function endGame() {
   clearTimeout(gameOverTimer);
-  ratingText.textContent = getRating(score);
+  finalHeading.textContent = isDailyMode() ? "Daily result" : "Your final score";
+  ratingText.textContent = isDailyMode()
+    ? getDailyResultText()
+    : getRating(score);
   saveMessage.textContent = "";
   updateLeaderboardVisibility();
 
@@ -608,6 +626,11 @@ function endGame() {
   }
 
   showScreen("end");
+  if (isDailyMode()) {
+    showDailyResult();
+    return;
+  }
+
   animateFinalScore(score);
 }
 
@@ -737,9 +760,25 @@ function getRating(scoreValue) {
   return "Space Noob";
 }
 
+function getDailyResultText() {
+  return score > 0
+    ? "You nailed today's image."
+    : "Not today. Come back for the next one.";
+}
+
+function showDailyResult() {
+  const isSuccess = score > 0;
+  finalScore.classList.remove("zero-score");
+  finalScore.classList.toggle("daily-result", true);
+  finalScore.classList.toggle("success", isSuccess);
+  finalScore.classList.toggle("failed", !isSuccess);
+  finalScore.textContent = isSuccess ? "Success" : "Failed";
+}
+
 function animateFinalScore(targetScore) {
   const duration = 900;
   const startTime = performance.now();
+  finalScore.classList.remove("daily-result", "success", "failed");
   finalScore.classList.toggle("zero-score", targetScore === 0);
 
   function updateScoreCounter(currentTime) {
@@ -960,7 +999,10 @@ async function saveCurrentScore(event) {
     const { data: existingEntries, error: selectError } = await existingQuery.limit(1);
 
     if (selectError) {
-      saveMessage.textContent = "Saved locally, but global save failed.";
+      saveMessage.textContent = getSupabaseErrorMessage(
+        selectError,
+        "Saved locally, but global save failed."
+      );
       hasSavedCurrentScore = true;
       renderLeaderboardEntries(getCurrentModeEntries());
       return;
@@ -990,7 +1032,10 @@ async function saveCurrentScore(event) {
         .eq("id", existingEntry.id);
 
       if (updateError) {
-        saveMessage.textContent = "Saved locally, but global update failed.";
+        saveMessage.textContent = getSupabaseErrorMessage(
+          updateError,
+          "Saved locally, but global update failed."
+        );
         hasSavedCurrentScore = true;
         renderLeaderboardEntries(getCurrentModeEntries());
         return;
@@ -1005,7 +1050,10 @@ async function saveCurrentScore(event) {
       });
 
       if (insertError) {
-        saveMessage.textContent = "Saved locally, but global save failed.";
+        saveMessage.textContent = getSupabaseErrorMessage(
+          insertError,
+          "Saved locally, but global save failed."
+        );
         hasSavedCurrentScore = true;
         renderLeaderboardEntries(getCurrentModeEntries());
         return;

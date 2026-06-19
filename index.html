@@ -98,13 +98,19 @@
       <div class="panel end-panel intro-panel">
         <div class="score-hero">
           <p class="eyebrow">Mission Complete</p>
-          <h2>Your final score</h2>
+          <h2 id="final-heading">Your final score</h2>
           <p id="final-score" class="score-value">0</p>
           <p id="rating-text" class="subtitle"></p>
         </div>
 
         <form id="score-form" class="score-form leaderboard-only hidden">
-          <label class="score-label" for="player-name">Save your score</label>
+          <div class="score-form-shell">
+            <div class="score-form-topline">
+              <span class="score-form-kicker">Leaderboard</span>
+              <span class="score-form-note">Save your best run</span>
+            </div>
+            <label class="score-label" for="player-name">Save your score</label>
+          </div>
           <p id="saved-player-name" class="saved-player-name"></p>
           <div class="score-input-row">
             <input id="player-name" class="score-input" type="text" maxlength="18" placeholder="Your name" autocomplete="off">

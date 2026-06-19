@@ -213,6 +213,21 @@ h2 {
   text-shadow: 0 0 24px rgba(255, 107, 107, 0.28);
 }
 
+.score-value.daily-result {
+  font-size: clamp(3.2rem, 10vw, 5.4rem);
+  letter-spacing: 0.03em;
+}
+
+.score-value.daily-result.success {
+  color: #32d36b;
+  text-shadow: 0 0 26px rgba(50, 211, 107, 0.28);
+}
+
+.score-value.daily-result.failed {
+  color: #ff6b6b;
+  text-shadow: 0 0 26px rgba(255, 107, 107, 0.3);
+}
+
 .end-panel {
   width: min(760px, 100%);
   padding: 38px;
@@ -259,7 +274,7 @@ h2 {
   display: grid;
   justify-content: center;
   gap: 12px;
-  margin-top: 24px;
+  margin-top: 28px;
   animation-delay: 220ms;
 }
 
@@ -268,21 +283,68 @@ h2 {
   margin-top: 24px;
 }
 
+.score-form {
+  width: min(520px, 100%);
+  margin-inline: auto;
+  padding: 18px 18px 16px;
+  border-radius: 22px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.02)),
+    rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.045),
+    0 12px 34px rgba(0, 0, 0, 0.22);
+  text-align: left;
+}
+
+.score-form-shell {
+  display: grid;
+  gap: 10px;
+}
+
+.score-form-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.score-form-kicker,
+.score-form-note {
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.score-form-kicker {
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
+
+.score-form-note {
+  color: rgba(255, 255, 255, 0.42);
+}
+
 .score-label {
   display: block;
-  margin-bottom: 10px;
-  color: rgba(255, 255, 255, 0.58);
-  font-size: 0.82rem;
+  margin-bottom: 0;
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 1.02rem;
   font-weight: 800;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  text-transform: none;
 }
 
 .saved-player-name {
   display: none;
-  margin: 0 0 12px;
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 0.92rem;
+  margin: 12px 0 0;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 0.9rem;
   font-weight: 800;
 }
 
@@ -302,30 +364,36 @@ h2 {
 .score-input-row {
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: 10px;
-  width: min(420px, 100%);
-  margin: 0 auto;
+  gap: 12px;
+  width: 100%;
+  margin: 14px 0 0;
 }
 
 .score-input,
 .save-score-button {
-  min-height: 48px;
-  border-radius: 14px;
+  min-height: 54px;
+  border-radius: 16px;
   font: inherit;
   font-weight: 800;
 }
 
 .score-input {
   width: 100%;
-  padding: 0 14px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  background: rgba(255, 255, 255, 0.06);
+  padding: 0 16px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.28);
   color: #ffffff;
   outline: 0;
+  transition:
+    border-color 0.34s var(--ease-soft),
+    background 0.34s var(--ease-soft),
+    box-shadow 0.34s var(--ease-soft);
 }
 
 .score-input:focus {
-  border-color: rgba(255, 255, 255, 0.38);
+  border-color: rgba(255, 255, 255, 0.28);
+  background: rgba(0, 0, 0, 0.38);
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.045);
 }
 
 .score-input::placeholder {
@@ -333,23 +401,34 @@ h2 {
 }
 
 .save-score-button {
-  padding: 0 18px;
-  background: #ffffff;
+  min-width: 112px;
+  padding: 0 22px;
+  background: linear-gradient(180deg, #ffffff, #ececec);
   color: #000000;
-  transition: background 0.28s ease, transform 0.28s ease;
+  box-shadow:
+    0 10px 26px rgba(255, 255, 255, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  transition:
+    background 0.34s var(--ease-soft),
+    transform 0.34s var(--ease-smooth),
+    box-shadow 0.34s var(--ease-soft);
 }
 
 .save-score-button:hover {
-  background: #e8e8e8;
-  transform: translateY(-1px);
+  background: linear-gradient(180deg, #ffffff, #f3f3f3);
+  box-shadow:
+    0 14px 34px rgba(255, 255, 255, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  transform: translateY(-1px) scale(1.01);
 }
 
 .save-message {
   min-height: 1.2em;
-  margin: 10px 0 0;
-  color: rgba(255, 255, 255, 0.62);
-  font-size: 0.86rem;
+  margin: 12px 0 0;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.84rem;
   font-weight: 700;
+  line-height: 1.45;
 }
 
 .leaderboard-panel {
@@ -1281,6 +1360,17 @@ h2 {
   .score-input-row,
   .leaderboard-list li {
     grid-template-columns: 1fr;
+  }
+
+  .score-form {
+    padding: 16px 14px 14px;
+    border-radius: 18px;
+  }
+
+  .score-form-topline {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
   }
 
   .leaderboard-list li {
