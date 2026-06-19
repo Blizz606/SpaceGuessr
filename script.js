@@ -386,6 +386,8 @@ const modeGrid = document.getElementById("mode-grid");
 const startButton = document.getElementById("start-button");
 const dailyButton = document.getElementById("daily-button");
 const dailyStatus = document.getElementById("daily-status");
+const helpToggle = document.getElementById("help-toggle");
+const helpPanel = document.getElementById("help-panel");
 const homeButtons = document.querySelectorAll(".home-button, .end-home-button");
 const playAgainButton = document.getElementById("play-again-button");
 const nextButton = document.getElementById("next-button");
@@ -554,12 +556,23 @@ function showScreen(screenName) {
   screens[screenName].classList.add("active");
 }
 
+function toggleHelpPanel(forceOpen) {
+  const shouldOpen = typeof forceOpen === "boolean"
+    ? forceOpen
+    : !helpPanel.classList.contains("open");
+
+  helpPanel.classList.toggle("open", shouldOpen);
+  helpPanel.setAttribute("aria-hidden", String(!shouldOpen));
+  helpToggle.setAttribute("aria-expanded", String(shouldOpen));
+}
+
 function goHome() {
   clearTimeout(gameOverTimer);
   hasAnswered = false;
   feedbackPanel.classList.remove("open");
   nextButton.disabled = false;
   nextButton.classList.remove("hidden");
+  toggleHelpPanel(false);
   updateDailyAvailability();
   showScreen("start");
 }
@@ -1134,6 +1147,7 @@ modeButtons.forEach((button) => {
 
 startButton.addEventListener("click", () => startGame(selectedModeKey));
 dailyButton.addEventListener("click", () => startGame("daily"));
+helpToggle.addEventListener("click", () => toggleHelpPanel());
 homeButtons.forEach((button) => {
   button.addEventListener("click", goHome);
 });
@@ -1154,3 +1168,25 @@ updateLeaderboardVisibility();
 updateDailyAvailability();
 playAgainButton.addEventListener("click", () => startGame(selectedModeKey));
 nextButton.addEventListener("click", goToNextStep);
+
+document.addEventListener("click", (event) => {
+  if (!screens.start.classList.contains("active")) {
+    return;
+  }
+
+  if (!helpPanel.classList.contains("open")) {
+    return;
+  }
+
+  if (helpPanel.contains(event.target) || helpToggle.contains(event.target)) {
+    return;
+  }
+
+  toggleHelpPanel(false);
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && helpPanel.classList.contains("open")) {
+    toggleHelpPanel(false);
+  }
+});
