@@ -609,7 +609,7 @@ h2 {
 
 .mode-grid {
   --selected-mode-index: 1;
-  --mode-count: 5;
+  --mode-count: 4;
   display: grid;
   grid-template-columns: repeat(var(--mode-count), minmax(0, 1fr));
   gap: 10px;
@@ -701,6 +701,45 @@ h2 {
   font-size: 0.8rem;
   font-weight: 700;
   opacity: 0.58;
+}
+
+.daily-chip {
+  position: absolute;
+  top: -18px;
+  right: -18px;
+  z-index: 2;
+  width: 82px;
+  height: 82px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.36);
+  color: #000000;
+  font-size: 0.66rem;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition:
+    background 0.36s var(--ease-soft),
+    border-color 0.36s var(--ease-soft),
+    color 0.36s var(--ease-soft),
+    transform 0.36s var(--ease-smooth);
+}
+
+.daily-chip span {
+  display: block;
+  transform: translate(-8px, 8px) rotate(45deg);
+  transform-origin: center;
+}
+
+.daily-chip:hover {
+  background: #f0f0f0;
+  border-color: #ffffff;
+  color: #000000;
+  transform: translate(-2px, 2px) scale(1.04);
 }
 
 .game-panel {
@@ -1298,6 +1337,19 @@ h2 {
   .mode-meta {
     margin-top: 0;
     font-size: 0.74rem;
+  }
+
+  .daily-chip {
+    top: -14px;
+    right: -14px;
+    width: 68px;
+    height: 68px;
+    padding: 0;
+    font-size: 0.56rem;
+  }
+
+  .daily-chip span {
+    transform: translate(-7px, 7px) rotate(45deg);
   }
 
   .start-game-button {

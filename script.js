@@ -366,12 +366,12 @@ const gameModes = {
   daily: {
     label: "Daily",
     rounds: 1,
-    index: 3
+    index: null
   },
   infinite: {
     label: "Infinite",
     rounds: Infinity,
-    index: 4
+    index: 3
   }
 };
 
@@ -384,6 +384,7 @@ const screens = {
 const modeButtons = document.querySelectorAll(".mode-card");
 const modeGrid = document.getElementById("mode-grid");
 const startButton = document.getElementById("start-button");
+const dailyButton = document.getElementById("daily-button");
 const homeButtons = document.querySelectorAll(".home-button, .end-home-button");
 const playAgainButton = document.getElementById("play-again-button");
 const nextButton = document.getElementById("next-button");
@@ -493,7 +494,9 @@ function selectMode(modeKey) {
     button.classList.toggle("selected", isSelected);
   });
 
-  modeGrid.style.setProperty("--selected-mode-index", selectedIndex);
+  if (selectedIndex !== null) {
+    modeGrid.style.setProperty("--selected-mode-index", selectedIndex);
+  }
   startButton.textContent = `Start ${gameModes[selectedModeKey].label}`;
   updateLeaderboardVisibility();
 
@@ -1044,6 +1047,7 @@ modeButtons.forEach((button) => {
 });
 
 startButton.addEventListener("click", () => startGame(selectedModeKey));
+dailyButton.addEventListener("click", () => startGame("daily"));
 homeButtons.forEach((button) => {
   button.addEventListener("click", goHome);
 });
