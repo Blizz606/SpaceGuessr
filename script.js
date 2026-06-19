@@ -385,6 +385,7 @@ const modeButtons = document.querySelectorAll(".mode-card");
 const modeGrid = document.getElementById("mode-grid");
 const startButton = document.getElementById("start-button");
 const dailyButton = document.getElementById("daily-button");
+const dailyStatus = document.getElementById("daily-status");
 const homeButtons = document.querySelectorAll(".home-button, .end-home-button");
 const playAgainButton = document.getElementById("play-again-button");
 const nextButton = document.getElementById("next-button");
@@ -417,6 +418,7 @@ const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYm
 const leaderboardTable = "leaderboard";
 const leaderboardStorageKey = "spaceguessr-leaderboard";
 const playerNameStorageKey = "spaceguessr-player-name";
+const dailyPlayedStorageKey = "spaceguessr-daily-played";
 const supabaseClient = window.supabase
   ? window.supabase.createClient(supabaseUrl, supabaseAnonKey)
   : null;
@@ -469,6 +471,30 @@ function getDailyQuestion() {
   const dailyKey = getDailyKey();
   const seed = [...dailyKey].reduce((total, character) => total + character.charCodeAt(0), 0);
   return spaceLocations[seed % spaceLocations.length];
+}
+
+function hasPlayedDailyToday() {
+  return localStorage.getItem(dailyPlayedStorageKey) === getDailyKey();
+}
+
+function markDailyAsPlayed() {
+  localStorage.setItem(dailyPlayedStorageKey, getDailyKey());
+}
+
+function updateDailyAvailability() {
+  const isLocked = hasPlayedDailyToday();
+
+  dailyButton.disabled = isLocked;
+  dailyButton.classList.toggle("locked", isLocked);
+  dailyButton.setAttribute(
+    "aria-label",
+    isLocked ? "Daily challenge already played today" : "Start daily challenge"
+  );
+
+  dailyStatus.textContent = isLocked
+    ? "Daily challenge already completed today. A new one unlocks tomorrow."
+    : "";
+  dailyStatus.classList.toggle("hidden", !isLocked);
 }
 
 function updateMistakesLabel() {
@@ -534,6 +560,7 @@ function goHome() {
   feedbackPanel.classList.remove("open");
   nextButton.disabled = false;
   nextButton.classList.remove("hidden");
+  updateDailyAvailability();
   showScreen("start");
 }
 
@@ -561,6 +588,12 @@ function drawRandomQuestion() {
 }
 
 function startGame(modeKey = selectedModeKey) {
+  if (modeKey === "daily" && hasPlayedDailyToday()) {
+    updateDailyAvailability();
+    showScreen("start");
+    return;
+  }
+
   selectedModeKey = modeKey;
   totalRounds = gameModes[selectedModeKey].rounds;
   randomBag = shuffleArray(spaceLocations);
@@ -579,6 +612,11 @@ function startGame(modeKey = selectedModeKey) {
   scoreLabel.classList.remove("reward");
   updateScoreFormState();
   updateLeaderboardVisibility();
+
+  if (isDailyMode()) {
+    markDailyAsPlayed();
+    updateDailyAvailability();
+  }
 
   updateScore();
   showScreen("game");
@@ -1113,5 +1151,6 @@ menuScoreboardToggle.addEventListener("click", () => {
   }
 });
 updateLeaderboardVisibility();
+updateDailyAvailability();
 playAgainButton.addEventListener("click", () => startGame(selectedModeKey));
 nextButton.addEventListener("click", goToNextStep);
