@@ -101,6 +101,7 @@
           <button class="home-button" type="button" aria-label="Back to menu">Home</button>
           <div class="status-pill" id="round-label">Round 1 / 5</div>
           <div class="miss-track hidden" id="mistakes-label" aria-label="Infinite mode mistakes left"></div>
+          <div class="status-pill streak-pill" id="streak-label">Streak: 0</div>
           <div class="status-pill" id="score-label">Score: 0</div>
         </header>
 
@@ -135,6 +136,29 @@
           <h2 id="final-heading">Your final score</h2>
           <p id="final-score" class="score-value">0</p>
           <p id="rating-text" class="subtitle"></p>
+        </div>
+
+        <div class="end-stats-panel">
+          <div class="end-stat">
+            <span class="end-stat-label">Correct</span>
+            <span id="end-stat-correct" class="end-stat-value">0</span>
+          </div>
+          <div class="end-stat">
+            <span class="end-stat-label">Wrong</span>
+            <span id="end-stat-wrong" class="end-stat-value">0</span>
+          </div>
+          <div class="end-stat">
+            <span class="end-stat-label">Accuracy</span>
+            <span id="end-stat-accuracy" class="end-stat-value">0%</span>
+          </div>
+        </div>
+
+        <div class="achievement-panel">
+          <div class="achievement-panel-header">
+            <h3>Run Highlights</h3>
+            <span id="best-streak-text">Best streak: 0</span>
+          </div>
+          <div id="achievement-list" class="achievement-list"></div>
         </div>
 
         <form id="score-form" class="score-form leaderboard-only hidden">

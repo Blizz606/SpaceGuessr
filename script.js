@@ -393,6 +393,7 @@ const playAgainButton = document.getElementById("play-again-button");
 const nextButton = document.getElementById("next-button");
 const roundLabel = document.getElementById("round-label");
 const mistakesLabel = document.getElementById("mistakes-label");
+const streakLabel = document.getElementById("streak-label");
 const scoreLabel = document.getElementById("score-label");
 const spaceImage = document.getElementById("space-image");
 const answersContainer = document.getElementById("answers-container");
@@ -403,6 +404,11 @@ const sourceText = document.getElementById("source-text");
 const finalHeading = document.getElementById("final-heading");
 const finalScore = document.getElementById("final-score");
 const ratingText = document.getElementById("rating-text");
+const endStatCorrect = document.getElementById("end-stat-correct");
+const endStatWrong = document.getElementById("end-stat-wrong");
+const endStatAccuracy = document.getElementById("end-stat-accuracy");
+const bestStreakText = document.getElementById("best-streak-text");
+const achievementList = document.getElementById("achievement-list");
 const scoreForm = document.getElementById("score-form");
 const savedPlayerName = document.getElementById("saved-player-name");
 const playerNameInput = document.getElementById("player-name");
@@ -434,8 +440,12 @@ let hasAnswered = false;
 let selectedModeKey = "classic";
 let hasSavedCurrentScore = false;
 let wrongAnswerCount = 0;
+let correctGuessCount = 0;
+let currentStreak = 0;
+let bestStreak = 0;
 let scoreFeedbackTimer;
 let rewardFeedbackTimer;
+let streakFeedbackTimer;
 let gameOverTimer;
 const MAX_WRONG_ANSWERS_INFINITE = 10;
 
@@ -497,6 +507,120 @@ function updateDailyAvailability() {
     ? "Daily challenge already completed today. A new one unlocks tomorrow."
     : "";
   dailyStatus.classList.toggle("hidden", !isLocked);
+}
+
+function updateStats() {
+  const totalGuesses = correctGuessCount + wrongAnswerCount;
+  const accuracy = totalGuesses === 0
+    ? 0
+    : Math.round((correctGuessCount / totalGuesses) * 100);
+
+  endStatCorrect.textContent = String(correctGuessCount);
+  endStatWrong.textContent = String(wrongAnswerCount);
+  endStatAccuracy.textContent = `${accuracy}%`;
+}
+
+function updateStreakLabel() {
+  streakLabel.textContent = `Streak: ${currentStreak}`;
+  streakLabel.classList.toggle("active", currentStreak >= 2);
+}
+
+function showStreakFeedback() {
+  clearTimeout(streakFeedbackTimer);
+  streakLabel.classList.remove("boost");
+  void streakLabel.offsetWidth;
+  streakLabel.classList.add("boost");
+  streakFeedbackTimer = setTimeout(() => {
+    streakLabel.classList.remove("boost");
+  }, 620);
+}
+
+function getRunAchievements() {
+  const achievements = [];
+  const totalGuesses = correctGuessCount + wrongAnswerCount;
+  const accuracy = totalGuesses === 0
+    ? 0
+    : Math.round((correctGuessCount / totalGuesses) * 100);
+
+  if (correctGuessCount >= 1) {
+    achievements.push({
+      title: "First Light",
+      copy: "You landed at least one correct guess."
+    });
+  }
+
+  if (bestStreak >= 3) {
+    achievements.push({
+      title: "Hot Streak",
+      copy: `You chained ${bestStreak} correct answers in a row.`
+    });
+  }
+
+  if (!isInfiniteMode() && wrongAnswerCount === 0 && correctGuessCount > 0) {
+    achievements.push({
+      title: "Perfect Orbit",
+      copy: "A flawless run with zero wrong answers."
+    });
+  }
+
+  if (isInfiniteMode() && currentRound + 1 >= 10) {
+    achievements.push({
+      title: "Deep Space Run",
+      copy: "You survived into double-digit rounds in Infinite mode."
+    });
+  }
+
+  if (accuracy >= 80 && totalGuesses >= 3) {
+    achievements.push({
+      title: "Sharp Eye",
+      copy: `You finished with ${accuracy}% accuracy.`
+    });
+  }
+
+  if (score >= 250) {
+    achievements.push({
+      title: "Star Collector",
+      copy: "You stacked up a seriously strong score."
+    });
+  }
+
+  if (isDailyMode() && score > 0) {
+    achievements.push({
+      title: "Daily Solved",
+      copy: "You cracked today's shared challenge."
+    });
+  }
+
+  return achievements;
+}
+
+function renderAchievements() {
+  const achievements = getRunAchievements();
+  bestStreakText.textContent = `Best streak: ${bestStreak}`;
+  achievementList.innerHTML = "";
+
+  if (achievements.length === 0) {
+    const emptyState = document.createElement("div");
+    emptyState.className = "achievement-empty";
+    emptyState.textContent = "No achievements this run. One more round.";
+    achievementList.appendChild(emptyState);
+    return;
+  }
+
+  achievements.forEach((achievement) => {
+    const chip = document.createElement("div");
+    const title = document.createElement("span");
+    const copy = document.createElement("span");
+
+    chip.className = "achievement-chip";
+    title.className = "achievement-title";
+    copy.className = "achievement-copy";
+    title.textContent = achievement.title;
+    copy.textContent = achievement.copy;
+
+    chip.append(title, copy);
+    achievementList.appendChild(chip);
+  });
 }
 
 function updateMistakesLabel() {
@@ -568,6 +692,7 @@ function toggleHelpPanel(forceOpen) {
 
 function goHome() {
   clearTimeout(gameOverTimer);
+  clearTimeout(streakFeedbackTimer);
   hasAnswered = false;
   feedbackPanel.classList.remove("open");
   nextButton.disabled = false;
@@ -616,15 +741,21 @@ function startGame(modeKey = selectedModeKey) {
   hasAnswered = false;
   hasSavedCurrentScore = false;
   wrongAnswerCount = 0;
+  correctGuessCount = 0;
+  currentStreak = 0;
+  bestStreak = 0;
   saveMessage.textContent = "";
   playerNameInput.value = localStorage.getItem(playerNameStorageKey) || "";
   clearTimeout(scoreFeedbackTimer);
   clearTimeout(rewardFeedbackTimer);
+  clearTimeout(streakFeedbackTimer);
   clearTimeout(gameOverTimer);
   scoreLabel.classList.remove("penalty");
   scoreLabel.classList.remove("reward");
   updateScoreFormState();
   updateLeaderboardVisibility();
+  updateStats();
+  updateStreakLabel();
 
   if (isDailyMode()) {
     markDailyAsPlayed();
@@ -671,6 +802,7 @@ function endGame() {
     : getRating(score);
   saveMessage.textContent = "";
   updateLeaderboardVisibility();
+  renderAchievements();
 
   if (isInfiniteMode()) {
     renderLeaderboard();
@@ -737,14 +869,24 @@ function handleAnswer(selectedButton, selectedAnswer) {
   const isCorrect = selectedAnswer === currentQuestion.correctAnswer;
 
   if (isCorrect) {
+    correctGuessCount += 1;
+    currentStreak += 1;
+    bestStreak = Math.max(bestStreak, currentStreak);
     setScore(score + 50);
     showCorrectAnswerReward();
+    if (currentStreak >= 2) {
+      showStreakFeedback();
+    }
   } else {
     setScore(score - 25);
     showScorePenaltyFeedback();
     wrongAnswerCount += 1;
-    updateMistakesLabel();
+    currentStreak = 0;
   }
+
+  updateMistakesLabel();
+  updateStats();
+  updateStreakLabel();
 
   answerButtons.forEach((button) => {
     const isMatchingCorrectAnswer = button.textContent === currentQuestion.correctAnswer;
@@ -760,7 +902,9 @@ function handleAnswer(selectedButton, selectedAnswer) {
   const isGameOver = isInfiniteMode() && wrongAnswerCount >= MAX_WRONG_ANSWERS_INFINITE;
 
   feedbackText.textContent = isCorrect
-    ? "+50 points. Clean guess."
+    ? currentStreak >= 2
+      ? `+50 points. Clean guess. ${currentStreak}x streak.`
+      : "+50 points. Clean guess."
     : `Not quite. The correct answer was ${currentQuestion.correctAnswer}.`;
 
   const errorCountText = isInfiniteMode() 
@@ -1166,6 +1310,7 @@ menuScoreboardToggle.addEventListener("click", () => {
 });
 updateLeaderboardVisibility();
 updateDailyAvailability();
+updateStreakLabel();
 playAgainButton.addEventListener("click", () => startGame(selectedModeKey));
 nextButton.addEventListener("click", goToNextStep);
 

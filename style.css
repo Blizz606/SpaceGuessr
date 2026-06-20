@@ -387,6 +387,117 @@ h2 {
   margin-top: 12px;
 }
 
+.end-stats-panel {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 24px;
+  animation: endReveal 0.58s ease both;
+  animation-delay: 120ms;
+}
+
+.end-stat {
+  display: grid;
+  gap: 6px;
+  padding: 14px 14px 12px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  text-align: center;
+}
+
+.stat-label,
+.end-stat-label {
+  color: rgba(255, 255, 255, 0.46);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.stat-value,
+.end-stat-value {
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+
+.end-stat-value {
+  font-size: 1.2rem;
+}
+
+.achievement-panel {
+  margin-top: 18px;
+  padding: 16px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  text-align: left;
+  animation: endReveal 0.58s ease both;
+  animation-delay: 150ms;
+}
+
+.achievement-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.achievement-panel-header h3 {
+  margin: 0;
+  font-size: 0.96rem;
+}
+
+.achievement-panel-header span {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.achievement-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.achievement-chip,
+.achievement-empty {
+  min-height: 48px;
+  padding: 11px 13px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.achievement-chip {
+  display: grid;
+  gap: 4px;
+}
+
+.achievement-title {
+  color: #ffffff;
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.achievement-copy {
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.76rem;
+  line-height: 1.4;
+}
+
+.achievement-empty {
+  width: 100%;
+  display: grid;
+  place-items: center;
+  color: rgba(255, 255, 255, 0.52);
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
 .score-form {
   animation-delay: 90ms;
 }
@@ -1142,6 +1253,23 @@ h2 {
   right: 0;
 }
 
+.streak-pill {
+  position: absolute;
+  top: 0;
+  right: 116px;
+}
+
+.streak-pill.active {
+  color: #32d36b;
+  border-color: rgba(50, 211, 107, 0.52);
+  background: rgba(5, 48, 22, 0.74);
+  box-shadow: 0 0 20px rgba(50, 211, 107, 0.14);
+}
+
+.streak-pill.boost {
+  animation: streakPulse 0.62s ease;
+}
+
 .home-button:hover {
   background: rgba(255, 255, 255, 0.12);
   border-color: rgba(255, 255, 255, 0.28);
@@ -1204,6 +1332,20 @@ h2 {
   }
 }
 
+@keyframes streakPulse {
+  0% {
+    transform: scale(1);
+  }
+
+  38% {
+    transform: scale(1.06);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
 @keyframes correctAnswerPop {
   0% {
     transform: translateY(0) scale(1);
@@ -1244,6 +1386,15 @@ h2 {
 .prompt-block {
   width: 100%;
   margin: 0 0 12px;
+}
+
+.stat-chip {
+  display: grid;
+  gap: 4px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.09);
 }
 
 .prompt-label {
@@ -1511,6 +1662,19 @@ h2 {
     line-height: 1.42;
   }
 
+  .end-stats-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .achievement-panel-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .achievement-list {
+    flex-direction: column;
+  }
+
   .score-input-row,
   .leaderboard-list li {
     grid-template-columns: 1fr;
@@ -1619,14 +1783,20 @@ h2 {
     padding-inline: 13px;
   }
 
+  .streak-pill {
+    top: 48px;
+    left: 0;
+    right: auto;
+  }
+
   .miss-track {
     top: 48px;
-    left: 50%;
-    right: auto;
-    width: min(100%, 390px);
+    left: auto;
+    right: 0;
+    width: min(calc(100% - 124px), 280px);
     gap: 9px;
     padding: 8px 10px;
-    transform: translateX(-50%);
+    transform: none;
   }
 
   .status-pill {
