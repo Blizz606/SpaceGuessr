@@ -407,6 +407,8 @@ const ratingText = document.getElementById("rating-text");
 const endStatCorrect = document.getElementById("end-stat-correct");
 const endStatWrong = document.getElementById("end-stat-wrong");
 const endStatAccuracy = document.getElementById("end-stat-accuracy");
+const transitionOverlay = document.getElementById("transition-overlay");
+const transitionText = document.getElementById("transition-text");
 const scoreForm = document.getElementById("score-form");
 const savedPlayerName = document.getElementById("saved-player-name");
 const playerNameInput = document.getElementById("player-name");
@@ -446,6 +448,9 @@ let rewardFeedbackTimer;
 let streakFeedbackTimer;
 let gameOverTimer;
 const MAX_WRONG_ANSWERS_INFINITE = 10;
+const TRANSITION_MIN_DURATION = 420;
+const TRANSITION_MAX_DURATION = 2000;
+const preloadedImageUrls = new Set();
 
 function getSupabaseErrorMessage(error, fallbackText) {
   if (!error) {
@@ -590,6 +595,58 @@ function showScreen(screenName) {
   screens[screenName].classList.add("active");
 }
 
+function setTransitionState(isVisible, label = "Loading mission...") {
+  transitionText.textContent = label;
+  transitionOverlay.classList.toggle("visible", isVisible);
+  transitionOverlay.setAttribute("aria-hidden", String(!isVisible));
+}
+
+function wait(ms) {
+  return new Promise((resolve) => {
+    window.setTimeout(resolve, ms);
+  });
+}
+
+function preloadImage(src) {
+  return new Promise((resolve) => {
+    const image = new Image();
+
+    image.onload = () => resolve(src);
+    image.onerror = () => resolve(src);
+    image.src = src;
+  });
+}
+
+function preloadImageOnce(src) {
+  if (!src || preloadedImageUrls.has(src)) {
+    return Promise.resolve(src);
+  }
+
+  return preloadImage(src).then((loadedSrc) => {
+    preloadedImageUrls.add(loadedSrc);
+    return loadedSrc;
+  });
+}
+
+async function preloadImagesInBackground(imageUrls) {
+  for (const imageUrl of imageUrls) {
+    await preloadImageOnce(imageUrl);
+    await wait(0);
+  }
+}
+
+function buildInitialGameDeck() {
+  if (isDailyMode()) {
+    return [getDailyQuestion()];
+  }
+
+  if (isInfiniteMode()) {
+    return Array.from({ length: Math.min(8, spaceLocations.length) }, () => drawRandomQuestion());
+  }
+
+  return Array.from({ length: totalRounds }, () => drawRandomQuestion());
+}
+
 function toggleHelpPanel(forceOpen) {
   const shouldOpen = typeof forceOpen === "boolean"
     ? forceOpen
@@ -607,6 +664,7 @@ function goHome() {
   feedbackPanel.classList.remove("open");
   nextButton.disabled = false;
   nextButton.classList.remove("hidden");
+  setTransitionState(false);
   toggleHelpPanel(false);
   updateDailyAvailability();
   showScreen("start");
@@ -635,7 +693,7 @@ function drawRandomQuestion() {
   return randomBag.pop();
 }
 
-function startGame(modeKey = selectedModeKey) {
+async function startGame(modeKey = selectedModeKey) {
   if (modeKey === "daily" && hasPlayedDailyToday()) {
     updateDailyAvailability();
     showScreen("start");
@@ -672,9 +730,10 @@ function startGame(modeKey = selectedModeKey) {
     updateDailyAvailability();
   }
 
+  gameDeck = buildInitialGameDeck();
   updateScore();
   showScreen("game");
-  renderRound();
+  await renderRound(true);
 }
 
 function updateScore() {
@@ -726,7 +785,7 @@ function endGame() {
   animateFinalScore(score);
 }
 
-function renderRound() {
+async function renderRound(showTransition = false) {
   if (!gameDeck[currentRound]) {
     gameDeck[currentRound] = drawRandomQuestion();
   }
@@ -750,11 +809,33 @@ function renderRound() {
     spaceImage.classList.add("loaded");
   }
   spaceImage.alt = `Space image for ${currentQuestion.correctAnswer}`;
+
+  if (showTransition) {
+    setTransitionState(true, "Preparing mission...");
+    const currentImageReady = Promise.all([
+      preloadImageOnce(currentQuestion.imageUrl),
+      wait(TRANSITION_MIN_DURATION)
+    ]);
+    const allUpcomingImageUrls = gameDeck
+      .slice(currentRound + 1)
+      .map((question) => question.imageUrl);
+
+    void preloadImagesInBackground(allUpcomingImageUrls);
+
+    await Promise.race([
+      currentImageReady,
+      wait(TRANSITION_MAX_DURATION)
+    ]);
+  }
   answersContainer.innerHTML = "";
   feedbackPanel.classList.remove("open");
   nextButton.disabled = false;
   nextButton.classList.remove("hidden");
   hasAnswered = false;
+
+  if (showTransition) {
+    setTransitionState(false);
+  }
 
   answerOptions.forEach((answer, index) => {
     const button = document.createElement("button");
@@ -1172,7 +1253,7 @@ async function saveCurrentScore(event) {
   await renderLeaderboard();
 }
 
-function goToNextStep() {
+async function goToNextStep() {
   // Check game over in infinite mode
   if (isInfiniteMode() && wrongAnswerCount >= MAX_WRONG_ANSWERS_INFINITE) {
     endGame();
@@ -1182,12 +1263,12 @@ function goToNextStep() {
   currentRound += 1;
 
   if (selectedModeKey === "infinite") {
-    renderRound();
+    await renderRound();
     return;
   }
 
   if (currentRound < totalRounds) {
-    renderRound();
+    await renderRound();
     return;
   }
 
@@ -1198,8 +1279,12 @@ modeButtons.forEach((button) => {
   button.addEventListener("click", () => selectMode(button.dataset.mode));
 });
 
-startButton.addEventListener("click", () => startGame(selectedModeKey));
-dailyButton.addEventListener("click", () => startGame("daily"));
+startButton.addEventListener("click", () => {
+  startGame(selectedModeKey);
+});
+dailyButton.addEventListener("click", () => {
+  startGame("daily");
+});
 helpToggle.addEventListener("click", () => toggleHelpPanel());
 homeButtons.forEach((button) => {
   button.addEventListener("click", goHome);
@@ -1220,8 +1305,12 @@ menuScoreboardToggle.addEventListener("click", () => {
 updateLeaderboardVisibility();
 updateDailyAvailability();
 updateStreakLabel();
-playAgainButton.addEventListener("click", () => startGame(selectedModeKey));
-nextButton.addEventListener("click", goToNextStep);
+playAgainButton.addEventListener("click", () => {
+  startGame(selectedModeKey);
+});
+nextButton.addEventListener("click", () => {
+  goToNextStep();
+});
 
 document.addEventListener("click", (event) => {
   if (!screens.start.classList.contains("active")) {

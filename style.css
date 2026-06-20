@@ -61,6 +61,62 @@ button {
   animation: screenFadeIn 0.58s var(--ease-smooth) both;
 }
 
+.transition-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.68);
+  opacity: 0;
+  pointer-events: none;
+  backdrop-filter: blur(10px);
+  transition:
+    opacity 0.34s var(--ease-soft),
+    visibility 0.34s var(--ease-soft);
+}
+
+.transition-overlay.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.transition-card {
+  min-width: min(280px, 100%);
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  padding: 24px 22px;
+  border-radius: 24px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02)),
+    rgba(4, 4, 4, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.44),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  text-align: center;
+}
+
+.transition-spinner {
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  border: 3px solid rgba(255, 255, 255, 0.14);
+  border-top-color: #ffffff;
+  animation: overlaySpin 0.82s linear infinite;
+}
+
+.transition-text {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.92rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
 #start-screen.active,
 #end-screen.active {
   position: relative;
@@ -856,6 +912,16 @@ h2 {
 
   100% {
     transform: translateY(-1px) scaleX(1.05);
+  }
+}
+
+@keyframes overlaySpin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
   }
 }
 
