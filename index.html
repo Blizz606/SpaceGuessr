@@ -11,16 +11,19 @@
 </head>
 <body>
   <main class="app-shell">
+    <!-- Start menu -->
     <section id="start-screen" class="screen active">
       <div class="start-layout">
-        <div class="panel hero-panel intro-panel">
+        <div class="panel intro-panel">
           <button id="daily-button" class="daily-chip" type="button">
             <span>Daily</span>
           </button>
+
           <img class="main-logo" src="media/SpaceGuesrr.png" alt="SpaceGuessr logo">
           <p class="subtitle">Guess where in space you are.</p>
           <p id="daily-status" class="daily-status hidden" aria-live="polite"></p>
 
+          <!-- Game mode buttons -->
           <div class="mode-grid" id="mode-grid" aria-label="Choose game mode">
             <div class="mode-indicator" aria-hidden="true"></div>
             <button class="mode-card" data-mode="quick">
@@ -58,9 +61,9 @@
             </div>
           </div>
         </div>
-
       </div>
 
+      <!-- Help button and guide -->
       <div class="help-fab-wrap">
         <button
           id="help-toggle"
@@ -99,6 +102,7 @@
       </div>
     </section>
 
+    <!-- Main game -->
     <section id="game-screen" class="screen">
       <div class="game-panel">
         <header class="game-header">
@@ -133,6 +137,7 @@
       </div>
     </section>
 
+    <!-- End screen -->
     <section id="end-screen" class="screen">
       <div class="panel end-panel intro-panel">
         <div class="score-hero">
@@ -188,6 +193,7 @@
       </div>
     </section>
 
+    <!-- Loading overlay -->
     <div id="transition-overlay" class="transition-overlay" aria-hidden="true">
       <div class="transition-card">
         <span class="transition-spinner" aria-hidden="true"></span>
