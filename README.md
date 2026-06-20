@@ -9,7 +9,7 @@
 SpaceGuessr is a tiny space guessing game: you get dropped into a real NASA space image and have to guess what you are looking at. Mars? Jupiter? A nebula? One of Saturn's moons? It is basically the spirit of GeoGuessr, but pointed at space instead of streets.
 https://blizz606.github.io/SpaceGuessr/
 
-The goal of this project is not to be huge or over-engineered. It is a clean browser game prototype that opens fast, feels polished, and is easy to keep extending.
+This Project was made for the Stardance hackathon hosted by Hackclub and supported by NASA, AMD and Github. That's why it's about space, and the Idea was kinda fun.
 
 <p>
   <img src="https://images-assets.nasa.gov/image/PIA15691/PIA15691~medium.jpg" width="32%" alt="Mars landscape from NASA">
@@ -37,14 +37,15 @@ The goal of this project is not to be huge or over-engineered. It is a clean bro
 | `Full Tour` | 6 | A slightly longer round |
 | `Daily` | 1 | One shared image for everyone each day |
 | `Infinite` | Endless | Score chasing and leaderboard runs |
+| `Daily` | Daily Image | A different Image, every day, for everyone |
 
 Only `Daily` and `Infinite` use the global leaderboard. Daily scores are filtered to the current day.
 
 ## How To Run
 
-Open `index.html` in a browser.
+You can just visit https://blizz606.github.io/SpaceGuessr or do the following steps:
 
-That is it. The app is plain HTML, CSS, and JavaScript.
+Open `index.html` in a browser.
 
 For local testing, any simple static server also works:
 
@@ -142,4 +143,7 @@ This is still a prototype, but it already has the bones of a real little web gam
 - A small image preload step before each round.
 - Optional categories like `Planets`, `Moons`, `Nebulae`, and `Galaxies`.
 
-Made with plain web files, a lot of space pictures, and the very reasonable belief that guessing Saturn's moons should count as a game.
+## Use of AI
+AI was used to help me write some of the JavaScript and gave me Ideas for the CSS. I used OpenAI's Codex.
+
+Thanks to everyone who is supporting this small project.
