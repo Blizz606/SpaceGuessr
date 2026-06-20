@@ -1493,6 +1493,18 @@ h2 {
   cursor: default;
 }
 
+.answer-button.locked {
+  pointer-events: none;
+}
+
+.answer-button.answered {
+  transform: translateY(-1px) scale(0.995);
+}
+
+.answer-button.dimmed:not(.correct):not(.wrong) {
+  opacity: 0.42;
+}
+
 .answer-button.correct {
   background: #32d36b;
   border-color: #32d36b;
@@ -1575,6 +1587,12 @@ h2 {
     background 0.45s var(--ease-soft),
     transform 0.45s var(--ease-smooth),
     opacity 0.35s var(--ease-soft);
+}
+
+.next-icon-button.staged {
+  opacity: 0;
+  transform: translateY(6px);
+  pointer-events: none;
 }
 
 .next-icon-button:hover {

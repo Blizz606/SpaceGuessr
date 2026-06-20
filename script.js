@@ -450,6 +450,8 @@ let gameOverTimer;
 const MAX_WRONG_ANSWERS_INFINITE = 10;
 const TRANSITION_MIN_DURATION = 420;
 const TRANSITION_MAX_DURATION = 2000;
+const FEEDBACK_OPEN_DELAY = 220;
+const NEXT_BUTTON_DELAY = 380;
 const preloadedImageUrls = new Set();
 
 function getSupabaseErrorMessage(error, fallbackText) {
@@ -663,7 +665,7 @@ function goHome() {
   hasAnswered = false;
   feedbackPanel.classList.remove("open");
   nextButton.disabled = false;
-  nextButton.classList.remove("hidden");
+  nextButton.classList.remove("hidden", "staged");
   setTransitionState(false);
   toggleHelpPanel(false);
   updateDailyAvailability();
@@ -831,6 +833,7 @@ async function renderRound(showTransition = false) {
   feedbackPanel.classList.remove("open");
   nextButton.disabled = false;
   nextButton.classList.remove("hidden");
+  nextButton.classList.add("staged");
   hasAnswered = false;
 
   if (showTransition) {
@@ -842,12 +845,14 @@ async function renderRound(showTransition = false) {
     button.className = "answer-button";
     button.style.setProperty("--answer-index", index);
     button.textContent = answer;
-    button.addEventListener("click", () => handleAnswer(button, answer));
+    button.addEventListener("click", () => {
+      void handleAnswer(button, answer);
+    });
     answersContainer.appendChild(button);
   });
 }
 
-function handleAnswer(selectedButton, selectedAnswer) {
+async function handleAnswer(selectedButton, selectedAnswer) {
   if (hasAnswered) {
     return;
   }
@@ -881,12 +886,16 @@ function handleAnswer(selectedButton, selectedAnswer) {
   answerButtons.forEach((button) => {
     const isMatchingCorrectAnswer = button.textContent === currentQuestion.correctAnswer;
     button.disabled = true;
+    button.classList.add("locked");
     button.classList.toggle("correct", isMatchingCorrectAnswer);
+    button.classList.toggle("dimmed", button !== selectedButton && !isMatchingCorrectAnswer);
 
     if (button === selectedButton && !isCorrect) {
       button.classList.add("wrong");
     }
   });
+
+  selectedButton.classList.add("answered");
 
   // Check if game over in infinite mode
   const isGameOver = isInfiniteMode() && wrongAnswerCount >= MAX_WRONG_ANSWERS_INFINITE;
@@ -910,7 +919,13 @@ function handleAnswer(selectedButton, selectedAnswer) {
 
   factText.textContent = currentQuestion.fact;
   sourceText.textContent = `Source: ${currentQuestion.source} (${currentQuestion.nasaId})${errorCountText}`;
+  await wait(FEEDBACK_OPEN_DELAY);
   feedbackPanel.classList.add("open");
+
+  if (!isGameOver) {
+    await wait(Math.max(0, NEXT_BUTTON_DELAY - FEEDBACK_OPEN_DELAY));
+    nextButton.classList.remove("staged");
+  }
 }
 
 function getRating(scoreValue) {
