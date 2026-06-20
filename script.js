@@ -407,8 +407,6 @@ const ratingText = document.getElementById("rating-text");
 const endStatCorrect = document.getElementById("end-stat-correct");
 const endStatWrong = document.getElementById("end-stat-wrong");
 const endStatAccuracy = document.getElementById("end-stat-accuracy");
-const bestStreakText = document.getElementById("best-streak-text");
-const achievementList = document.getElementById("achievement-list");
 const scoreForm = document.getElementById("score-form");
 const savedPlayerName = document.getElementById("saved-player-name");
 const playerNameInput = document.getElementById("player-name");
@@ -533,94 +531,6 @@ function showStreakFeedback() {
   streakFeedbackTimer = setTimeout(() => {
     streakLabel.classList.remove("boost");
   }, 620);
-}
-
-function getRunAchievements() {
-  const achievements = [];
-  const totalGuesses = correctGuessCount + wrongAnswerCount;
-  const accuracy = totalGuesses === 0
-    ? 0
-    : Math.round((correctGuessCount / totalGuesses) * 100);
-
-  if (correctGuessCount >= 1) {
-    achievements.push({
-      title: "First Light",
-      copy: "You landed at least one correct guess."
-    });
-  }
-
-  if (bestStreak >= 3) {
-    achievements.push({
-      title: "Hot Streak",
-      copy: `You chained ${bestStreak} correct answers in a row.`
-    });
-  }
-
-  if (!isInfiniteMode() && wrongAnswerCount === 0 && correctGuessCount > 0) {
-    achievements.push({
-      title: "Perfect Orbit",
-      copy: "A flawless run with zero wrong answers."
-    });
-  }
-
-  if (isInfiniteMode() && currentRound + 1 >= 10) {
-    achievements.push({
-      title: "Deep Space Run",
-      copy: "You survived into double-digit rounds in Infinite mode."
-    });
-  }
-
-  if (accuracy >= 80 && totalGuesses >= 3) {
-    achievements.push({
-      title: "Sharp Eye",
-      copy: `You finished with ${accuracy}% accuracy.`
-    });
-  }
-
-  if (score >= 250) {
-    achievements.push({
-      title: "Star Collector",
-      copy: "You stacked up a seriously strong score."
-    });
-  }
-
-  if (isDailyMode() && score > 0) {
-    achievements.push({
-      title: "Daily Solved",
-      copy: "You cracked today's shared challenge."
-    });
-  }
-
-  return achievements;
-}
-
-function renderAchievements() {
-  const achievements = getRunAchievements();
-  bestStreakText.textContent = `Best streak: ${bestStreak}`;
-  achievementList.innerHTML = "";
-
-  if (achievements.length === 0) {
-    const emptyState = document.createElement("div");
-    emptyState.className = "achievement-empty";
-    emptyState.textContent = "No achievements this run. One more round.";
-    achievementList.appendChild(emptyState);
-    return;
-  }
-
-  achievements.forEach((achievement) => {
-    const chip = document.createElement("div");
-    const title = document.createElement("span");
-    const copy = document.createElement("span");
-
-    chip.className = "achievement-chip";
-    title.className = "achievement-title";
-    copy.className = "achievement-copy";
-    title.textContent = achievement.title;
-    copy.textContent = achievement.copy;
-
-    chip.append(title, copy);
-    achievementList.appendChild(chip);
-  });
 }
 
 function updateMistakesLabel() {
@@ -802,7 +712,6 @@ function endGame() {
     : getRating(score);
   saveMessage.textContent = "";
   updateLeaderboardVisibility();
-  renderAchievements();
 
   if (isInfiniteMode()) {
     renderLeaderboard();
