@@ -1544,7 +1544,7 @@ h2 {
 .feedback-panel.open {
   max-height: 260px;
   margin-bottom: 12px;
-  padding-right: 118px;
+  padding-right: 138px;
   opacity: 1;
   transform: translateY(0);
 }
@@ -1561,6 +1561,9 @@ h2 {
   color: rgba(255, 255, 255, 0.72);
   line-height: 1.5;
   font-size: 0.94rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .source-text {
@@ -1927,6 +1930,9 @@ h2 {
   }
 
   .fact-text {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
     font-size: 0.88rem;
   }
 

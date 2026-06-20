@@ -7,7 +7,7 @@ const spaceLocations = [
     source: "NASA Image and Video Library",
     correctAnswer: "Mars",
     wrongAnswers: ["The Moon", "Earth", "Mercury"],
-    fact: "This is Curiosity's first color landscape image from Mars, taken after landing in Gale Crater."
+    fact: "Curiosity captured this early color landscape after landing in Gale Crater."
   },
   {
     imageUrl: "https://images-assets.nasa.gov/image/as11-37-5545/as11-37-5545~large.jpg",
@@ -15,7 +15,7 @@ const spaceLocations = [
     source: "NASA Image and Video Library",
     correctAnswer: "The Moon",
     wrongAnswers: ["Mars", "Mercury", "Europa"],
-    fact: "This Apollo 11 photo shows the U.S. flag deployed on the lunar surface in July 1969."
+    fact: "This Apollo 11 photo shows the U.S. flag standing on the Moon."
   },
   {
     imageUrl: "https://images-assets.nasa.gov/image/PIA01262/PIA01262~small.jpg",
@@ -23,7 +23,7 @@ const spaceLocations = [
     source: "NASA Image and Video Library",
     correctAnswer: "Jupiter",
     wrongAnswers: ["Saturn", "Neptune", "Uranus"],
-    fact: "This Hubble view tracks storms in Jupiter's atmosphere, including its famous bands and turbulent cloud systems."
+    fact: "This Hubble view shows Jupiter's bands and major storm systems."
   },
   {
     imageUrl: "https://images-assets.nasa.gov/image/PIA12513/PIA12513~small.jpg",
@@ -31,7 +31,7 @@ const spaceLocations = [
     source: "NASA Image and Video Library",
     correctAnswer: "Saturn",
     wrongAnswers: ["Jupiter", "Uranus", "Neptune"],
-    fact: "This Cassini image shows Saturn and its ring system, one of the most recognizable sights in the solar system."
+    fact: "Cassini captured Saturn and its famous ring system in this view."
   },
   {
     imageUrl: "https://images-assets.nasa.gov/image/iss045e013851/iss045e013851~large.jpg",
@@ -39,7 +39,7 @@ const spaceLocations = [
     source: "NASA Image and Video Library",
     correctAnswer: "Earth",
     wrongAnswers: ["Mars", "Venus", "Titan"],
-    fact: "This Earth observation was photographed from the International Space Station."
+    fact: "This view of Earth was photographed from the ISS in orbit."
   },
   {
     imageUrl: "https://images-assets.nasa.gov/image/PIA01322/PIA01322~large.jpg",
@@ -47,7 +47,7 @@ const spaceLocations = [
     source: "NASA Image and Video Library",
     correctAnswer: "Orion Nebula",
     wrongAnswers: ["Jupiter", "The Moon", "Saturn"],
-    fact: "The Orion Nebula is a nearby star-forming region where young stars are shaping clouds of gas and dust."
+    fact: "The Orion Nebula is a nearby region where new stars are forming."
   },
   {
     imageUrl: "https://images-assets.nasa.gov/image/PIA01391/PIA01391~orig.jpg",
@@ -55,7 +55,7 @@ const spaceLocations = [
     source: "NASA Image and Video Library",
     correctAnswer: "Uranus",
     wrongAnswers: ["Neptune", "Saturn", "Earth"],
-    fact: "Voyager 2 captured this view of Uranus, an ice giant that rotates on its side compared with most planets."
+    fact: "Voyager 2 captured Uranus, the ice giant that spins on its side."
   },
   {
     imageUrl: "https://images-assets.nasa.gov/image/PIA01539/PIA01539~orig.jpg",
@@ -63,7 +63,7 @@ const spaceLocations = [
     source: "NASA Image and Video Library",
     correctAnswer: "Neptune",
     wrongAnswers: ["Uranus", "Jupiter", "Venus"],
-    fact: "Voyager 2 is still the only spacecraft to visit Neptune, flying past the planet in 1989."
+    fact: "Voyager 2 is still the only spacecraft ever to visit Neptune."
   },
   {
     imageUrl: "https://images-assets.nasa.gov/image/PIA04921/PIA04921~orig.jpg",
@@ -71,7 +71,7 @@ const spaceLocations = [
     source: "NASA Image and Video Library",
     correctAnswer: "Andromeda Galaxy",
     wrongAnswers: ["Orion Nebula", "Saturn", "Mars"],
-    fact: "The Andromeda Galaxy is the nearest large spiral galaxy to the Milky Way."
+    fact: "Andromeda is the nearest large spiral galaxy to the Milky Way."
   },
   {
     imageUrl: "https://images-assets.nasa.gov/image/PIA09109/PIA09109~orig.jpg",
@@ -79,7 +79,7 @@ const spaceLocations = [
     source: "NASA Image and Video Library",
     correctAnswer: "Eagle Nebula",
     wrongAnswers: ["Andromeda Galaxy", "The Moon", "Jupiter"],
-    fact: "The Eagle Nebula contains the famous Pillars of Creation, towering columns of gas and dust."
+    fact: "The Eagle Nebula contains the famous Pillars of Creation."
   },
   {
     imageUrl: "https://images-assets.nasa.gov/image/PIA12778/PIA12778~orig.jpg",
@@ -87,7 +87,7 @@ const spaceLocations = [
     source: "NASA Image and Video Library",
     correctAnswer: "Titan",
     wrongAnswers: ["Europa", "Mars", "Venus"],
-    fact: "Titan is Saturn's largest moon and has a thick atmosphere plus lakes and seas of liquid methane."
+    fact: "Titan is Saturn's largest moon and has lakes of liquid methane."
   },
   {
     imageUrl: "https://images-assets.nasa.gov/image/PIA17658/PIA17658~orig.jpg",
@@ -95,7 +95,7 @@ const spaceLocations = [
     source: "NASA Image and Video Library",
     correctAnswer: "Europa",
     wrongAnswers: ["Titan", "The Moon", "Mercury"],
-    fact: "Europa is one of Jupiter's icy moons and may hide a global ocean beneath its frozen crust."
+    fact: "Europa may hide a global ocean beneath its icy outer crust."
   },
   {
     imageUrl: "https://images-assets.nasa.gov/image/GSFC_20171208_Archive_e001625/GSFC_20171208_Archive_e001625~orig.jpg",
@@ -103,7 +103,7 @@ const spaceLocations = [
     source: "NASA Image and Video Library",
     correctAnswer: "Mercury",
     wrongAnswers: ["The Moon", "Mars", "Ceres"],
-    fact: "Mercury is covered in impact craters because it has almost no atmosphere to burn up incoming objects."
+    fact: "Mercury is heavily cratered because it has almost no atmosphere."
   },
   {
     imageUrl: "https://images-assets.nasa.gov/image/PIA19693/PIA19693~orig.jpg",
@@ -111,7 +111,7 @@ const spaceLocations = [
     source: "NASA Image and Video Library",
     correctAnswer: "Pluto",
     wrongAnswers: ["Neptune", "Titan", "Europa"],
-    fact: "New Horizons revealed Pluto as a surprisingly complex world with mountains, plains, and hazy layers."
+    fact: "New Horizons showed Pluto as a world of plains, mountains, and haze."
   },
   {
     imageUrl: "https://images-assets.nasa.gov/image/PIA14443/PIA14443~orig.jpg",
@@ -119,7 +119,7 @@ const spaceLocations = [
     source: "NASA Image and Video Library",
     correctAnswer: "Ring Nebula",
     wrongAnswers: ["Orion Nebula", "Andromeda Galaxy", "Eagle Nebula"],
-    fact: "The Ring Nebula is a glowing shell of gas shed by a dying star."
+    fact: "The Ring Nebula is a glowing shell of gas from a dying star."
   },
   {
     imageUrl: "https://images-assets.nasa.gov/image/PIA03606/PIA03606~orig.jpg",
@@ -127,7 +127,7 @@ const spaceLocations = [
     source: "NASA Image and Video Library",
     correctAnswer: "Crab Nebula",
     wrongAnswers: ["Ring Nebula", "Jupiter", "Sombrero Galaxy"],
-    fact: "The Crab Nebula is the expanding remnant of a supernova observed by skywatchers in 1054."
+    fact: "The Crab Nebula is the expanding remnant of a supernova."
   },
   {
     imageUrl: "https://images-assets.nasa.gov/image/PIA15226/PIA15226~orig.jpg",
@@ -135,7 +135,7 @@ const spaceLocations = [
     source: "NASA Image and Video Library",
     correctAnswer: "Sombrero Galaxy",
     wrongAnswers: ["Andromeda Galaxy", "Crab Nebula", "Saturn"],
-    fact: "The Sombrero Galaxy gets its nickname from its bright core and broad dust lane."
+    fact: "The Sombrero Galaxy is named for its bright core and dust lane."
   },
   {
     imageUrl: "https://images-assets.nasa.gov/image/PIA10957/PIA10957~orig.jpg",
@@ -143,7 +143,7 @@ const spaceLocations = [
     source: "NASA Image and Video Library",
     correctAnswer: "Tarantula Nebula",
     wrongAnswers: ["Eagle Nebula", "Ring Nebula", "Europa"],
-    fact: "The Tarantula Nebula is one of the most active star-forming regions in our cosmic neighborhood."
+    fact: "The Tarantula Nebula is one of our nearest major star nurseries."
   },
   {
     imageUrl: "https://images-assets.nasa.gov/image/PIA20309/PIA20309~orig.jpg",
@@ -151,7 +151,7 @@ const spaceLocations = [
     source: "NASA Image and Video Library",
     correctAnswer: "Ceres",
     wrongAnswers: ["Mercury", "The Moon", "Phobos"],
-    fact: "Ceres is the largest object in the asteroid belt and is classified as a dwarf planet."
+    fact: "Ceres is the largest object in the asteroid belt and a dwarf planet."
   },
   {
     imageUrl: "https://images-assets.nasa.gov/image/PIA17211/PIA17211~orig.jpg",
@@ -159,7 +159,7 @@ const spaceLocations = [
     source: "NASA Image and Video Library",
     correctAnswer: "Enceladus",
     wrongAnswers: ["Europa", "Titan", "The Moon"],
-    fact: "Enceladus sprays icy plumes into space from an ocean hidden beneath its crust."
+    fact: "Enceladus sends icy plumes into space from below its crust."
   },
   {
     imageUrl: "https://images-assets.nasa.gov/image/PIA22056/PIA22056~orig.jpg",
@@ -167,7 +167,7 @@ const spaceLocations = [
     source: "NASA Image and Video Library",
     correctAnswer: "Phobos",
     wrongAnswers: ["Deimos", "Ceres", "Mercury"],
-    fact: "Phobos is the larger of Mars' two moons and orbits very close to the planet."
+    fact: "Phobos is the larger of Mars' two moons and orbits very close in."
   },
   {
     imageUrl: "https://images-assets.nasa.gov/image/GSFC_20171208_Archive_e001925/GSFC_20171208_Archive_e001925~orig.jpg",
@@ -175,7 +175,7 @@ const spaceLocations = [
     source: "NASA Image and Video Library",
     correctAnswer: "Whirlpool Galaxy",
     wrongAnswers: ["Sombrero Galaxy", "Andromeda Galaxy", "Crab Nebula"],
-    fact: "The Whirlpool Galaxy is a spiral galaxy interacting with a smaller companion galaxy."
+    fact: "The Whirlpool Galaxy is a spiral galaxy with a close companion."
   },
   {
     imageUrl: "https://images-assets.nasa.gov/image/PIA04215/PIA04215~orig.jpg",
@@ -183,7 +183,7 @@ const spaceLocations = [
     source: "NASA Image and Video Library",
     correctAnswer: "Horsehead Nebula",
     wrongAnswers: ["Orion Nebula", "Ring Nebula", "Tarantula Nebula"],
-    fact: "The Horsehead Nebula is a dark cloud of dust silhouetted against glowing gas in Orion."
+    fact: "The Horsehead Nebula is a dark dust cloud set against glowing gas."
   },
   {
     imageUrl: "https://images-assets.nasa.gov/image/GSFC_20171208_Archive_e001955/GSFC_20171208_Archive_e001955~orig.jpg",
@@ -191,7 +191,7 @@ const spaceLocations = [
     source: "NASA Image and Video Library",
     correctAnswer: "Lagoon Nebula",
     wrongAnswers: ["Orion Nebula", "Eagle Nebula", "Crab Nebula"],
-    fact: "The Lagoon Nebula is a vast star-forming region in the constellation Sagittarius."
+    fact: "The Lagoon Nebula is a huge star-forming region in Sagittarius."
   },
   {
     imageUrl: "https://images-assets.nasa.gov/image/PIA09268/PIA09268~orig.jpg",
@@ -199,7 +199,7 @@ const spaceLocations = [
     source: "NASA Image and Video Library",
     correctAnswer: "Rosette Nebula",
     wrongAnswers: ["Ring Nebula", "Lagoon Nebula", "Horsehead Nebula"],
-    fact: "The Rosette Nebula is a flower-shaped cloud of gas and dust surrounding a young star cluster."
+    fact: "The Rosette Nebula surrounds a young star cluster with glowing gas."
   },
   {
     imageUrl: "https://images-assets.nasa.gov/image/GSFC_20171208_Archive_e002155/GSFC_20171208_Archive_e002155~orig.jpg",
@@ -207,7 +207,7 @@ const spaceLocations = [
     source: "NASA Image and Video Library",
     correctAnswer: "Cat's Eye Nebula",
     wrongAnswers: ["Ring Nebula", "Crab Nebula", "Tarantula Nebula"],
-    fact: "The Cat's Eye Nebula is a planetary nebula with layered shells around a dying star."
+    fact: "The Cat's Eye Nebula has layered shells around a dying star."
   },
   {
     imageUrl: "https://images-assets.nasa.gov/image/GSFC_20171208_Archive_e002058/GSFC_20171208_Archive_e002058~orig.jpg",
@@ -215,7 +215,7 @@ const spaceLocations = [
     source: "NASA Image and Video Library",
     correctAnswer: "Veil Nebula",
     wrongAnswers: ["Crab Nebula", "Ring Nebula", "Orion Nebula"],
-    fact: "The Veil Nebula is the expanding remnant of a massive star that exploded thousands of years ago."
+    fact: "The Veil Nebula is the expanding remnant of an exploded star."
   },
   {
     imageUrl: "https://images-assets.nasa.gov/image/PIA09262/PIA09262~orig.jpg",
@@ -223,7 +223,7 @@ const spaceLocations = [
     source: "NASA Image and Video Library",
     correctAnswer: "Pleiades",
     wrongAnswers: ["Andromeda Galaxy", "Lagoon Nebula", "Whirlpool Galaxy"],
-    fact: "The Pleiades is a bright open star cluster also known as the Seven Sisters."
+    fact: "The Pleiades is a bright star cluster also called the Seven Sisters."
   },
   {
     imageUrl: "https://images-assets.nasa.gov/image/GSFC_20171208_Archive_e001642/GSFC_20171208_Archive_e001642~orig.jpg",
@@ -231,7 +231,7 @@ const spaceLocations = [
     source: "NASA Image and Video Library",
     correctAnswer: "Large Magellanic Cloud",
     wrongAnswers: ["Small Magellanic Cloud", "Andromeda Galaxy", "Sombrero Galaxy"],
-    fact: "The Large Magellanic Cloud is a nearby dwarf galaxy orbiting the Milky Way."
+    fact: "The Large Magellanic Cloud is a nearby dwarf galaxy by the Milky Way."
   },
   {
     imageUrl: "https://images-assets.nasa.gov/image/GSFC_20171208_Archive_e002039/GSFC_20171208_Archive_e002039~orig.jpg",
@@ -239,7 +239,7 @@ const spaceLocations = [
     source: "NASA Image and Video Library",
     correctAnswer: "Small Magellanic Cloud",
     wrongAnswers: ["Large Magellanic Cloud", "Whirlpool Galaxy", "Eagle Nebula"],
-    fact: "The Small Magellanic Cloud is a neighboring dwarf galaxy visible from the Southern Hemisphere."
+    fact: "The Small Magellanic Cloud is a nearby dwarf galaxy in southern skies."
   },
   {
     imageUrl: "https://images-assets.nasa.gov/image/PIA23122/PIA23122~orig.jpg",
@@ -247,7 +247,7 @@ const spaceLocations = [
     source: "NASA Image and Video Library",
     correctAnswer: "Messier 87",
     wrongAnswers: ["Andromeda Galaxy", "Sombrero Galaxy", "Whirlpool Galaxy"],
-    fact: "Messier 87 is a giant elliptical galaxy famous for the supermassive black hole at its center."
+    fact: "Messier 87 is a giant galaxy famous for its central black hole."
   },
   {
     imageUrl: "https://images-assets.nasa.gov/image/PIA21770/PIA21770~orig.jpg",
@@ -255,7 +255,7 @@ const spaceLocations = [
     source: "NASA Image and Video Library",
     correctAnswer: "Jupiter's Great Red Spot",
     wrongAnswers: ["Saturn's Hexagon", "Neptune's Dark Spot", "Mars"],
-    fact: "Jupiter's Great Red Spot is a long-lived storm larger than Earth."
+    fact: "Jupiter's Great Red Spot is a storm larger than Earth."
   },
   {
     imageUrl: "https://images-assets.nasa.gov/image/PIA00521/PIA00521~orig.jpg",
@@ -263,7 +263,7 @@ const spaceLocations = [
     source: "NASA Image and Video Library",
     correctAnswer: "Ganymede",
     wrongAnswers: ["Callisto", "Europa", "Titan"],
-    fact: "Ganymede is Jupiter's largest moon and the largest moon in the solar system."
+    fact: "Ganymede is Jupiter's largest moon and the biggest moon of all."
   },
   {
     imageUrl: "https://images-assets.nasa.gov/image/PIA03456/PIA03456~orig.jpg",
@@ -271,7 +271,7 @@ const spaceLocations = [
     source: "NASA Image and Video Library",
     correctAnswer: "Callisto",
     wrongAnswers: ["Ganymede", "Europa", "The Moon"],
-    fact: "Callisto is one of Jupiter's four large Galilean moons and has an ancient cratered surface."
+    fact: "Callisto is a Galilean moon with an old, heavily cratered surface."
   },
   {
     imageUrl: "https://images-assets.nasa.gov/image/PIA17195/PIA17195~orig.jpg",
@@ -279,7 +279,7 @@ const spaceLocations = [
     source: "NASA Image and Video Library",
     correctAnswer: "Dione",
     wrongAnswers: ["Rhea", "Tethys", "Enceladus"],
-    fact: "Dione is an icy moon of Saturn with bright fractured terrain across its surface."
+    fact: "Dione is an icy moon of Saturn with bright fractured terrain."
   },
   {
     imageUrl: "https://images-assets.nasa.gov/image/PIA12546/PIA12546~orig.jpg",
@@ -295,7 +295,7 @@ const spaceLocations = [
     source: "NASA Image and Video Library",
     correctAnswer: "Iapetus",
     wrongAnswers: ["Rhea", "Tethys", "Titan"],
-    fact: "Iapetus is known for its dramatic two-tone surface, with one hemisphere much darker than the other."
+    fact: "Iapetus is famous for its dramatic two-tone surface colors."
   },
   {
     imageUrl: "https://images-assets.nasa.gov/image/PIA00037/PIA00037~orig.jpg",
@@ -303,7 +303,7 @@ const spaceLocations = [
     source: "NASA Image and Video Library",
     correctAnswer: "Ariel",
     wrongAnswers: ["Miranda", "Triton", "Europa"],
-    fact: "Ariel is one of Uranus' moons and was photographed up close by Voyager 2."
+    fact: "Ariel is a moon of Uranus photographed up close by Voyager 2."
   },
   {
     imageUrl: "https://images-assets.nasa.gov/image/PIA01490/PIA01490~orig.jpg",
@@ -311,7 +311,7 @@ const spaceLocations = [
     source: "NASA Image and Video Library",
     correctAnswer: "Miranda",
     wrongAnswers: ["Ariel", "Dione", "Callisto"],
-    fact: "Miranda, a moon of Uranus, has one of the strangest patchwork surfaces seen by Voyager 2."
+    fact: "Miranda has one of the strangest patchwork surfaces Voyager 2 saw."
   },
   {
     imageUrl: "https://images-assets.nasa.gov/image/PIA01994/PIA01994~orig.jpg",
@@ -319,7 +319,7 @@ const spaceLocations = [
     source: "NASA Image and Video Library",
     correctAnswer: "Triton",
     wrongAnswers: ["Titan", "Europa", "Ganymede"],
-    fact: "Triton is Neptune's largest moon and orbits in the opposite direction of Neptune's rotation."
+    fact: "Triton is Neptune's largest moon and orbits in reverse direction."
   },
   {
     imageUrl: "https://images-assets.nasa.gov/image/PIA13693/PIA13693~orig.jpg",
@@ -327,7 +327,7 @@ const spaceLocations = [
     source: "NASA Image and Video Library",
     correctAnswer: "Valles Marineris",
     wrongAnswers: ["Olympus Mons", "Gale Crater", "Phobos"],
-    fact: "Valles Marineris is a vast canyon system on Mars that stretches thousands of kilometers."
+    fact: "Valles Marineris is a vast canyon system stretching across Mars."
   },
   {
     imageUrl: "https://images-assets.nasa.gov/image/PIA00452/PIA00452~orig.jpg",
@@ -335,7 +335,7 @@ const spaceLocations = [
     source: "NASA Image and Video Library",
     correctAnswer: "Pale Blue Dot",
     wrongAnswers: ["Earthrise", "Blue Marble", "Andromeda Galaxy"],
-    fact: "The Pale Blue Dot image shows Earth from billions of kilometers away, captured by Voyager 1."
+    fact: "Pale Blue Dot shows Earth from billions of kilometers away."
   },
   {
     imageUrl: "https://images-assets.nasa.gov/image/GSFC_20171208_Archive_e001651/GSFC_20171208_Archive_e001651~orig.jpg",
@@ -343,7 +343,7 @@ const spaceLocations = [
     source: "NASA Image and Video Library",
     correctAnswer: "Hubble Ultra Deep Field",
     wrongAnswers: ["Andromeda Galaxy", "Whirlpool Galaxy", "Pleiades"],
-    fact: "The Hubble Ultra Deep Field reveals thousands of distant galaxies in a tiny patch of sky."
+    fact: "The Hubble Ultra Deep Field reveals thousands of distant galaxies."
   }
 ];
 
