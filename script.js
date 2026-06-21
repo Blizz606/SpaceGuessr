@@ -414,9 +414,16 @@ const hintCount = document.getElementById("hint-count");
 const finalHeading = document.getElementById("final-heading");
 const finalScore = document.getElementById("final-score");
 const ratingText = document.getElementById("rating-text");
+const rankBadge = document.getElementById("rank-badge");
 const endStatCorrect = document.getElementById("end-stat-correct");
 const endStatWrong = document.getElementById("end-stat-wrong");
 const endStatAccuracy = document.getElementById("end-stat-accuracy");
+const openShareButton = document.getElementById("open-share-button");
+const shareModal = document.getElementById("share-modal");
+const closeShareButton = document.getElementById("close-share-button");
+const sharePreviewText = document.getElementById("share-preview-text");
+const copyShareButton = document.getElementById("copy-share-button");
+const nativeShareButton = document.getElementById("native-share-button");
 const transitionOverlay = document.getElementById("transition-overlay");
 const transitionText = document.getElementById("transition-text");
 const scoreForm = document.getElementById("score-form");
@@ -461,12 +468,23 @@ let rewardFeedbackTimer;
 let streakFeedbackTimer;
 let gameOverTimer;
 let roundTimer;
+let copyButtonResetTimer;
 const MAX_WRONG_ANSWERS_INFINITE = 10;
 const TRANSITION_MIN_DURATION = 420;
 const TRANSITION_MAX_DURATION = 2000;
 const FEEDBACK_OPEN_DELAY = 220;
 const NEXT_BUTTON_DELAY = 380;
 const preloadedImageUrls = new Set();
+const rankTiers = [
+  { min: 0, title: "Space Noob" },
+  { min: 50, title: "Asteroid Intern" },
+  { min: 100, title: "Space Rookie" },
+  { min: 200, title: "Moon Explorer" },
+  { min: 300, title: "Star Navigator" },
+  { min: 400, title: "Galaxy Brain" },
+  { min: 500, title: "Cosmic Genius" },
+  { min: 600, title: "Universe Legend" }
+];
 
 function getSupabaseErrorMessage(error, fallbackText) {
   if (!error) {
@@ -495,7 +513,7 @@ function isTimedMode() {
 }
 
 function hasLeaderboardMode() {
-  return isInfiniteMode() || isDailyMode();
+  return isInfiniteMode();
 }
 
 function updateHintUI() {
@@ -616,6 +634,102 @@ function updateStats() {
   endStatCorrect.textContent = String(correctGuessCount);
   endStatWrong.textContent = String(wrongAnswerCount);
   endStatAccuracy.textContent = `${accuracy}%`;
+}
+
+function getAccuracyValue() {
+  const totalGuesses = correctGuessCount + wrongAnswerCount;
+
+  if (totalGuesses === 0) {
+    return 0;
+  }
+
+  return Math.round((correctGuessCount / totalGuesses) * 100);
+}
+
+function getFinishedRounds() {
+  if (isInfiniteMode()) {
+    return currentRound + 1;
+  }
+
+  return totalRounds;
+}
+
+function getRankInfo(scoreValue) {
+  let currentRank = rankTiers[0];
+
+  for (let i = 0; i < rankTiers.length; i += 1) {
+    if (scoreValue >= rankTiers[i].min) {
+      currentRank = rankTiers[i];
+    }
+  }
+
+  return currentRank;
+}
+
+function getShareText() {
+  const modeLabel = gameModes[selectedModeKey].label;
+  const roundsText = `${getFinishedRounds()} round${getFinishedRounds() === 1 ? "" : "s"}`;
+  const accuracyText = `${getAccuracyValue()}% accuracy`;
+  const streakText = bestStreak > 1 ? ` | best streak ${bestStreak}` : "";
+
+  if (isDailyMode()) {
+    const dailyResult = score > 0 ? "Success" : "Failed";
+    return `I played today's SpaceGuessr Daily: ${dailyResult} | ${accuracyText}${streakText} https://blizz606.github.io/SpaceGuessr`;
+  }
+
+  return `I finished a ${modeLabel} run in SpaceGuessr with ${score} points | ${roundsText} | ${accuracyText}${streakText} https://blizz606.github.io/SpaceGuessr`;
+}
+
+function updateShareCard() {
+  const shareText = getShareText();
+
+  sharePreviewText.textContent = shareText;
+  nativeShareButton.classList.toggle("hidden", typeof navigator.share !== "function");
+}
+
+function toggleShareModal(forceOpen) {
+  const shouldOpen = typeof forceOpen === "boolean"
+    ? forceOpen
+    : shareModal.classList.contains("hidden");
+
+  shareModal.classList.toggle("hidden", !shouldOpen);
+  shareModal.classList.toggle("open", shouldOpen);
+  shareModal.setAttribute("aria-hidden", String(!shouldOpen));
+
+  if (shouldOpen) {
+    updateShareCard();
+  }
+}
+
+async function copyShareText() {
+  const shareText = getShareText();
+
+  try {
+    await navigator.clipboard.writeText(shareText);
+    clearTimeout(copyButtonResetTimer);
+    copyShareButton.classList.add("copied");
+    copyButtonResetTimer = setTimeout(() => {
+      copyShareButton.classList.remove("copied");
+    }, 1200);
+  } catch {}
+}
+
+async function shareRun() {
+  if (typeof navigator.share !== "function") {
+    return;
+  }
+
+  try {
+    await navigator.share({
+      title: "SpaceGuessr",
+      text: getShareText(),
+      url: "https://blizz606.github.io/SpaceGuessr"
+    });
+  } catch (error) {
+    if (error?.name === "AbortError") {
+      return;
+    }
+  }
 }
 
 function updateStreakLabel() {
@@ -763,6 +877,7 @@ function goHome() {
   nextButton.classList.remove("hidden", "staged");
   setTransitionState(false);
   toggleHelpPanel(false);
+  toggleShareModal(false);
   updateDailyAvailability();
   showScreen("start");
 }
@@ -790,6 +905,7 @@ function drawRandomQuestion() {
   return randomBag.pop();
 }
 
+// Reset the whole game state and then jump into the first round.
 async function startGame(modeKey = selectedModeKey) {
   if (modeKey === "daily" && hasPlayedDailyToday()) {
     updateDailyAvailability();
@@ -870,11 +986,11 @@ function endGame() {
   clearTimeout(gameOverTimer);
   stopRoundTimer();
   finalHeading.textContent = isDailyMode() ? "Daily result" : "Your final score";
-  ratingText.textContent = isDailyMode()
-    ? getDailyResultText()
-    : getRating(score);
   saveMessage.textContent = "";
   updateLeaderboardVisibility();
+  ratingText.textContent = isDailyMode() ? getDailyResultText() : getRating(score);
+  rankBadge.classList.toggle("daily-badge", isDailyMode());
+  updateShareCard();
 
   if (isInfiniteMode()) {
     renderLeaderboard();
@@ -889,6 +1005,7 @@ function endGame() {
   animateFinalScore(score);
 }
 
+// This fills the UI with the current question and fresh answer buttons.
 async function renderRound(showTransition = false) {
   if (!gameDeck[currentRound]) {
     gameDeck[currentRound] = drawRandomQuestion();
@@ -958,6 +1075,7 @@ async function renderRound(showTransition = false) {
   });
 }
 
+// Main answer logic: score, feedback, highlights and reveal timing all happen here.
 async function handleAnswer(selectedButton, selectedAnswer) {
   if (hasAnswered) {
     return;
@@ -1042,35 +1160,7 @@ async function handleAnswer(selectedButton, selectedAnswer) {
 }
 
 function getRating(scoreValue) {
-  if (scoreValue >= 600) {
-    return "Universe Legend";
-  }
-
-  if (scoreValue >= 500) {
-    return "Cosmic Genius";
-  }
-
-  if (scoreValue >= 400) {
-    return "Galaxy Brain";
-  }
-
-  if (scoreValue >= 300) {
-    return "Star Navigator";
-  }
-
-  if (scoreValue >= 200) {
-    return "Moon Explorer";
-  }
-
-  if (scoreValue >= 100) {
-    return "Space Rookie";
-  }
-
-  if (scoreValue >= 50) {
-    return "Asteroid Intern";
-  }
-
-  return "Space Noob";
+  return getRankInfo(scoreValue).title;
 }
 
 function getDailyResultText() {
@@ -1099,14 +1189,14 @@ function animateFinalScore(targetScore) {
     const progress = Math.min(elapsed / duration, 1);
     const easedProgress = 1 - Math.pow(1 - progress, 3);
 
-    finalScore.textContent = Math.round(targetScore * easedProgress);
+    finalScore.textContent = `${Math.round(targetScore * easedProgress)} pts`;
 
     if (progress < 1) {
       requestAnimationFrame(updateScoreCounter);
     }
   }
 
-  finalScore.textContent = "0";
+  finalScore.textContent = "0 pts";
   requestAnimationFrame(updateScoreCounter);
 }
 
@@ -1265,7 +1355,7 @@ async function saveCurrentScore(event) {
   event.preventDefault();
 
   if (!hasLeaderboardMode()) {
-    saveMessage.textContent = "Scores are only saved in Daily or Infinite mode.";
+    saveMessage.textContent = "Scores are only saved in Infinite mode.";
     return;
   }
 
@@ -1382,6 +1472,7 @@ async function saveCurrentScore(event) {
   await renderLeaderboard();
 }
 
+// Move forward one step. Either next round... or game over if the mode says so.
 async function goToNextStep() {
   // Just in case: do not continue if infinite mode already hit game over.
   if (isInfiniteMode() && wrongAnswerCount >= MAX_WRONG_ANSWERS_INFINITE) {
@@ -1441,8 +1532,24 @@ nextButton.addEventListener("click", () => {
   goToNextStep();
 });
 hintButton.addEventListener("click", useHint);
+openShareButton.addEventListener("click", () => {
+  toggleShareModal(true);
+});
+closeShareButton.addEventListener("click", () => {
+  toggleShareModal(false);
+});
+copyShareButton.addEventListener("click", () => {
+  copyShareText();
+});
+nativeShareButton.addEventListener("click", () => {
+  shareRun();
+});
 
 document.addEventListener("click", (event) => {
+  if (event.target instanceof HTMLElement && event.target.dataset.closeShare === "true") {
+    toggleShareModal(false);
+  }
+
   if (!screens.start.classList.contains("active")) {
     return;
   }
@@ -1459,6 +1566,10 @@ document.addEventListener("click", (event) => {
 });
 
 document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && shareModal.classList.contains("open")) {
+    toggleShareModal(false);
+  }
+
   if (event.key === "Escape" && helpPanel.classList.contains("open")) {
     toggleHelpPanel(false);
   }

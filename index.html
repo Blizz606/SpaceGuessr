@@ -173,22 +173,28 @@
     <section id="end-screen" class="screen">
       <div class="panel end-panel intro-panel">
         <div class="score-hero">
-          <p class="eyebrow">Mission Complete</p>
+          <!-- <p class="eyebrow">Mission Complete</p> -->
+          <div id="rank-badge" class="rank-badge">
+            <span class="rank-badge-icon" aria-hidden="true">☄</span>
+            <span id="rating-text" class="rank-badge-text">Space Noob</span>
+          </div>
           <h2 id="final-heading">Your final score</h2>
-          <p id="final-score" class="score-value">0</p>
-          <p id="rating-text" class="subtitle"></p>
+          <p id="final-score" class="score-value">0 pts</p>
         </div>
 
         <div class="end-stats-panel">
           <div class="end-stat">
+            <span class="end-stat-icon" aria-hidden="true">✓</span>
             <span class="end-stat-label">Correct</span>
             <span id="end-stat-correct" class="end-stat-value">0</span>
           </div>
           <div class="end-stat">
+            <span class="end-stat-icon" aria-hidden="true">✕</span>
             <span class="end-stat-label">Wrong</span>
             <span id="end-stat-wrong" class="end-stat-value">0</span>
           </div>
           <div class="end-stat">
+            <span class="end-stat-icon" aria-hidden="true">◎</span>
             <span class="end-stat-label">Accuracy</span>
             <span id="end-stat-accuracy" class="end-stat-value">0%</span>
           </div>
@@ -219,11 +225,37 @@
         </div>
 
         <div class="end-actions">
-          <button id="play-again-button" class="primary-button">Play Again</button>
+          <div class="end-action-row">
+            <button id="play-again-button" class="primary-button">Play Again</button>
+            <button id="open-share-button" class="share-trigger-button" type="button">Share</button>
+          </div>
           <button class="subtle-link-button end-home-button" type="button">Home</button>
         </div>
       </div>
     </section>
+
+    <div id="share-modal" class="share-modal hidden" aria-hidden="true">
+      <div class="share-modal-backdrop" data-close-share="true"></div>
+      <div class="share-modal-card" role="dialog" aria-modal="true" aria-labelledby="share-modal-title">
+        <button id="close-share-button" class="share-close-button" type="button" aria-label="Close share popup">✕</button>
+        <div class="share-modal-head">
+          <h3 id="share-modal-title">Post your run</h3>
+        </div>
+
+        <p class="share-modal-copy">Copy the result text or send it straight to another app.</p>
+        <p id="share-preview-text" class="share-preview-text"></p>
+
+        <div class="share-card-actions">
+          <button id="copy-share-button" class="share-button share-button-light" type="button">
+            <span class="share-button-label">Copy Text</span>
+            <span class="share-button-success" aria-hidden="true">
+              <span class="share-check-icon"></span>
+            </span>
+          </button>
+          <button id="native-share-button" class="share-button" type="button">Share</button>
+        </div>
+      </div>
+    </div>
 
     <!-- Small loading thing so stuff does not just pop in out of nowhere -->
     <div id="transition-overlay" class="transition-overlay" aria-hidden="true">
