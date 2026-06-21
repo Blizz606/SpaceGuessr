@@ -351,27 +351,32 @@ const gameModes = {
   quick: {
     label: "Quick",
     rounds: 3,
-    index: 0
+    index: 0,
+    hints: 1
   },
   classic: {
     label: "Classic",
     rounds: 5,
-    index: 1
+    index: 1,
+    hints: 2
   },
   full: {
     label: "Full Tour",
     rounds: 6,
-    index: 2
+    index: 2,
+    hints: 3
   },
   daily: {
     label: "Daily",
     rounds: 1,
-    index: null
+    index: null,
+    hints: 1
   },
   infinite: {
     label: "Infinite",
     rounds: Infinity,
-    index: 3
+    index: 3,
+    hints: 3
   }
 };
 
@@ -401,6 +406,8 @@ const feedbackPanel = document.getElementById("feedback-panel");
 const feedbackText = document.getElementById("feedback-text");
 const factText = document.getElementById("fact-text");
 const sourceText = document.getElementById("source-text");
+const hintButton = document.getElementById("hint-button");
+const hintStatus = document.getElementById("hint-status");
 const finalHeading = document.getElementById("final-heading");
 const finalScore = document.getElementById("final-score");
 const ratingText = document.getElementById("rating-text");
@@ -443,6 +450,8 @@ let wrongAnswerCount = 0;
 let correctGuessCount = 0;
 let currentStreak = 0;
 let bestStreak = 0;
+let hintsLeft = 0;
+let usedHintThisRound = false;
 let scoreFeedbackTimer;
 let rewardFeedbackTimer;
 let streakFeedbackTimer;
@@ -478,6 +487,78 @@ function isDailyMode() {
 
 function hasLeaderboardMode() {
   return isInfiniteMode() || isDailyMode();
+}
+
+function getHintType(answer) {
+  const planets = ["Mars", "Earth", "Jupiter", "Saturn", "Uranus", "Neptune", "Mercury", "Venus", "Pluto", "Ceres"];
+  const moons = ["The Moon", "Titan", "Europa", "Enceladus", "Phobos", "Ganymede", "Callisto", "Dione", "Rhea", "Iapetus", "Ariel", "Miranda", "Triton"];
+  const galaxies = ["Andromeda Galaxy", "Sombrero Galaxy", "Whirlpool Galaxy", "Large Magellanic Cloud", "Small Magellanic Cloud", "Messier 87"];
+  const nebulae = ["Orion Nebula", "Eagle Nebula", "Ring Nebula", "Crab Nebula", "Tarantula Nebula", "Horsehead Nebula", "Lagoon Nebula", "Rosette Nebula", "Cat's Eye Nebula", "Veil Nebula"];
+
+  if (planets.includes(answer)) {
+    return "planet";
+  }
+
+  if (moons.includes(answer)) {
+    return "moon";
+  }
+
+  if (galaxies.includes(answer)) {
+    return "galaxy";
+  }
+
+  if (nebulae.includes(answer)) {
+    return "nebula";
+  }
+
+  if (answer.includes("Field")) {
+    return "deep space image";
+  }
+
+  if (answer.includes("Spot")) {
+    return "storm";
+  }
+
+  if (answer.includes("Dot")) {
+    return "famous photo";
+  }
+
+  if (answer.includes("Marineris")) {
+    return "canyon system";
+  }
+
+  return "space object";
+}
+
+function updateHintUI() {
+  hintStatus.textContent = `Hints left: ${hintsLeft}`;
+  hintButton.disabled = hasAnswered || usedHintThisRound || hintsLeft <= 0;
+
+  if (usedHintThisRound) {
+    hintButton.textContent = "Hint Used";
+    return;
+  }
+
+  if (hintsLeft <= 0) {
+    hintButton.textContent = "No Hints";
+    return;
+  }
+
+  hintButton.textContent = "Use Hint";
+}
+
+function useHint() {
+  if (hasAnswered || usedHintThisRound || hintsLeft <= 0) {
+    return;
+  }
+
+  const currentQuestion = gameDeck[currentRound];
+  const hintType = getHintType(currentQuestion.correctAnswer);
+
+  hintsLeft -= 1;
+  usedHintThisRound = true;
+  hintStatus.textContent = `Hint: This is a ${hintType}.`;
+  updateHintUI();
 }
 
 function getDailyKey(date = new Date()) {
@@ -714,6 +795,8 @@ async function startGame(modeKey = selectedModeKey) {
   correctGuessCount = 0;
   currentStreak = 0;
   bestStreak = 0;
+  hintsLeft = gameModes[selectedModeKey].hints;
+  usedHintThisRound = false;
   saveMessage.textContent = "";
   playerNameInput.value = localStorage.getItem(playerNameStorageKey) || "";
   clearTimeout(scoreFeedbackTimer);
@@ -726,6 +809,7 @@ async function startGame(modeKey = selectedModeKey) {
   updateLeaderboardVisibility();
   updateStats();
   updateStreakLabel();
+  updateHintUI();
 
   if (isDailyMode()) {
     markDailyAsPlayed();
@@ -835,6 +919,9 @@ async function renderRound(showTransition = false) {
   nextButton.classList.remove("hidden");
   nextButton.classList.add("staged");
   hasAnswered = false;
+  usedHintThisRound = false;
+  hintStatus.textContent = `Hints left: ${hintsLeft}`;
+  updateHintUI();
 
   if (showTransition) {
     setTransitionState(false);
@@ -882,6 +969,7 @@ async function handleAnswer(selectedButton, selectedAnswer) {
   updateMistakesLabel();
   updateStats();
   updateStreakLabel();
+  updateHintUI();
 
   answerButtons.forEach((button) => {
     const isMatchingCorrectAnswer = button.textContent === currentQuestion.correctAnswer;
@@ -1326,6 +1414,7 @@ playAgainButton.addEventListener("click", () => {
 nextButton.addEventListener("click", () => {
   goToNextStep();
 });
+hintButton.addEventListener("click", useHint);
 
 document.addEventListener("click", (event) => {
   if (!screens.start.classList.contains("active")) {

@@ -3,17 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>SpaceGuessr</title>
   <meta name="description" content="GeoGuessr, but in space. Guess planets, galaxies and NASA images!">
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="favicon.ico">
 
-  <!-- Discord / Open Graph Preview -->
+  <!-- Stuff for previews when the link gets thrown into Discord or somewhere -->
   <meta property="og:title" content="SpaceGuessr">
   <meta property="og:description" content="GeoGuessr, but in space. Guess planets, galaxies and NASA images!">
   <meta property="og:image" content="https://blizz606.github.io/SpaceGuessr/preview.png">
@@ -24,7 +22,7 @@
   <meta property="og:url" content="https://blizz606.github.io/SpaceGuessr/">
   <meta property="og:type" content="website">
 
-  <!-- Large Preview Card -->
+  <!-- Same idea again, but for Twitter because websites love extra chores -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="SpaceGuessr">
   <meta name="twitter:description" content="GeoGuessr, but in space. Guess planets, galaxies and NASA images!">
@@ -33,7 +31,7 @@
 
 <body>
   <main class="app-shell">
-    <!-- Start menu -->
+    <!-- Main menu. Very important. Without this the game starts by just idk. existing. -->
     <section id="start-screen" class="screen active">
       <div class="start-layout">
         <div class="panel intro-panel">
@@ -45,7 +43,7 @@
           <p class="subtitle">Guess where in space you are.</p>
           <p id="daily-status" class="daily-status hidden" aria-live="polite"></p>
 
-          <!-- Game mode buttons -->
+          <!-- Pick your level, need to be refined later -->
           <div class="mode-grid" id="mode-grid" aria-label="Choose game mode">
             <div class="mode-indicator" aria-hidden="true"></div>
             <button class="mode-card" data-mode="quick">
@@ -85,7 +83,7 @@
         </div>
       </div>
 
-      <!-- Help button and guide -->
+      <!-- Tiny help area for when it suddenly gets confusing -->
       <div class="help-fab-wrap">
         <button
           id="help-toggle"
@@ -124,7 +122,7 @@
       </div>
     </section>
 
-    <!-- Main game -->
+    <!-- The actual game part. At this point you're really intrested. Dont ya? -->
     <section id="game-screen" class="screen">
       <div class="game-panel">
         <header class="game-header">
@@ -144,6 +142,11 @@
             <p class="prompt-label">Where are you?</p>
           </div>
 
+          <div class="hint-row">
+            <button id="hint-button" class="hint-button" type="button">Use Hint</button>
+            <p id="hint-status" class="hint-status">Hints left: 2</p>
+          </div>
+
           <div id="feedback-panel" class="feedback-panel">
             <p id="feedback-text" class="feedback-text"></p>
             <p id="fact-text" class="fact-text"></p>
@@ -159,7 +162,7 @@
       </div>
     </section>
 
-    <!-- End screen -->
+    <!-- End screen. Roast. -->
     <section id="end-screen" class="screen">
       <div class="panel end-panel intro-panel">
         <div class="score-hero">
@@ -215,7 +218,7 @@
       </div>
     </section>
 
-    <!-- Loading overlay -->
+    <!-- Small loading thing so stuff does not just pop in out of nowhere -->
     <div id="transition-overlay" class="transition-overlay" aria-hidden="true">
       <div class="transition-card">
         <span class="transition-spinner" aria-hidden="true"></span>

@@ -1437,6 +1437,47 @@ h2 {
   margin: 0 0 12px;
 }
 
+.hint-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.hint-button {
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+  font-size: 0.82rem;
+  font-weight: 800;
+  transition:
+    background 0.24s ease,
+    border-color 0.24s ease,
+    opacity 0.24s ease;
+}
+
+.hint-button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.24);
+}
+
+.hint-button:disabled {
+  opacity: 0.46;
+  cursor: default;
+}
+
+.hint-status {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-align: right;
+}
+
 .stat-chip {
   display: grid;
   gap: 4px;
@@ -1904,6 +1945,20 @@ h2 {
 
   .prompt-block {
     margin-bottom: 10px;
+  }
+
+  .hint-row {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .hint-button {
+    width: 100%;
+  }
+
+  .hint-status {
+    text-align: left;
   }
 
   .answers-grid {
