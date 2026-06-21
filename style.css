@@ -1432,12 +1432,7 @@ h2 {
     transform 0.5s var(--ease-smooth);
 }
 
-.prompt-block {
-  width: 100%;
-  margin: 0 0 12px;
-}
-
-.hint-row {
+.dock-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1445,24 +1440,38 @@ h2 {
   margin-bottom: 12px;
 }
 
+.prompt-block {
+  flex: 1;
+  margin: 0;
+}
+
+.hint-row {
+  flex-shrink: 0;
+  margin: 0;
+}
+
 .hint-button {
-  min-height: 40px;
-  padding: 0 14px;
+  position: relative;
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  padding: 0;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.14);
   color: #ffffff;
-  font-size: 0.82rem;
-  font-weight: 800;
   transition:
     background 0.24s ease,
     border-color 0.24s ease,
-    opacity 0.24s ease;
+    opacity 0.24s ease,
+    transform 0.24s ease;
 }
 
 .hint-button:hover:not(:disabled) {
   background: rgba(255, 255, 255, 0.14);
   border-color: rgba(255, 255, 255, 0.24);
+  transform: translateY(-1px);
 }
 
 .hint-button:disabled {
@@ -1470,12 +1479,33 @@ h2 {
   cursor: default;
 }
 
-.hint-status {
-  margin: 0;
-  color: rgba(255, 255, 255, 0.62);
-  font-size: 0.82rem;
-  font-weight: 700;
-  text-align: right;
+.hint-button.used {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.hint-icon {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.hint-count {
+  position: absolute;
+  right: -4px;
+  bottom: -4px;
+  min-width: 19px;
+  height: 19px;
+  display: grid;
+  place-items: center;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #000000;
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+
+.prompt-spacer {
+  display: none;
 }
 
 .stat-chip {
@@ -1544,6 +1574,12 @@ h2 {
 
 .answer-button.dimmed:not(.correct):not(.wrong) {
   opacity: 0.42;
+}
+
+.answer-button.hint-hidden:not(.correct):not(.wrong) {
+  opacity: 0.18;
+  border-color: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.24);
 }
 
 .answer-button.correct {
@@ -1944,21 +1980,16 @@ h2 {
   }
 
   .prompt-block {
+    margin: 0;
+  }
+
+  .dock-top {
+    align-items: flex-start;
     margin-bottom: 10px;
   }
 
   .hint-row {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .hint-button {
-    width: 100%;
-  }
-
-  .hint-status {
-    text-align: left;
+    flex-shrink: 0;
   }
 
   .answers-grid {

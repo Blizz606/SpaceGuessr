@@ -407,7 +407,7 @@ const feedbackText = document.getElementById("feedback-text");
 const factText = document.getElementById("fact-text");
 const sourceText = document.getElementById("source-text");
 const hintButton = document.getElementById("hint-button");
-const hintStatus = document.getElementById("hint-status");
+const hintCount = document.getElementById("hint-count");
 const finalHeading = document.getElementById("final-heading");
 const finalScore = document.getElementById("final-score");
 const ratingText = document.getElementById("rating-text");
@@ -489,62 +489,21 @@ function hasLeaderboardMode() {
   return isInfiniteMode() || isDailyMode();
 }
 
-function getHintType(answer) {
-  const planets = ["Mars", "Earth", "Jupiter", "Saturn", "Uranus", "Neptune", "Mercury", "Venus", "Pluto", "Ceres"];
-  const moons = ["The Moon", "Titan", "Europa", "Enceladus", "Phobos", "Ganymede", "Callisto", "Dione", "Rhea", "Iapetus", "Ariel", "Miranda", "Triton"];
-  const galaxies = ["Andromeda Galaxy", "Sombrero Galaxy", "Whirlpool Galaxy", "Large Magellanic Cloud", "Small Magellanic Cloud", "Messier 87"];
-  const nebulae = ["Orion Nebula", "Eagle Nebula", "Ring Nebula", "Crab Nebula", "Tarantula Nebula", "Horsehead Nebula", "Lagoon Nebula", "Rosette Nebula", "Cat's Eye Nebula", "Veil Nebula"];
-
-  if (planets.includes(answer)) {
-    return "planet";
-  }
-
-  if (moons.includes(answer)) {
-    return "moon";
-  }
-
-  if (galaxies.includes(answer)) {
-    return "galaxy";
-  }
-
-  if (nebulae.includes(answer)) {
-    return "nebula";
-  }
-
-  if (answer.includes("Field")) {
-    return "deep space image";
-  }
-
-  if (answer.includes("Spot")) {
-    return "storm";
-  }
-
-  if (answer.includes("Dot")) {
-    return "famous photo";
-  }
-
-  if (answer.includes("Marineris")) {
-    return "canyon system";
-  }
-
-  return "space object";
-}
-
 function updateHintUI() {
-  hintStatus.textContent = `Hints left: ${hintsLeft}`;
   hintButton.disabled = hasAnswered || usedHintThisRound || hintsLeft <= 0;
+  hintCount.textContent = String(hintsLeft);
 
   if (usedHintThisRound) {
-    hintButton.textContent = "Hint Used";
+    hintButton.classList.add("used");
     return;
   }
 
   if (hintsLeft <= 0) {
-    hintButton.textContent = "No Hints";
+    hintButton.classList.add("used");
     return;
   }
 
-  hintButton.textContent = "Use Hint";
+  hintButton.classList.remove("used");
 }
 
 function useHint() {
@@ -553,11 +512,19 @@ function useHint() {
   }
 
   const currentQuestion = gameDeck[currentRound];
-  const hintType = getHintType(currentQuestion.correctAnswer);
+  const answerButtons = Array.from(answersContainer.querySelectorAll(".answer-button"));
+  const wrongButtons = shuffleArray(
+    answerButtons.filter((button) => button.textContent !== currentQuestion.correctAnswer)
+  ).slice(0, 2);
 
   hintsLeft -= 1;
   usedHintThisRound = true;
-  hintStatus.textContent = `Hint: This is a ${hintType}.`;
+
+  wrongButtons.forEach((button) => {
+    button.disabled = true;
+    button.classList.add("hint-hidden");
+  });
+
   updateHintUI();
 }
 
@@ -920,7 +887,6 @@ async function renderRound(showTransition = false) {
   nextButton.classList.add("staged");
   hasAnswered = false;
   usedHintThisRound = false;
-  hintStatus.textContent = `Hints left: ${hintsLeft}`;
   updateHintUI();
 
   if (showTransition) {

@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="favicon.ico">
 
-  <!-- Stuff for previews when the link gets thrown into Discord or somewhere -->
+  <!-- Stuff for previews when the link gets posted into Discord or somewhere -->
   <meta property="og:title" content="SpaceGuessr">
   <meta property="og:description" content="GeoGuessr, but in space. Guess planets, galaxies and NASA images!">
   <meta property="og:image" content="https://blizz606.github.io/SpaceGuessr/preview.png">
@@ -22,7 +22,7 @@
   <meta property="og:url" content="https://blizz606.github.io/SpaceGuessr/">
   <meta property="og:type" content="website">
 
-  <!-- Same idea again, but for Twitter because websites love extra chores -->
+  <!-- Same idea again, but for Twitter .... Im mean X -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="SpaceGuessr">
   <meta name="twitter:description" content="GeoGuessr, but in space. Guess planets, galaxies and NASA images!">
@@ -138,14 +138,20 @@
         </div>
 
         <div class="bottom-dock">
-          <div class="prompt-block">
-            <p class="prompt-label">Where are you?</p>
+          <div class="dock-top">
+            <div class="prompt-block">
+              <p class="prompt-label">Where are you?</p>
+            </div>
+
+            <div class="hint-row">
+              <button id="hint-button" class="hint-button" type="button" aria-label="Use hint">
+                <span class="hint-icon" aria-hidden="true">💡</span>
+                <span id="hint-count" class="hint-count">2</span>
+              </button>
+            </div>
           </div>
 
-          <div class="hint-row">
-            <button id="hint-button" class="hint-button" type="button">Use Hint</button>
-            <p id="hint-status" class="hint-status">Hints left: 2</p>
-          </div>
+          <div class="prompt-spacer"></div>
 
           <div id="feedback-panel" class="feedback-panel">
             <p id="feedback-text" class="feedback-text"></p>
