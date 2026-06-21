@@ -54,9 +54,9 @@
               <span class="mode-name">Classic</span>
               <span class="mode-meta">5 rounds</span>
             </button>
-            <button class="mode-card" data-mode="full">
-              <span class="mode-name">Full Tour</span>
-              <span class="mode-meta">6 rounds</span>
+            <button class="mode-card" data-mode="timed">
+              <span class="mode-name">Timed</span>
+              <span class="mode-meta">10 sec</span>
             </button>
             <button class="mode-card" data-mode="infinite">
               <span class="mode-name">Infinite</span>
@@ -106,7 +106,7 @@
           <ul class="help-list">
             <li><strong>Quick</strong>: short 3-round run.</li>
             <li><strong>Classic</strong>: the standard 5-round game.</li>
-            <li><strong>Full Tour</strong>: a longer 6-round session.</li>
+            <li><strong>Timed</strong>: 5 rounds with 10 seconds per image.</li>
             <li><strong>Infinite</strong>: keep going until you run out of misses.</li>
             <li><strong>Daily</strong>: one shared image per day.</li>
           </ul>
@@ -130,6 +130,7 @@
           <div class="status-pill" id="round-label">Round 1 / 5</div>
           <div class="miss-track hidden" id="mistakes-label" aria-label="Infinite mode mistakes left"></div>
           <div class="status-pill streak-pill" id="streak-label">Streak: 0</div>
+          <div class="status-pill timer-pill hidden" id="timer-label">Time: 10</div>
           <div class="status-pill" id="score-label">Score: 0</div>
         </header>
 

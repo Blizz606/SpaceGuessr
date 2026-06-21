@@ -1308,6 +1308,18 @@ h2 {
   right: 116px;
 }
 
+.timer-pill {
+  position: absolute;
+  top: 0;
+  right: 236px;
+}
+
+.timer-pill.danger {
+  color: #ffb8c0;
+  border-color: rgba(255, 107, 107, 0.32);
+  background: rgba(58, 8, 8, 0.66);
+}
+
 .streak-pill.active {
   color: #32d36b;
   border-color: rgba(50, 211, 107, 0.52);
@@ -1935,6 +1947,11 @@ h2 {
     top: 48px;
     left: 0;
     right: auto;
+  }
+
+  .timer-pill {
+    top: 0;
+    right: 0;
   }
 
   .miss-track {

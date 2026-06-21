@@ -1,5 +1,5 @@
-// Curated official NASA image assets.
-// Keep nasaId/source with each item so the image and answer stay traceable.
+// Main question/Image list for the game.
+// I kept source + nasaId here so every image still has a clear origin.
 const spaceLocations = [
   {
     imageUrl: "https://images-assets.nasa.gov/image/PIA15691/PIA15691~medium.jpg",
@@ -360,11 +360,12 @@ const gameModes = {
     index: 1,
     hints: 2
   },
-  full: {
-    label: "Full Tour",
-    rounds: 6,
+  timed: {
+    label: "Timed",
+    rounds: 5,
     index: 2,
-    hints: 3
+    hints: 1,
+    seconds: 10
   },
   daily: {
     label: "Daily",
@@ -380,6 +381,7 @@ const gameModes = {
   }
 };
 
+// Small DOM grab section so everything important is up here in one place.
 const screens = {
   start: document.getElementById("start-screen"),
   game: document.getElementById("game-screen"),
@@ -399,6 +401,7 @@ const nextButton = document.getElementById("next-button");
 const roundLabel = document.getElementById("round-label");
 const mistakesLabel = document.getElementById("mistakes-label");
 const streakLabel = document.getElementById("streak-label");
+const timerLabel = document.getElementById("timer-label");
 const scoreLabel = document.getElementById("score-label");
 const spaceImage = document.getElementById("space-image");
 const answersContainer = document.getElementById("answers-container");
@@ -452,10 +455,12 @@ let currentStreak = 0;
 let bestStreak = 0;
 let hintsLeft = 0;
 let usedHintThisRound = false;
+let timeLeft = 0;
 let scoreFeedbackTimer;
 let rewardFeedbackTimer;
 let streakFeedbackTimer;
 let gameOverTimer;
+let roundTimer;
 const MAX_WRONG_ANSWERS_INFINITE = 10;
 const TRANSITION_MIN_DURATION = 420;
 const TRANSITION_MAX_DURATION = 2000;
@@ -485,6 +490,10 @@ function isDailyMode() {
   return selectedModeKey === "daily";
 }
 
+function isTimedMode() {
+  return selectedModeKey === "timed";
+}
+
 function hasLeaderboardMode() {
   return isInfiniteMode() || isDailyMode();
 }
@@ -504,6 +513,42 @@ function updateHintUI() {
   }
 
   hintButton.classList.remove("used");
+}
+
+function updateTimerUI() {
+  if (!isTimedMode()) {
+    timerLabel.classList.add("hidden");
+    return;
+  }
+
+  timerLabel.classList.remove("hidden");
+  timerLabel.textContent = `Time: ${timeLeft}`;
+  timerLabel.classList.toggle("danger", timeLeft <= 3);
+}
+
+function stopRoundTimer() {
+  clearInterval(roundTimer);
+}
+
+function startRoundTimer() {
+  if (!isTimedMode()) {
+    updateTimerUI();
+    return;
+  }
+
+  stopRoundTimer();
+  timeLeft = gameModes.timed.seconds;
+  updateTimerUI();
+
+  roundTimer = setInterval(() => {
+    timeLeft -= 1;
+    updateTimerUI();
+
+    if (timeLeft <= 0) {
+      stopRoundTimer();
+      handleAnswer(null, "__timeout__");
+    }
+  }, 1000);
 }
 
 function useHint() {
@@ -690,6 +735,7 @@ function buildInitialGameDeck() {
     return [getDailyQuestion()];
   }
 
+  // Infinite does not preload the whole universe at once.
   if (isInfiniteMode()) {
     return Array.from({ length: Math.min(8, spaceLocations.length) }, () => drawRandomQuestion());
   }
@@ -710,6 +756,7 @@ function toggleHelpPanel(forceOpen) {
 function goHome() {
   clearTimeout(gameOverTimer);
   clearTimeout(streakFeedbackTimer);
+  stopRoundTimer();
   hasAnswered = false;
   feedbackPanel.classList.remove("open");
   nextButton.disabled = false;
@@ -764,6 +811,7 @@ async function startGame(modeKey = selectedModeKey) {
   bestStreak = 0;
   hintsLeft = gameModes[selectedModeKey].hints;
   usedHintThisRound = false;
+  timeLeft = gameModes[selectedModeKey].seconds || 0;
   saveMessage.textContent = "";
   playerNameInput.value = localStorage.getItem(playerNameStorageKey) || "";
   clearTimeout(scoreFeedbackTimer);
@@ -777,12 +825,14 @@ async function startGame(modeKey = selectedModeKey) {
   updateStats();
   updateStreakLabel();
   updateHintUI();
+  updateTimerUI();
 
   if (isDailyMode()) {
     markDailyAsPlayed();
     updateDailyAvailability();
   }
 
+  // Build the round list first so the opening preload knows what to load.
   gameDeck = buildInitialGameDeck();
   updateScore();
   showScreen("game");
@@ -818,6 +868,7 @@ function showCorrectAnswerReward() {
 
 function endGame() {
   clearTimeout(gameOverTimer);
+  stopRoundTimer();
   finalHeading.textContent = isDailyMode() ? "Daily result" : "Your final score";
   ratingText.textContent = isDailyMode()
     ? getDailyResultText()
@@ -873,6 +924,7 @@ async function renderRound(showTransition = false) {
       .slice(currentRound + 1)
       .map((question) => question.imageUrl);
 
+    // Start loading the rest quietly in the background.
     void preloadImagesInBackground(allUpcomingImageUrls);
 
     await Promise.race([
@@ -888,6 +940,7 @@ async function renderRound(showTransition = false) {
   hasAnswered = false;
   usedHintThisRound = false;
   updateHintUI();
+  startRoundTimer();
 
   if (showTransition) {
     setTransitionState(false);
@@ -911,9 +964,11 @@ async function handleAnswer(selectedButton, selectedAnswer) {
   }
 
   hasAnswered = true;
+  stopRoundTimer();
 
   const currentQuestion = gameDeck[currentRound];
   const answerButtons = answersContainer.querySelectorAll(".answer-button");
+  const isTimeOut = selectedAnswer === "__timeout__";
   const isCorrect = selectedAnswer === currentQuestion.correctAnswer;
 
   if (isCorrect) {
@@ -949,16 +1004,20 @@ async function handleAnswer(selectedButton, selectedAnswer) {
     }
   });
 
-  selectedButton.classList.add("answered");
+  if (selectedButton) {
+    selectedButton.classList.add("answered");
+  }
 
-  // Check if game over in infinite mode
+  // Infinite mode ends after too many wrong answers.
   const isGameOver = isInfiniteMode() && wrongAnswerCount >= MAX_WRONG_ANSWERS_INFINITE;
 
   feedbackText.textContent = isCorrect
     ? currentStreak >= 2
       ? `+50 points. Clean guess. ${currentStreak}x streak.`
       : "+50 points. Clean guess."
-    : `Not quite. The correct answer was ${currentQuestion.correctAnswer}.`;
+    : isTimeOut
+      ? `Time is up. The correct answer was ${currentQuestion.correctAnswer}.`
+      : `Not quite. The correct answer was ${currentQuestion.correctAnswer}.`;
 
   const errorCountText = isInfiniteMode() 
     ? `\nErrors: ${wrongAnswerCount}/${MAX_WRONG_ANSWERS_INFINITE}` 
@@ -1237,6 +1296,7 @@ async function saveCurrentScore(event) {
   updateScoreFormState();
   const localSaveResult = upsertLocalScore(scoreEntry);
 
+  // Save local first, then try the online leaderboard.
   if (supabaseClient) {
     let existingQuery = supabaseClient
       .from(leaderboardTable)
@@ -1323,7 +1383,7 @@ async function saveCurrentScore(event) {
 }
 
 async function goToNextStep() {
-  // Check game over in infinite mode
+  // Just in case: do not continue if infinite mode already hit game over.
   if (isInfiniteMode() && wrongAnswerCount >= MAX_WRONG_ANSWERS_INFINITE) {
     endGame();
     return;
