@@ -144,6 +144,7 @@ This is still a prototype, but it already has the bones of a real little web gam
 - Optional categories like `Planets`, `Moons`, `Nebulae`, and `Galaxies`.
 
 ## Use of AI
-AI was used to help me write some of the JavaScript and gave me Ideas for the CSS. I used OpenAI's Codex.
+Most of the time went into building the structure, UI, responsive layout and integrating the game content. The JavaScript part was built with some AI help, mainly for debugging and structuring parts of the logic, but I still tested, changed and integrated everything myself.
 
 Thanks to everyone who is supporting this small project.
+
