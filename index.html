@@ -34,15 +34,9 @@
     <!-- Main menu. Very important. Without this the game starts by just idk. existing. -->
     <section id="start-screen" class="screen active">
       <div class="start-layout">
+        <img class="main-logo" src="media/SpaceGuesrr.png" alt="SpaceGuessr logo">
+
         <div class="panel intro-panel">
-          <button id="daily-button" class="daily-chip" type="button">
-            <span>Daily</span>
-          </button>
-
-          <img class="main-logo" src="media/SpaceGuesrr.png" alt="SpaceGuessr logo">
-          <p class="subtitle">Guess where in space you are.</p>
-          <p id="daily-status" class="daily-status hidden" aria-live="polite"></p>
-
           <!-- Pick your level, need to be refined later -->
           <div class="mode-grid" id="mode-grid" aria-label="Choose game mode">
             <div class="mode-indicator" aria-hidden="true"></div>
@@ -66,19 +60,56 @@
 
           <button id="start-button" class="primary-button start-game-button">Start Classic</button>
 
-          <div class="menu-scoreboard leaderboard-only hidden">
-            <button id="menu-scoreboard-toggle" class="scoreboard-toggle" type="button" aria-expanded="false">
-              Scoreboard
-            </button>
+          <div class="menu-quick-links">
+            <button id="menu-help-button" class="menu-link-button" type="button">How to Play</button>
+            <span class="menu-link-dot" aria-hidden="true">·</span>
+            <button id="menu-scoreboard-toggle" class="menu-link-button" type="button" aria-expanded="false">Leaderboard</button>
+            <span class="menu-link-dot" aria-hidden="true">·</span>
+            <a class="menu-link-anchor" href="https://github.com/Blizz606/SpaceGuessr" target="_blank" rel="noreferrer">Documentation</a>
+          </div>
+
+          <div class="menu-scoreboard">
             <div id="menu-scoreboard-panel" class="scoreboard-collapse">
               <div class="leaderboard-panel menu-leaderboard-panel">
                 <div class="leaderboard-header">
                   <h3>Global leaderboard</h3>
-                  <span id="menu-leaderboard-mode">Classic</span>
+                  <span id="menu-leaderboard-mode">Infinite</span>
                 </div>
                 <ol id="menu-leaderboard-list" class="leaderboard-list"></ol>
               </div>
             </div>
+          </div>
+        </div>
+
+        <button id="daily-button" class="daily-chip" type="button">
+          <span>Daily Mode</span>
+        </button>
+      </div>
+
+      <div id="menu-settings-panel" class="menu-settings-modal" aria-hidden="true">
+        <div class="menu-settings-backdrop" data-close-settings="true"></div>
+        <div class="menu-settings-card">
+          <button id="menu-settings-close" class="menu-settings-close" type="button" aria-label="Close settings">✕</button>
+          <h3>Settings</h3>
+          <div class="settings-section">
+            <div class="settings-row">
+              <span class="settings-label">Sound</span>
+              <button id="sound-toggle-button" class="settings-toggle-button" type="button">On</button>
+            </div>
+
+            <label class="settings-slider-group" for="master-volume-input">
+              <span class="settings-label">Master Volume</span>
+              <input id="master-volume-input" class="settings-slider" type="range" min="0" max="100" value="70">
+            </label>
+
+            <label class="settings-slider-group" for="effects-volume-input">
+              <span class="settings-label">Effects Volume</span>
+              <input id="effects-volume-input" class="settings-slider" type="range" min="0" max="100" value="85">
+            </label>
+          </div>
+          <div class="menu-settings-actions">
+            <button id="reset-name-button" class="settings-action-button" type="button">Reset saved name</button>
+            <button id="reset-local-scores-button" class="settings-action-button" type="button">Reset local scores</button>
           </div>
         </div>
       </div>

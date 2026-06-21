@@ -392,8 +392,7 @@ const modeButtons = document.querySelectorAll(".mode-card");
 const modeGrid = document.getElementById("mode-grid");
 const startButton = document.getElementById("start-button");
 const dailyButton = document.getElementById("daily-button");
-const dailyStatus = document.getElementById("daily-status");
-const helpToggle = document.getElementById("help-toggle");
+const menuHelpButton = document.getElementById("menu-help-button");
 const helpPanel = document.getElementById("help-panel");
 const homeButtons = document.querySelectorAll(".home-button, .end-home-button");
 const playAgainButton = document.getElementById("play-again-button");
@@ -618,11 +617,6 @@ function updateDailyAvailability() {
     "aria-label",
     isLocked ? "Daily challenge already played today" : "Start daily challenge"
   );
-
-  dailyStatus.textContent = isLocked
-    ? "Daily challenge already completed today. A new one unlocks tomorrow."
-    : "";
-  dailyStatus.classList.toggle("hidden", !isLocked);
 }
 
 function updateStats() {
@@ -769,11 +763,6 @@ function updateLeaderboardVisibility() {
   });
 
   updateMistakesLabel();
-
-  if (!hasLeaderboardMode()) {
-    menuScoreboardPanel.classList.remove("open");
-    menuScoreboardToggle.setAttribute("aria-expanded", "false");
-  }
 }
 
 function selectMode(modeKey) {
@@ -864,7 +853,6 @@ function toggleHelpPanel(forceOpen) {
 
   helpPanel.classList.toggle("open", shouldOpen);
   helpPanel.setAttribute("aria-hidden", String(!shouldOpen));
-  helpToggle.setAttribute("aria-expanded", String(shouldOpen));
 }
 
 function goHome() {
@@ -1269,9 +1257,11 @@ function upsertLocalScore(scoreEntry) {
 }
 
 function renderLeaderboardEntries(entries, listElement = leaderboardList, modeElement = leaderboardMode) {
-  modeElement.textContent = isDailyMode()
-    ? `Daily ${getDailyKey()}`
-    : gameModes[selectedModeKey].label;
+  modeElement.textContent = listElement === menuLeaderboardList
+    ? "Infinite"
+    : isDailyMode()
+      ? `Daily ${getDailyKey()}`
+      : gameModes[selectedModeKey].label;
   listElement.innerHTML = "";
 
   if (entries.length === 0) {
@@ -1307,9 +1297,13 @@ async function renderLeaderboard(
   modeElement = leaderboardMode,
   messageElement = saveMessage
 ) {
-  modeElement.textContent = isDailyMode()
-    ? `Daily ${getDailyKey()}`
-    : gameModes[selectedModeKey].label;
+  const renderMenuInfiniteBoard = listElement === menuLeaderboardList;
+
+  modeElement.textContent = renderMenuInfiniteBoard
+    ? "Infinite"
+    : isDailyMode()
+      ? `Daily ${getDailyKey()}`
+      : gameModes[selectedModeKey].label;
   listElement.innerHTML = "";
 
   const loadingItem = document.createElement("li");
@@ -1325,9 +1319,9 @@ async function renderLeaderboard(
   let query = supabaseClient
     .from(leaderboardTable)
     .select("name, score, mode, rounds, created_at")
-    .eq("mode", selectedModeKey);
+    .eq("mode", renderMenuInfiniteBoard ? "infinite" : selectedModeKey);
 
-  if (isDailyMode()) {
+  if (!renderMenuInfiniteBoard && isDailyMode()) {
     const dailyStart = `${getDailyKey()}T00:00:00.000Z`;
     const dailyEnd = `${getDailyKey()}T23:59:59.999Z`;
     query = query.gte("created_at", dailyStart).lte("created_at", dailyEnd);
@@ -1496,7 +1490,9 @@ async function goToNextStep() {
 }
 
 modeButtons.forEach((button) => {
-  button.addEventListener("click", () => selectMode(button.dataset.mode));
+  button.addEventListener("click", () => {
+    selectMode(button.dataset.mode);
+  });
 });
 
 startButton.addEventListener("click", () => {
@@ -1505,21 +1501,22 @@ startButton.addEventListener("click", () => {
 dailyButton.addEventListener("click", () => {
   startGame("daily");
 });
-helpToggle.addEventListener("click", () => toggleHelpPanel());
+menuHelpButton.addEventListener("click", () => {
+  menuScoreboardPanel.classList.remove("open");
+  menuScoreboardToggle.setAttribute("aria-expanded", "false");
+  toggleHelpPanel();
+});
 homeButtons.forEach((button) => {
   button.addEventListener("click", goHome);
 });
 scoreForm.addEventListener("submit", saveCurrentScore);
 menuScoreboardToggle.addEventListener("click", () => {
-  if (!isInfiniteMode()) {
-    return;
-  }
-
+  toggleHelpPanel(false);
   const isOpen = menuScoreboardPanel.classList.toggle("open");
   menuScoreboardToggle.setAttribute("aria-expanded", String(isOpen));
 
   if (isOpen) {
-    renderLeaderboard(menuLeaderboardList, menuLeaderboardMode, null);
+    void renderLeaderboard(menuLeaderboardList, menuLeaderboardMode, null);
   }
 });
 updateLeaderboardVisibility();
@@ -1550,19 +1547,20 @@ document.addEventListener("click", (event) => {
     toggleShareModal(false);
   }
 
-  if (!screens.start.classList.contains("active")) {
-    return;
+  if (event.target instanceof HTMLElement && event.target.dataset.closeHelp === "true") {
+    toggleHelpPanel(false);
   }
 
-  if (!helpPanel.classList.contains("open")) {
-    return;
-  }
+  if (screens.start.classList.contains("active")) {
+    if (
+      helpPanel.classList.contains("open")
+      && !helpPanel.contains(event.target)
+      && !menuHelpButton.contains(event.target)
+    ) {
+      toggleHelpPanel(false);
+    }
 
-  if (helpPanel.contains(event.target) || helpToggle.contains(event.target)) {
-    return;
   }
-
-  toggleHelpPanel(false);
 });
 
 document.addEventListener("keydown", (event) => {
@@ -1573,4 +1571,5 @@ document.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && helpPanel.classList.contains("open")) {
     toggleHelpPanel(false);
   }
+
 });
