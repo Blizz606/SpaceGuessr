@@ -429,6 +429,7 @@ const copyShareButton = document.getElementById("copy-share-button");
 const nativeShareButton = document.getElementById("native-share-button");
 const transitionOverlay = document.getElementById("transition-overlay");
 const transitionText = document.getElementById("transition-text");
+const themeToggle = document.getElementById("theme-toggle");
 const scoreForm = document.getElementById("score-form");
 const savedPlayerName = document.getElementById("saved-player-name");
 const playerNameInput = document.getElementById("player-name");
@@ -447,6 +448,7 @@ const leaderboardTable = "leaderboard";
 const leaderboardStorageKey = "spaceguessr-leaderboard";
 const playerNameStorageKey = "spaceguessr-player-name";
 const dailyPlayedStorageKey = "spaceguessr-daily-played";
+const gameThemeStorageKey = "spaceguessr-game-theme";
 const supabaseClient = window.supabase
   ? window.supabase.createClient(supabaseUrl, supabaseAnonKey)
   : null;
@@ -501,6 +503,22 @@ function getSupabaseErrorMessage(error, fallbackText) {
   return details
     ? `${fallbackText} (${details})`
     : fallbackText;
+}
+
+function applyGameTheme(themeName) {
+  const isDarkTheme = themeName === "dark";
+  document.body.classList.toggle("game-ui-dark", isDarkTheme);
+  themeToggle.setAttribute("aria-pressed", String(isDarkTheme));
+  themeToggle.setAttribute(
+    "aria-label",
+    isDarkTheme ? "Switch game UI to light mode" : "Switch game UI to dark mode"
+  );
+  localStorage.setItem(gameThemeStorageKey, isDarkTheme ? "dark" : "light");
+}
+
+function loadGameTheme() {
+  const savedTheme = localStorage.getItem(gameThemeStorageKey);
+  applyGameTheme(savedTheme === "dark" ? "dark" : "light");
 }
 
 function isInfiniteMode() {
@@ -1491,6 +1509,11 @@ modeButtons.forEach((button) => {
   });
 });
 
+themeToggle.addEventListener("click", () => {
+  const nextTheme = document.body.classList.contains("game-ui-dark") ? "light" : "dark";
+  applyGameTheme(nextTheme);
+});
+
 startButton.addEventListener("click", () => {
   startGame(selectedModeKey);
 });
@@ -1510,6 +1533,7 @@ menuScoreboardToggle.addEventListener("click", () => {
   }
 });
 selectMode(selectedModeKey);
+loadGameTheme();
 updateLeaderboardVisibility();
 updateDailyAvailability();
 updateStreakLabel();

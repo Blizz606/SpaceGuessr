@@ -142,6 +142,13 @@
             <div class="hint-row">
               <button id="hint-button" class="hint-button" type="button" aria-label="Use hint">
                 <span class="hint-icon" aria-hidden="true">💡</span>
+                <span class="hint-icon lucide-hint-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 18h6"></path>
+                    <path d="M10 22h4"></path>
+                    <path d="M12 2a7 7 0 0 0-4 12.75c.53.39.97 1.02 1.12 1.75L9.25 17h5.5l.13-.5c.15-.73.6-1.36 1.12-1.75A7 7 0 0 0 12 2z"></path>
+                  </svg>
+                </span>
                 <span id="hint-count" class="hint-count">2</span>
               </button>
             </div>
@@ -259,6 +266,32 @@
         <p id="transition-text" class="transition-text">Loading mission...</p>
       </div>
     </div>
+
+    <button id="theme-toggle" class="theme-toggle" type="button" aria-pressed="false" aria-label="Switch game UI to dark mode">
+      <span class="theme-toggle-track">
+        <span class="theme-toggle-icon theme-toggle-icon-sun" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2.5"></path>
+            <path d="M12 19.5V22"></path>
+            <path d="M4.93 4.93l1.77 1.77"></path>
+            <path d="M17.3 17.3l1.77 1.77"></path>
+            <path d="M2 12h2.5"></path>
+            <path d="M19.5 12H22"></path>
+            <path d="M4.93 19.07l1.77-1.77"></path>
+            <path d="M17.3 6.7l1.77-1.77"></path>
+          </svg>
+        </span>
+        <span class="theme-toggle-thumb" aria-hidden="true">
+          <span class="theme-toggle-thumb-core"></span>
+        </span>
+        <span class="theme-toggle-icon theme-toggle-icon-moon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3a6 6 0 1 0 9 9 9 9 0 1 1-9-9z"></path>
+          </svg>
+        </span>
+      </span>
+    </button>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
