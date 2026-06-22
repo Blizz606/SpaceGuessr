@@ -57,11 +57,12 @@
               <span class="mode-meta">Endless</span>
             </button>
           </div>
+          <p id="mode-description" class="mode-description">Balanced 5-round run with enough time to think.</p>
 
           <button id="start-button" class="primary-button start-game-button">Start Classic</button>
 
           <div class="menu-quick-links">
-            <button id="menu-help-button" class="menu-link-button" type="button">How to Play</button>
+            <a class="menu-link-anchor" href="https://github.com/Blizz606" target="_blank" rel="noreferrer">Developer</a>
             <span class="menu-link-dot" aria-hidden="true">·</span>
             <button id="menu-scoreboard-toggle" class="menu-link-button" type="button" aria-expanded="false">Leaderboard</button>
             <span class="menu-link-dot" aria-hidden="true">·</span>
@@ -114,43 +115,6 @@
         </div>
       </div>
 
-      <!-- Tiny help area for when it suddenly gets confusing -->
-      <div class="help-fab-wrap">
-        <button
-          id="help-toggle"
-          class="help-fab"
-          type="button"
-          aria-expanded="false"
-          aria-controls="help-panel"
-          aria-label="Open help"
-        >
-          <span class="help-fab-icon" aria-hidden="true">?</span>
-          <span class="help-fab-label">Help</span>
-        </button>
-        <aside id="help-panel" class="help-panel" aria-hidden="true">
-          <div class="help-panel-top">
-            <p class="help-kicker">How To Play</p>
-            <span class="help-badge">Menu Guide</span>
-          </div>
-          <h3>SpaceGuessr Guide</h3>
-          <p class="help-copy">Pick a mode, study the image, and choose the answer that best matches the place or object in space.</p>
-          <ul class="help-list">
-            <li><strong>Quick</strong>: short 3-round run.</li>
-            <li><strong>Classic</strong>: the standard 5-round game.</li>
-            <li><strong>Timed</strong>: 5 rounds with 10 seconds per image.</li>
-            <li><strong>Infinite</strong>: keep going until you run out of misses.</li>
-            <li><strong>Daily</strong>: one shared image per day.</li>
-          </ul>
-          <a
-            class="help-link"
-            href="https://github.com/Blizz606/SpaceGuessr"
-            target="_blank"
-            rel="noreferrer"
-          >
-            View GitHub docs
-          </a>
-        </aside>
-      </div>
     </section>
 
     <!-- The actual game part. At this point you're really intrested. Dont ya? -->

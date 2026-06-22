@@ -352,32 +352,37 @@ const gameModes = {
     label: "Quick",
     rounds: 3,
     index: 0,
-    hints: 1
+    hints: 1,
+    description: "Fast 3-round sprint when you just want a quick run."
   },
   classic: {
     label: "Classic",
     rounds: 5,
     index: 1,
-    hints: 2
+    hints: 2,
+    description: "Balanced 5-round run with enough time to think."
   },
   timed: {
     label: "Timed",
     rounds: 5,
     index: 2,
     hints: 1,
-    seconds: 10
+    seconds: 10,
+    description: "Five rounds, but only 10 seconds each, so trust your gut."
   },
   daily: {
     label: "Daily",
     rounds: 1,
     index: null,
-    hints: 1
+    hints: 1,
+    description: "One shared image per day, same challenge for everyone."
   },
   infinite: {
     label: "Infinite",
     rounds: Infinity,
     index: 3,
-    hints: 3
+    hints: 3,
+    description: "Keep guessing until the mistake bar is completely gone."
   }
 };
 
@@ -390,10 +395,9 @@ const screens = {
 
 const modeButtons = document.querySelectorAll(".mode-card");
 const modeGrid = document.getElementById("mode-grid");
+const modeDescription = document.getElementById("mode-description");
 const startButton = document.getElementById("start-button");
 const dailyButton = document.getElementById("daily-button");
-const menuHelpButton = document.getElementById("menu-help-button");
-const helpPanel = document.getElementById("help-panel");
 const homeButtons = document.querySelectorAll(".home-button, .end-home-button");
 const playAgainButton = document.getElementById("play-again-button");
 const nextButton = document.getElementById("next-button");
@@ -777,6 +781,8 @@ function selectMode(modeKey) {
   if (selectedIndex !== null) {
     modeGrid.style.setProperty("--selected-mode-index", selectedIndex);
   }
+
+  modeDescription.textContent = gameModes[selectedModeKey].description;
   startButton.textContent = `Start ${gameModes[selectedModeKey].label}`;
   updateLeaderboardVisibility();
 
@@ -846,15 +852,6 @@ function buildInitialGameDeck() {
   return Array.from({ length: totalRounds }, () => drawRandomQuestion());
 }
 
-function toggleHelpPanel(forceOpen) {
-  const shouldOpen = typeof forceOpen === "boolean"
-    ? forceOpen
-    : !helpPanel.classList.contains("open");
-
-  helpPanel.classList.toggle("open", shouldOpen);
-  helpPanel.setAttribute("aria-hidden", String(!shouldOpen));
-}
-
 function goHome() {
   clearTimeout(gameOverTimer);
   clearTimeout(streakFeedbackTimer);
@@ -864,7 +861,6 @@ function goHome() {
   nextButton.disabled = false;
   nextButton.classList.remove("hidden", "staged");
   setTransitionState(false);
-  toggleHelpPanel(false);
   toggleShareModal(false);
   updateDailyAvailability();
   showScreen("start");
@@ -1501,17 +1497,11 @@ startButton.addEventListener("click", () => {
 dailyButton.addEventListener("click", () => {
   startGame("daily");
 });
-menuHelpButton.addEventListener("click", () => {
-  menuScoreboardPanel.classList.remove("open");
-  menuScoreboardToggle.setAttribute("aria-expanded", "false");
-  toggleHelpPanel();
-});
 homeButtons.forEach((button) => {
   button.addEventListener("click", goHome);
 });
 scoreForm.addEventListener("submit", saveCurrentScore);
 menuScoreboardToggle.addEventListener("click", () => {
-  toggleHelpPanel(false);
   const isOpen = menuScoreboardPanel.classList.toggle("open");
   menuScoreboardToggle.setAttribute("aria-expanded", String(isOpen));
 
@@ -1519,6 +1509,7 @@ menuScoreboardToggle.addEventListener("click", () => {
     void renderLeaderboard(menuLeaderboardList, menuLeaderboardMode, null);
   }
 });
+selectMode(selectedModeKey);
 updateLeaderboardVisibility();
 updateDailyAvailability();
 updateStreakLabel();
@@ -1546,30 +1537,10 @@ document.addEventListener("click", (event) => {
   if (event.target instanceof HTMLElement && event.target.dataset.closeShare === "true") {
     toggleShareModal(false);
   }
-
-  if (event.target instanceof HTMLElement && event.target.dataset.closeHelp === "true") {
-    toggleHelpPanel(false);
-  }
-
-  if (screens.start.classList.contains("active")) {
-    if (
-      helpPanel.classList.contains("open")
-      && !helpPanel.contains(event.target)
-      && !menuHelpButton.contains(event.target)
-    ) {
-      toggleHelpPanel(false);
-    }
-
-  }
 });
 
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && shareModal.classList.contains("open")) {
     toggleShareModal(false);
   }
-
-  if (event.key === "Escape" && helpPanel.classList.contains("open")) {
-    toggleHelpPanel(false);
-  }
-
 });
