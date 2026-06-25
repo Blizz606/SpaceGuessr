@@ -374,7 +374,7 @@ const gameModes = {
     label: "Daily",
     rounds: 1,
     index: null,
-    hints: 1,
+    hints: 0,
     description: "One shared image per day, same challenge for everyone."
   },
   infinite: {
@@ -412,6 +412,7 @@ const feedbackPanel = document.getElementById("feedback-panel");
 const feedbackText = document.getElementById("feedback-text");
 const factText = document.getElementById("fact-text");
 const sourceText = document.getElementById("source-text");
+const hintRow = document.querySelector(".hint-row");
 const hintButton = document.getElementById("hint-button");
 const hintCount = document.getElementById("hint-count");
 const finalHeading = document.getElementById("final-heading");
@@ -538,6 +539,12 @@ function hasLeaderboardMode() {
 }
 
 function updateHintUI() {
+  hintRow.classList.toggle("hidden", isDailyMode());
+
+  if (isDailyMode()) {
+    return;
+  }
+
   hintButton.disabled = hasAnswered || usedHintThisRound || hintsLeft <= 0;
   hintCount.textContent = String(hintsLeft);
 
@@ -591,6 +598,10 @@ function startRoundTimer() {
 }
 
 function useHint() {
+  if (isDailyMode()) {
+    return;
+  }
+
   if (hasAnswered || usedHintThisRound || hintsLeft <= 0) {
     return;
   }
@@ -817,6 +828,19 @@ function showScreen(screenName) {
   screens[screenName].classList.add("active");
 }
 
+function isScreenActive(screenName) {
+  return screens[screenName].classList.contains("active");
+}
+
+function isTypingTarget(target) {
+  return target instanceof HTMLElement
+    && (
+      target.tagName === "INPUT"
+      || target.tagName === "TEXTAREA"
+      || target.isContentEditable
+    );
+}
+
 function setTransitionState(isVisible, label = "Loading mission...") {
   transitionText.textContent = label;
   transitionOverlay.classList.toggle("visible", isVisible);
@@ -882,6 +906,25 @@ function goHome() {
   toggleShareModal(false);
   updateDailyAvailability();
   showScreen("start");
+}
+
+function getAnswerButtons() {
+  return Array.from(answersContainer.querySelectorAll(".answer-button"));
+}
+
+function handleKeyboardAnswer(answerIndex) {
+  if (!isScreenActive("game") || hasAnswered) {
+    return;
+  }
+
+  const answerButtons = getAnswerButtons();
+  const selectedButton = answerButtons[answerIndex];
+
+  if (!selectedButton || selectedButton.disabled) {
+    return;
+  }
+
+  void handleAnswer(selectedButton, selectedButton.textContent);
 }
 
 function shuffleArray(items) {
@@ -1566,5 +1609,21 @@ document.addEventListener("click", (event) => {
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && shareModal.classList.contains("open")) {
     toggleShareModal(false);
+    return;
+  }
+
+  if (isTypingTarget(event.target)) {
+    return;
+  }
+
+  if (event.key >= "1" && event.key <= "4") {
+    event.preventDefault();
+    handleKeyboardAnswer(Number(event.key) - 1);
+    return;
+  }
+
+  if (event.key === "Enter" && isScreenActive("game") && hasAnswered && !nextButton.disabled) {
+    event.preventDefault();
+    nextButton.click();
   }
 });
