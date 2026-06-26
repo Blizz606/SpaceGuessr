@@ -37,30 +37,40 @@
         <img class="main-logo" src="media/SpaceGuesrr.png" alt="SpaceGuessr logo">
 
         <div class="panel intro-panel">
-          <!-- Pick your level, need to be refined later -->
-          <div class="mode-grid" id="mode-grid" aria-label="Choose game mode">
-            <div class="mode-indicator" aria-hidden="true"></div>
-            <button class="mode-card" data-mode="quick">
-              <span class="mode-name">Quick</span>
-              <span class="mode-meta">3 rounds</span>
-            </button>
-            <button class="mode-card selected" data-mode="classic">
-              <span class="mode-name">Classic</span>
-              <span class="mode-meta">5 rounds</span>
-            </button>
-            <button class="mode-card" data-mode="timed">
-              <span class="mode-name">Timed</span>
-              <span class="mode-meta">10 sec</span>
-            </button>
-            <button class="mode-card" data-mode="infinite">
-              <span class="mode-name">Infinite</span>
-              <span class="mode-meta">Endless</span>
-            </button>
+          <div class="menu-card-header">
+            <h2 class="menu-card-title">Game Mode</h2>
           </div>
-          <p id="mode-description" class="mode-description">Balanced 5-round run with enough time to think.</p>
+
+          <!-- Pick your level, need to be refined later -->
+          <div class="menu-mode-section">
+            <div class="mode-grid" id="mode-grid" aria-label="Choose game mode">
+              <div class="mode-indicator" aria-hidden="true"></div>
+              <button class="mode-card" data-mode="quick">
+                <span class="mode-name">Quick</span>
+                <span class="mode-meta">3 rounds</span>
+              </button>
+              <button class="mode-card selected" data-mode="classic">
+                <span class="mode-name">Classic</span>
+                <span class="mode-meta">5 rounds</span>
+              </button>
+              <button class="mode-card" data-mode="timed">
+                <span class="mode-name">Timed</span>
+                <span class="mode-meta">10 sec</span>
+              </button>
+              <button class="mode-card" data-mode="infinite">
+                <span class="mode-name">Infinite</span>
+                <span class="mode-meta">Endless</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="menu-mode-info">
+            <p id="mode-description" class="mode-description">Balanced 5-round run with enough time to think.</p>
+          </div>
 
           <button id="start-button" class="primary-button start-game-button">Start Classic</button>
 
+          <div class="menu-card-footer">
           <div class="menu-quick-links">
             <a class="menu-link-anchor" href="https://github.com/Blizz606" target="_blank" rel="noreferrer">Developer</a>
             <span class="menu-link-dot" aria-hidden="true">·</span>
@@ -79,6 +89,7 @@
                 <ol id="menu-leaderboard-list" class="leaderboard-list"></ol>
               </div>
             </div>
+          </div>
           </div>
         </div>
 

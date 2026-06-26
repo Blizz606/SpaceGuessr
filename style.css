@@ -418,21 +418,21 @@ button {
 .intro-panel {
   position: relative;
   isolation: isolate;
-  width: min(720px, 100%);
-  padding: 54px 36px 36px;
+  width: min(780px, 100%);
+  padding: 56px 42px 38px;
   text-align: center;
-  border-radius:30px;
+  border-radius: 32px;
   background:
-    radial-gradient(circle at 50% 0%, rgba(196, 228, 255, 0.28), transparent 30%),
-    linear-gradient(180deg, rgba(215, 236, 255, 0.2), rgba(179, 214, 255, 0.1) 24%, rgba(32, 67, 118, 0.14) 58%, rgba(9, 20, 44, 0.42)),
-    rgba(14, 28, 56, 0.32);
+    radial-gradient(circle at 50% 0%, rgba(196, 228, 255, 0.3), transparent 32%),
+    linear-gradient(180deg, rgba(222, 240, 255, 0.2), rgba(193, 220, 248, 0.12) 22%, rgba(32, 67, 118, 0.14) 56%, rgba(9, 20, 44, 0.44)),
+    rgba(14, 28, 56, 0.36);
   backdrop-filter: blur(22px) saturate(140%);
   -webkit-backdrop-filter: blur(22px) saturate(140%);
-  border: 1px solid rgba(207, 231, 255, 0.26);
+  border: 1px solid rgba(207, 231, 255, 0.3);
   box-shadow:
     0 0 0 1px rgba(255, 255, 255, 0.06),
-    0 28px 80px rgba(6, 16, 34, 0.38),
-    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    0 34px 95px rgba(6, 16, 34, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
   overflow: hidden;
   animation: panelFloatIn 0.72s var(--ease-smooth) both;
 }
@@ -442,11 +442,11 @@ button {
   z-index: 1;
   display: grid;
   justify-items: center;
-  gap: 18px;
-  grid-template-columns: minmax(520px, 720px);
+  gap: 20px;
+  grid-template-columns: minmax(560px, 780px);
   justify-content: center;
   align-items: start;
-  width: min(720px, 100%);
+  width: min(780px, 100%);
 }
 
 .main-logo {
@@ -458,6 +458,36 @@ button {
   transform: scale(3.35);
   transform-origin: center;
   animation: logoSettle 0.85s var(--ease-smooth) both;
+}
+
+.menu-card-header {
+  display: grid;
+  gap: 6px;
+  justify-items: center;
+}
+
+.menu-card-title {
+  margin: 0;
+  font-size: clamp(1.75rem, 3.7vw, 2.5rem);
+  letter-spacing: 0.04em;
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.14),
+    0 10px 22px rgba(0, 0, 0, 0.16);
+}
+
+.menu-mode-section {
+  margin-top: 28px;
+}
+
+.menu-mode-info {
+  margin-top: 18px;
+  padding: 16px 18px 0;
+}
+
+.menu-card-footer {
+  margin-top: 30px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(214, 232, 255, 0.1);
 }
 
 h1,
@@ -1266,7 +1296,7 @@ h2 {
 }
 
 .start-game-button {
-  margin-top: 38px;
+  margin-top: 30px;
   background:
     linear-gradient(180deg, rgba(244, 250, 255, 0.96), rgba(211, 229, 247, 0.9));
   color: #0d1c33;
@@ -1297,7 +1327,7 @@ h2 {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  margin-top: 24px;
+  margin-top: 0;
   color: rgba(232, 242, 255, 0.72);
   flex-wrap: wrap;
 }
@@ -1648,7 +1678,7 @@ h2 {
   grid-template-columns: repeat(var(--mode-count), minmax(0, 1fr));
   gap: 0;
   position: relative;
-  margin-top: 28px;
+  margin-top: 0;
   padding: 2px;
   border-radius: 18px;
   background: rgba(214, 234, 255, 0.08);
@@ -1735,12 +1765,12 @@ h2 {
 }
 
 .mode-description {
-  margin: 14px auto 0;
-  max-width: 34rem;
+  margin: 0 auto;
+  max-width: 38rem;
   min-height: 1.6em;
-  color: rgba(233, 242, 255, 0.78);
-  font-size: 0.9rem;
-  line-height: 1.6;
+  color: rgba(233, 242, 255, 0.82);
+  font-size: 0.95rem;
+  line-height: 1.7;
   text-align: center;
 }
 
@@ -2844,6 +2874,28 @@ body.game-ui-dark .streak-pill::before {
   .intro-panel {
     padding: 32px 16px 24px;
     border-radius: 22px;
+  }
+
+  .menu-card-header {
+    gap: 4px;
+  }
+
+  .menu-card-title {
+    font-size: 1.7rem;
+  }
+
+  .menu-mode-section {
+    margin-top: 22px;
+  }
+
+  .menu-mode-info {
+    margin-top: 14px;
+    padding: 10px 8px 0;
+  }
+
+  .menu-card-footer {
+    margin-top: 24px;
+    padding-top: 16px;
   }
 
   .start-layout {
