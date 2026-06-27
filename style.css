@@ -1715,11 +1715,14 @@ h2 {
   border-radius: 0;
   background: transparent;
   border: 0;
-  color: rgba(235, 244, 255, 0.94);
+  color: rgba(235, 244, 255, 0.92);
   text-align: center;
+  opacity: 0.8;
   transition:
     background 0.48s var(--ease-soft),
     color 0.48s var(--ease-soft),
+    opacity 0.48s var(--ease-soft),
+    box-shadow 0.48s var(--ease-soft),
     transform 0.48s var(--ease-smooth);
 }
 
@@ -1733,6 +1736,7 @@ h2 {
 
 .mode-card:hover {
   background: rgba(226, 240, 255, 0.03);
+  opacity: 0.96;
   transform: translateY(-1px);
 }
 
@@ -1740,6 +1744,8 @@ h2 {
   background: transparent;
   border-color: transparent;
   color: #000000;
+  opacity: 1;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.38);
 }
 
 .mode-card.selected:hover {
@@ -1762,6 +1768,14 @@ h2 {
   font-size: 0.8rem;
   font-weight: 700;
   opacity: 0.58;
+}
+
+.mode-card.selected .mode-name {
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.24);
+}
+
+.mode-card.selected .mode-meta {
+  opacity: 0.66;
 }
 
 .mode-description {
@@ -3035,6 +3049,7 @@ body.game-ui-dark .streak-pill::before {
   .mode-card.selected {
     background: #ffffff;
     color: #000000;
+    opacity: 1;
   }
 
   .mode-card {
@@ -3042,11 +3057,13 @@ body.game-ui-dark .streak-pill::before {
     padding: 11px 13px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 12px;
     text-align: left;
     color: #ffffff;
+    opacity: 0.86;
     transform: none;
-    transition: background 0.18s ease, border-color 0.18s ease;
+    transition: background 0.18s ease, border-color 0.18s ease, opacity 0.18s ease;
   }
 
   .mode-card::after {
