@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="favicon.ico">
 
-  <!-- Stuff for previews when the link gets posted into Discord or somewhere -->
+  <!-- Preview data for Discord, Twitter and the usual link-card chaos -->
   <meta property="og:title" content="SpaceGuessr">
   <meta property="og:description" content="GeoGuessr, but in space. Guess planets, galaxies and NASA images!">
   <meta property="og:image" content="https://blizz606.github.io/SpaceGuessr/preview.png">
@@ -22,7 +22,7 @@
   <meta property="og:url" content="https://blizz606.github.io/SpaceGuessr/">
   <meta property="og:type" content="website">
 
-  <!-- Same idea again, but for Twitter .... Im mean X -->
+  <!-- Same thing again, just for Twitter/X -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="SpaceGuessr">
   <meta name="twitter:description" content="GeoGuessr, but in space. Guess planets, galaxies and NASA images!">
@@ -31,28 +31,32 @@
 
 <body>
   <main class="app-shell">
-    <!-- Main menu. Very important. Without this the game starts by just idk. existing. -->
+    <!-- Start screen / main menu -->
     <section id="start-screen" class="screen active">
       <div class="start-layout">
         <img class="main-logo" src="media/SpaceGuesrr.png" alt="SpaceGuessr logo">
 
         <div class="panel intro-panel">
-          <!-- Pick your level, need to be refined later -->
+          <!-- Mode picker. Basically: how do you want to suffer today? -->
           <div class="menu-mode-section">
             <div class="mode-grid" id="mode-grid" aria-label="Choose game mode">
               <div class="mode-indicator" aria-hidden="true"></div>
+
               <button class="mode-card" data-mode="quick">
                 <span class="mode-name">Quick</span>
                 <span class="mode-meta">3 rounds</span>
               </button>
+
               <button class="mode-card selected" data-mode="classic">
                 <span class="mode-name">Classic</span>
                 <span class="mode-meta">5 rounds</span>
               </button>
+
               <button class="mode-card" data-mode="timed">
                 <span class="mode-name">Timed</span>
-                <span class="mode-meta">10 sec</span>
+                <span class="mode-meta">10s</span>
               </button>
+
               <button class="mode-card" data-mode="infinite">
                 <span class="mode-name">Infinite</span>
                 <span class="mode-meta">Endless</span>
@@ -60,45 +64,51 @@
             </div>
           </div>
 
+          <!-- Short text for the currently selected mode -->
           <div class="menu-mode-info">
             <p id="mode-description" class="mode-description">Balanced 5-round run with enough time to think.</p>
           </div>
 
+          <!-- Main start button -->
           <button id="start-button" class="primary-button start-game-button">Start Classic</button>
 
+          <!-- Small footer area with links and the collapsible leaderboard -->
           <div class="menu-card-footer">
-          <div class="menu-quick-links">
-            <a class="menu-link-anchor" href="https://github.com/Blizz606" target="_blank" rel="noreferrer">Developer</a>
-            <span class="menu-link-dot" aria-hidden="true">·</span>
-            <button id="menu-scoreboard-toggle" class="menu-link-button" type="button" aria-expanded="false">Leaderboard</button>
-            <span class="menu-link-dot" aria-hidden="true">·</span>
-            <a class="menu-link-anchor" href="https://github.com/Blizz606/SpaceGuessr" target="_blank" rel="noreferrer">Documentation</a>
-          </div>
+            <div class="menu-quick-links">
+              <a class="menu-link-anchor" href="https://github.com/Blizz606" target="_blank" rel="noreferrer">Developer</a>
+              <span class="menu-link-dot" aria-hidden="true">&middot;</span>
+              <button id="menu-scoreboard-toggle" class="menu-link-button" type="button" aria-expanded="false">Leaderboard</button>
+              <span class="menu-link-dot" aria-hidden="true">&middot;</span>
+              <a class="menu-link-anchor" href="https://github.com/Blizz606/SpaceGuessr" target="_blank" rel="noreferrer">Documentation</a>
+            </div>
 
-          <div class="menu-scoreboard">
-            <div id="menu-scoreboard-panel" class="scoreboard-collapse">
-              <div class="leaderboard-panel menu-leaderboard-panel">
-                <div class="leaderboard-header">
-                  <h3>Global leaderboard</h3>
-                  <span id="menu-leaderboard-mode">Infinite</span>
+            <div class="menu-scoreboard">
+              <div id="menu-scoreboard-panel" class="scoreboard-collapse">
+                <div class="leaderboard-panel menu-leaderboard-panel">
+                  <div class="leaderboard-header">
+                    <h3>Global leaderboard</h3>
+                    <span id="menu-leaderboard-mode">Infinite</span>
+                  </div>
+                  <ol id="menu-leaderboard-list" class="leaderboard-list"></ol>
                 </div>
-                <ol id="menu-leaderboard-list" class="leaderboard-list"></ol>
               </div>
             </div>
           </div>
-          </div>
         </div>
 
+        <!-- Daily mode stays outside the main card so it feels more special -->
         <button id="daily-button" class="daily-chip" type="button">
           <span>Daily Mode</span>
         </button>
       </div>
 
+      <!-- Old settings shell. Not super active right now, but future-me might want it. -->
       <div id="menu-settings-panel" class="menu-settings-modal" aria-hidden="true">
         <div class="menu-settings-backdrop" data-close-settings="true"></div>
         <div class="menu-settings-card">
-          <button id="menu-settings-close" class="menu-settings-close" type="button" aria-label="Close settings">✕</button>
+          <button id="menu-settings-close" class="menu-settings-close" type="button" aria-label="Close settings">&times;</button>
           <h3>Settings</h3>
+
           <div class="settings-section">
             <div class="settings-row">
               <span class="settings-label">Sound</span>
@@ -115,18 +125,19 @@
               <input id="effects-volume-input" class="settings-slider" type="range" min="0" max="100" value="85">
             </label>
           </div>
+
           <div class="menu-settings-actions">
             <button id="reset-name-button" class="settings-action-button" type="button">Reset saved name</button>
             <button id="reset-local-scores-button" class="settings-action-button" type="button">Reset local scores</button>
           </div>
         </div>
       </div>
-
     </section>
 
-    <!-- The actual game part. At this point you're really intrested. Dont ya? -->
+    <!-- Main game screen -->
     <section id="game-screen" class="screen">
       <div class="game-panel">
+        <!-- Top info bar with round / score / streak / timer -->
         <header class="game-header">
           <button class="home-button" type="button" aria-label="Back to menu">Home</button>
           <div class="status-pill" id="round-label">Round 1 / 5</div>
@@ -136,19 +147,22 @@
           <div class="status-pill" id="score-label">Score: 0</div>
         </header>
 
+        <!-- Fullscreen image area -->
         <div class="image-frame">
           <img id="space-image" src="" alt="A space scene to identify">
         </div>
 
+        <!-- Bottom game dock with prompt, hint, feedback and answers -->
         <div class="bottom-dock">
           <div class="dock-top">
             <div class="prompt-block">
               <p class="prompt-label">Where are you?</p>
             </div>
 
+            <!-- The plain text hint icon is hidden in CSS. SVG one is the real star here. -->
             <div class="hint-row">
               <button id="hint-button" class="hint-button" type="button" aria-label="Use hint">
-                <span class="hint-icon" aria-hidden="true">💡</span>
+                <span class="hint-icon" aria-hidden="true">Hint</span>
                 <span class="hint-icon lucide-hint-icon" aria-hidden="true">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M9 18h6"></path>
@@ -163,6 +177,7 @@
 
           <div class="prompt-spacer"></div>
 
+          <!-- Feedback opens after you answer -->
           <div id="feedback-panel" class="feedback-panel">
             <p id="feedback-text" class="feedback-text"></p>
             <p id="fact-text" class="fact-text"></p>
@@ -173,42 +188,47 @@
             </button>
           </div>
 
+          <!-- JS injects the answer buttons here every round -->
           <div id="answers-container" class="answers-grid"></div>
         </div>
       </div>
     </section>
 
-    <!-- End screen. Roast. -->
+    <!-- End / result screen -->
     <section id="end-screen" class="screen">
       <div class="panel end-panel intro-panel">
+        <!-- Big score hero area -->
         <div class="score-hero">
-          <!-- <p class="eyebrow">Mission Complete</p> -->
           <div id="rank-badge" class="rank-badge">
-            <span class="rank-badge-icon" aria-hidden="true">☄</span>
+            <span class="rank-badge-icon" aria-hidden="true">Rank</span>
             <span id="rating-text" class="rank-badge-text">Space Noob</span>
           </div>
           <h2 id="final-heading">Your final score</h2>
           <p id="final-score" class="score-value">0 pts</p>
         </div>
 
+        <!-- Small summary cards -->
         <div class="end-stats-panel">
           <div class="end-stat">
-            <span class="end-stat-icon" aria-hidden="true">✓</span>
+            <span class="end-stat-icon" aria-hidden="true">OK</span>
             <span class="end-stat-label">Correct</span>
             <span id="end-stat-correct" class="end-stat-value">0</span>
           </div>
+
           <div class="end-stat">
-            <span class="end-stat-icon" aria-hidden="true">✕</span>
+            <span class="end-stat-icon" aria-hidden="true">X</span>
             <span class="end-stat-label">Wrong</span>
             <span id="end-stat-wrong" class="end-stat-value">0</span>
           </div>
+
           <div class="end-stat">
-            <span class="end-stat-icon" aria-hidden="true">◎</span>
+            <span class="end-stat-icon" aria-hidden="true">%</span>
             <span class="end-stat-label">Accuracy</span>
             <span id="end-stat-accuracy" class="end-stat-value">0%</span>
           </div>
         </div>
 
+        <!-- Leaderboard save form. Only used in modes where that makes sense. -->
         <form id="score-form" class="score-form leaderboard-only hidden">
           <div class="score-form-shell">
             <div class="score-form-topline">
@@ -217,14 +237,18 @@
             </div>
             <label class="score-label" for="player-name">Save your score</label>
           </div>
+
           <p id="saved-player-name" class="saved-player-name"></p>
+
           <div class="score-input-row">
             <input id="player-name" class="score-input" type="text" maxlength="18" placeholder="Your name" autocomplete="off">
             <button class="save-score-button" type="submit">Save</button>
           </div>
+
           <p id="save-message" class="save-message" aria-live="polite"></p>
         </form>
 
+        <!-- Endscreen leaderboard -->
         <div class="leaderboard-panel end-leaderboard-panel leaderboard-only hidden">
           <div class="leaderboard-header">
             <h3>Global leaderboard</h3>
@@ -233,6 +257,7 @@
           <ol id="leaderboard-list" class="leaderboard-list"></ol>
         </div>
 
+        <!-- Final action buttons -->
         <div class="end-actions">
           <div class="end-action-row">
             <button id="play-again-button" class="primary-button">Play Again</button>
@@ -243,10 +268,12 @@
       </div>
     </section>
 
+    <!-- Share popup -->
     <div id="share-modal" class="share-modal hidden" aria-hidden="true">
       <div class="share-modal-backdrop" data-close-share="true"></div>
       <div class="share-modal-card" role="dialog" aria-modal="true" aria-labelledby="share-modal-title">
-        <button id="close-share-button" class="share-close-button" type="button" aria-label="Close share popup">✕</button>
+        <button id="close-share-button" class="share-close-button" type="button" aria-label="Close share popup">&times;</button>
+
         <div class="share-modal-head">
           <h3 id="share-modal-title">Post your run</h3>
         </div>
@@ -266,7 +293,7 @@
       </div>
     </div>
 
-    <!-- Small loading thing so stuff does not just pop in out of nowhere -->
+    <!-- Small loading overlay so rounds do not just teleport in -->
     <div id="transition-overlay" class="transition-overlay" aria-hidden="true">
       <div class="transition-card">
         <span class="transition-spinner" aria-hidden="true"></span>
@@ -274,6 +301,7 @@
       </div>
     </div>
 
+    <!-- Light / dark mode switch for the game UI -->
     <button id="theme-toggle" class="theme-toggle" type="button" aria-pressed="false" aria-label="Switch game UI to dark mode">
       <span class="theme-toggle-track">
         <span class="theme-toggle-icon theme-toggle-icon-sun" aria-hidden="true">
@@ -289,9 +317,11 @@
             <path d="M17.3 6.7l1.77-1.77"></path>
           </svg>
         </span>
+
         <span class="theme-toggle-thumb" aria-hidden="true">
           <span class="theme-toggle-thumb-core"></span>
         </span>
+
         <span class="theme-toggle-icon theme-toggle-icon-moon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 3a6 6 0 1 0 9 9 9 9 0 1 1-9-9z"></path>
@@ -301,6 +331,7 @@
     </button>
   </main>
 
+  <!-- Supabase comes from CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="script.js"></script>
 </body>
