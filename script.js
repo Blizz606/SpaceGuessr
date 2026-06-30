@@ -353,14 +353,14 @@ const gameModes = {
     rounds: 3,
     index: 0,
     hints: 1,
-    description: "Fast 3-round sprint when you just want a quick run."
+    description: "A fast 3-round run for a quick challenge."
   },
   classic: {
     label: "Classic",
     rounds: 5,
     index: 1,
     hints: 2,
-    description: "Balanced 5-round run with enough time to think."
+    description: "The standard experience with 5 rounds."
   },
   timed: {
     label: "Timed",
@@ -368,7 +368,7 @@ const gameModes = {
     index: 2,
     hints: 1,
     seconds: 10,
-    description: "Five rounds, but only 10 seconds each, so trust your gut."
+    description: "Race against the clock and answer before time runs out."
   },
   daily: {
     label: "Daily",
@@ -382,7 +382,7 @@ const gameModes = {
     rounds: Infinity,
     index: 3,
     hints: 3,
-    description: "Keep guessing until the mistake bar is completely gone."
+    description: "Keep going as long as you can."
   }
 };
 
@@ -393,6 +393,8 @@ const screens = {
   end: document.getElementById("end-screen")
 };
 
+const gamePanel = document.querySelector(".game-panel");
+const endPanel = document.querySelector(".end-panel");
 const modeButtons = document.querySelectorAll(".mode-card");
 const modeGrid = document.getElementById("mode-grid");
 const modeDescription = document.getElementById("mode-description");
@@ -442,6 +444,15 @@ const menuScoreboardPanel = document.getElementById("menu-scoreboard-panel");
 const menuLeaderboardList = document.getElementById("menu-leaderboard-list");
 const menuLeaderboardMode = document.getElementById("menu-leaderboard-mode");
 const leaderboardOnlyElements = document.querySelectorAll(".leaderboard-only");
+
+const uiStateTargets = [document.body, gamePanel, endPanel].filter(Boolean);
+const uiStateClassMap = {
+  transitioning: "is-transitioning",
+  answering: "is-answering",
+  feedbackOpen: "is-feedback-open",
+  roundComplete: "is-round-complete",
+  resultsView: "is-results-view"
+};
 
 const supabaseUrl = "https://dqevbyrtagkmgesrixrf.supabase.co";
 const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRxZXZieXJ0YWdrbWdlc3JpeHJmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE2MjA1NTUsImV4cCI6MjA5NzE5NjU1NX0.-OITqkgJLIGi1KPHQcxxdPsccUk6UYwr6kKo5wUVjUc";
@@ -826,6 +837,13 @@ function showScreen(screenName) {
   });
 
   screens[screenName].classList.add("active");
+  setUiState("resultsView", screenName === "end");
+
+  if (screenName !== "game") {
+    setUiState("answering", false);
+    setUiState("feedbackOpen", false);
+    setUiState("roundComplete", false);
+  }
 }
 
 function isScreenActive(screenName) {
@@ -845,6 +863,19 @@ function setTransitionState(isVisible, label = "Loading mission...") {
   transitionText.textContent = label;
   transitionOverlay.classList.toggle("visible", isVisible);
   transitionOverlay.setAttribute("aria-hidden", String(!isVisible));
+  setUiState("transitioning", isVisible);
+}
+
+function setUiState(stateKey, isActive) {
+  const stateClassName = uiStateClassMap[stateKey];
+
+  if (!stateClassName) {
+    return;
+  }
+
+  uiStateTargets.forEach((element) => {
+    element.classList.toggle(stateClassName, isActive);
+  });
 }
 
 function wait(ms) {
@@ -902,6 +933,10 @@ function goHome() {
   feedbackPanel.classList.remove("open");
   nextButton.disabled = false;
   nextButton.classList.remove("hidden", "staged");
+  setUiState("answering", false);
+  setUiState("feedbackOpen", false);
+  setUiState("roundComplete", false);
+  setUiState("resultsView", false);
   setTransitionState(false);
   toggleShareModal(false);
   updateDailyAvailability();
@@ -981,6 +1016,10 @@ async function startGame(modeKey = selectedModeKey) {
   clearTimeout(gameOverTimer);
   scoreLabel.classList.remove("penalty");
   scoreLabel.classList.remove("reward");
+  setUiState("answering", false);
+  setUiState("feedbackOpen", false);
+  setUiState("roundComplete", false);
+  setUiState("resultsView", false);
   updateScoreFormState();
   updateLeaderboardVisibility();
   updateStats();
@@ -1030,6 +1069,9 @@ function showCorrectAnswerReward() {
 function endGame() {
   clearTimeout(gameOverTimer);
   stopRoundTimer();
+  setUiState("answering", false);
+  setUiState("feedbackOpen", false);
+  setUiState("roundComplete", false);
   finalHeading.textContent = isDailyMode() ? "Daily result" : "Your final score";
   saveMessage.textContent = "";
   updateLeaderboardVisibility();
@@ -1101,6 +1143,9 @@ async function renderRound(showTransition = false) {
   nextButton.classList.add("staged");
   hasAnswered = false;
   usedHintThisRound = false;
+  setUiState("answering", false);
+  setUiState("feedbackOpen", false);
+  setUiState("roundComplete", false);
   updateHintUI();
   startRoundTimer();
 
@@ -1127,6 +1172,7 @@ async function handleAnswer(selectedButton, selectedAnswer) {
   }
 
   hasAnswered = true;
+  setUiState("answering", true);
   stopRoundTimer();
 
   const currentQuestion = gameDeck[currentRound];
@@ -1197,6 +1243,9 @@ async function handleAnswer(selectedButton, selectedAnswer) {
   sourceText.textContent = `Source: ${currentQuestion.source} (${currentQuestion.nasaId})${errorCountText}`;
   await wait(FEEDBACK_OPEN_DELAY);
   feedbackPanel.classList.add("open");
+  setUiState("feedbackOpen", true);
+  setUiState("roundComplete", true);
+  setUiState("answering", false);
 
   if (!isGameOver) {
     await wait(Math.max(0, NEXT_BUTTON_DELAY - FEEDBACK_OPEN_DELAY));
