@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="favicon.ico">
 
@@ -139,12 +140,27 @@
       <div class="game-panel">
         <!-- Top info bar with round / score / streak / timer -->
         <header class="game-header">
-          <button class="home-button" type="button" aria-label="Back to menu">Home</button>
-          <div class="status-pill" id="round-label">Round 1 / 5</div>
-          <div class="miss-track hidden" id="mistakes-label" aria-label="Infinite mode mistakes left"></div>
-          <div class="status-pill streak-pill" id="streak-label">Streak: 0</div>
-          <div class="status-pill timer-pill hidden" id="timer-label">Time: 10</div>
-          <div class="status-pill" id="score-label">Score: 0</div>
+          <button class="home-button" type="button" aria-label="Back to menu">
+            <span class="home-button-icon" aria-hidden="true">
+              <i class="fa-solid fa-house"></i>
+            </span>
+            <span class="home-button-text">Home</span>
+          </button>
+          <div class="status-pill round-pill" id="round-label">
+            <div class="round-main">
+              <span class="round-kicker">Round</span>
+              <span class="round-value" id="round-value">1 / 5</span>
+            </div>
+            <span class="round-progress" aria-hidden="true">
+              <span class="round-progress-bar" id="round-progress-bar"></span>
+            </span>
+          </div>
+          <div class="hud-status-group">
+            <div class="miss-track hidden" id="mistakes-label" aria-label="Infinite mode mistakes left"></div>
+            <div class="status-pill streak-pill" id="streak-label">Streak: 0</div>
+            <div class="status-pill timer-pill hidden" id="timer-label">Time: 10</div>
+            <div class="status-pill" id="score-label">Score: 0</div>
+          </div>
         </header>
 
         <!-- Fullscreen image area -->

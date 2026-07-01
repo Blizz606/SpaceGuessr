@@ -6,52 +6,69 @@
 ![NASA Images](https://img.shields.io/badge/images-NASA-green?style=flat-square&labelColor=111111)
 ![Supabase](https://img.shields.io/badge/leaderboard-Supabase-green?style=flat-square&labelColor=111111)
 
-SpaceGuessr is a tiny space guessing game: you get dropped into a real NASA space image and have to guess what you are looking at. Mars? Jupiter? A nebula? One of Saturn's moons? It is basically the spirit of GeoGuessr, but pointed at space instead of streets.
-https://blizz606.github.io/SpaceGuessr/
+SpaceGuessr is a browser game in the spirit of GeoGuessr, but set in space.  
+Instead of streets and cities, players are dropped into real NASA imagery and have to identify what they are seeing: planets, moons, nebulae, galaxies, and other iconic locations from across the solar system and beyond.
 
-This Project was made for the Stardance hackathon hosted by Hackclub and supported by NASA, AMD and Github. That's why it's about space, and the Idea was kinda fun.
+Built for the Stardance Hackathon hosted by Hack Club and supported by NASA, AMD, and GitHub.
 
-<p>
-  <img src="https://images-assets.nasa.gov/image/PIA15691/PIA15691~medium.jpg" width="32%" alt="Mars landscape from NASA">
-  <img src="https://images-assets.nasa.gov/image/PIA12513/PIA12513~small.jpg" width="32%" alt="Saturn from NASA">
-  <img src="https://images-assets.nasa.gov/image/PIA03606/PIA03606~orig.jpg" width="32%" alt="Crab Nebula from NASA">
-</p>
+Live demo: [blizz606.github.io/SpaceGuessr](https://blizz606.github.io/SpaceGuessr/)
 
-## What It Has
+![SpaceGuessr preview](preview.png)
 
-- Five modes: `Quick`, `Classic`, `Full Tour`, `Daily`, and `Infinite`.
-- A curated pool of real NASA image assets.
-- Randomized rounds with no repeat until the image bag is used up.
-- Smooth answer states, details panel, and final score animation.
-- Daily and Infinite leaderboards powered by Supabase.
-- Local fallback if the global leaderboard is unavailable.
-- Responsive layout for desktop and mobile.
-- No framework, no build step, no backend code in this repo.
+## Why It Is Fun
+
+- Real NASA image sources instead of placeholder art
+- Fast, arcade-style guessing rounds
+- Multiple modes for quick runs, score chasing, and daily competition
+- Lightweight stack: plain HTML, CSS, and JavaScript
+- Works without a build step or backend inside this repo
+
+## Features
+
+- Curated library of NASA space images with facts and source metadata
+- Five playable modes: `Quick`, `Classic`, `Timed`, `Daily`, and `Infinite`
+- Responsive UI for desktop and mobile
+- Animated score flow, result states, and polished game feedback
+- Online leaderboard support for `Infinite`
+- Local fallback storage if the online leaderboard is unavailable
+- Simple static deployment, including GitHub Pages
 
 ## Game Modes
 
-| Mode | Rounds | Best For |
-| --- | ---: | --- |
-| `Quick` | 3 | A fast run |
-| `Classic` | 5 | The normal SpaceGuessr feel |
-| `Full Tour` | 6 | A slightly longer round |
-| `Daily` | 1 | One shared image for everyone each day |
-| `Infinite` | Endless | Score chasing and leaderboard runs |
-| `Daily` | Daily Image | A different Image, every day, for everyone |
+| Mode | Format | Description |
+| --- | --- | --- |
+| `Quick` | 3 rounds | A short run for fast sessions |
+| `Classic` | 5 rounds | The standard SpaceGuessr experience |
+| `Timed` | 5 rounds, 10 seconds each | Answer before the clock runs out |
+| `Daily` | 1 shared image per day | Same challenge for everyone on that date |
+| `Infinite` | Endless | Keep going until your run ends |
 
-Only `Daily` and `Infinite` use the global leaderboard. Daily scores are filtered to the current day.
+`Infinite` currently submits scores to the online leaderboard.  
+If Supabase is unavailable, the game falls back to local score storage.
 
-## How To Run
+## Tech Stack
 
-You can just visit https://blizz606.github.io/SpaceGuessr or do the following steps:
+- `index.html` for structure and screens
+- `style.css` for layout, effects, responsiveness, and visual polish
+- `script.js` for game logic, mode handling, scoring, content data, and leaderboard integration
+- Supabase for online leaderboard storage
+- NASA Image and Video Library as the primary content source
 
-Open `index.html` in a browser.
+## Run Locally
 
-For local testing, any simple static server also works:
+You can either use the live version or open the project locally.
+
+### Option 1: Open directly
+
+Open `index.html` in your browser.
+
+### Option 2: Start a local static server
 
 ```bash
 npx serve .
 ```
+
+Then open the local URL shown in your terminal.
 
 ## Project Structure
 
@@ -59,25 +76,22 @@ npx serve .
 .
 |-- index.html
 |-- style.css
-`-- script.js
+|-- script.js
+|-- media/
+`-- preview.png
 ```
 
-`index.html` holds the screens and layout.  
-`style.css` handles the dark UI, responsive behavior, animations, and button states.  
-`script.js` contains the game data, round logic, scoring, Supabase leaderboard calls, and local fallback.
+## Content Model
 
-## Image Data
+The image pool is stored directly in `script.js` as a JavaScript array.  
+Each entry includes:
 
-The image pool lives in `script.js` as a local array. Each entry includes:
-
-- image URL
-- NASA asset ID
-- source label
-- correct answer
-- wrong answers
-- short fact
-
-That makes it easy to add more images without touching the gameplay system.
+- `imageUrl`
+- `nasaId`
+- `source`
+- `correctAnswer`
+- `wrongAnswers`
+- `fact`
 
 Example:
 
@@ -88,15 +102,17 @@ Example:
   source: "NASA Image and Video Library",
   correctAnswer: "Mars",
   wrongAnswers: ["The Moon", "Earth", "Mercury"],
-  fact: "This is Curiosity's first color landscape image from Mars..."
+  fact: "Curiosity captured this early color landscape after landing in Gale Crater."
 }
 ```
 
-## Leaderboard
+That setup makes it easy to expand the question pool without changing the overall game system. I will add more Images as fast as I can to make it even better.
 
-The global leaderboard uses Supabase and stores scores for `Daily` and `Infinite` mode.
+## Leaderboard Setup
 
-Recommended table:
+The online leaderboard uses Supabase and is currently wired up for score submission in `Infinite` mode.
+
+Suggested table:
 
 ```sql
 create table public.leaderboard (
@@ -109,7 +125,7 @@ create table public.leaderboard (
 );
 ```
 
-Recommended RLS policies:
+Suggested RLS policies:
 
 ```sql
 alter table public.leaderboard enable row level security;
@@ -128,23 +144,37 @@ with check (
   char_length(name) between 1 and 18
   and score >= 0
   and rounds > 0
-  and mode in ('quick', 'classic', 'full', 'daily', 'infinite')
+  and mode in ('quick', 'classic', 'timed', 'daily', 'infinite')
 );
 ```
 
-For updates to existing names, the app checks whether the new score is better before replacing the old one.
+The game also compares scores by player name and only replaces an existing score when the new result is better.
 
-## Notes
+## Deployment
 
-This is still a prototype, but it already has the bones of a real little web game. The next nice upgrades would be:
+Because the project is fully static, it works well with:
 
-- Even more carefully curated NASA images.
-- A better anti-cheat story for global scores.
-- A small image preload step before each round.
-- Optional categories like `Planets`, `Moons`, `Nebulae`, and `Galaxies`.
+- GitHub Pages
+- Netlify
+- Vercel static hosting
+- Any simple web server
 
-## Use of AI
-Most of the time went into building the structure, UI, responsive layout and integrating the game content. The JavaScript part was built with some AI help, mainly for debugging and structuring parts of the logic, but I still tested, changed and integrated everything myself.
 
-Thanks to everyone who is supporting this small project.
 
+## Reviwes
+"I love space and I could genuinely play this for hours on end, well done!"
+
+"Fun game, I quite enjoyed it. Design is good, animations are smooth, overall just high quality and I can tell a lot of care went into it."
+
+
+
+## Credits
+
+- NASA Image and Video Library for the imagery
+- Hack Club Stardance for the hackathon theme and challenge
+- Supabase for lightweight leaderboard infrastructure
+
+## AI Use
+
+AI was used as a development aid for parts of the JavaScript workflow, mainly around debugging and structuring logic.  
+The project itself was still manually tested, integrated, and iterated on during development.

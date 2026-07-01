@@ -13,6 +13,7 @@
   --radius-md: 12px;
   --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-snappy: cubic-bezier(0.2, 0.9, 0.28, 1.12);
   --motion-fast: 0.28s;
   --motion-base: 0.42s;
   --motion-slow: 0.58s;
@@ -2840,17 +2841,36 @@ body.game-ui-dark .streak-pill::before {
   }
 }
 
-@keyframes correctAnswerPop {
+@keyframes correctPop {
   0% {
-    transform: translateY(0) scale(1);
+    transform: scale(1);
   }
 
   45% {
-    transform: translateY(-2px) scale(1.035);
+    transform: scale(1.035);
   }
 
   100% {
-    transform: translateY(-1px) scale(1);
+    transform: scale(1);
+  }
+}
+
+@keyframes wrongShake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-5px);
+  }
+
+  50% {
+    transform: translateX(5px);
+  }
+
+  75% {
+    transform: translateX(-3px);
   }
 }
 
@@ -3010,19 +3030,23 @@ body.game-ui-dark .streak-pill::before {
   animation: answerIn var(--motion-slow) var(--ease-smooth) both;
   animation-delay: calc(var(--answer-index) * 72ms);
   transition:
-    background var(--motion-base) var(--ease-soft),
-    border-color var(--motion-base) var(--ease-soft),
-    color var(--motion-base) var(--ease-soft),
-    opacity var(--motion-base) var(--ease-soft),
-    transform var(--motion-base) var(--ease-smooth),
-    box-shadow var(--motion-base) var(--ease-soft);
+    transform 160ms var(--ease-snappy),
+    background 180ms var(--ease-smooth),
+    border-color 180ms var(--ease-smooth),
+    color 180ms var(--ease-smooth),
+    box-shadow 180ms var(--ease-smooth),
+    opacity 180ms var(--ease-smooth);
 }
 
 .answer-button:hover:not(:disabled) {
   background: var(--game-ui-card-soft);
   border-color: var(--game-ui-nav-pill-border);
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.1);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.16);
+}
+
+.answer-button:active:not(:disabled) {
+  transform: translateY(0) scale(0.98);
 }
 
 .answer-button:disabled {
@@ -3053,7 +3077,7 @@ body.game-ui-dark .streak-pill::before {
   color: #031408;
   transform: translateY(-1px);
   box-shadow: 0 10px 20px rgba(34, 197, 94, 0.16);
-  animation: correctAnswerPop 0.52s ease both;
+  animation: correctPop 360ms var(--ease-snappy) both;
 }
 
 .answer-button.wrong {
@@ -3061,6 +3085,7 @@ body.game-ui-dark .streak-pill::before {
   border-color: rgba(239, 68, 68, 0.3);
   color: #b91c1c;
   opacity: 1;
+  animation: wrongShake 280ms var(--ease-snappy) both;
 }
 
 .feedback-panel {
@@ -3089,7 +3114,7 @@ body.game-ui-dark .streak-pill::before {
   padding-top: 14px;
   padding-left: 14px;
   padding-bottom: 14px;
-  padding-right: 156px;
+  padding-right: 154px;
   border-radius: 16px;
   background: var(--game-ui-nav-pill-bg);
   border: 1px solid var(--game-ui-nav-pill-border);
@@ -3124,40 +3149,54 @@ body.game-ui-dark .streak-pill::before {
 
 .next-icon-button {
   position: absolute;
-  top: 50%;
-  right: 14px;
+  top: 0;
+  bottom: 0;
+  right: 0;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  min-width: 88px;
-  padding: 9px 13px;
-  border-radius: 100px;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+  width: 138px;
+  padding: 16px 14px 14px;
+  border-radius: 0;
+  clip-path: polygon(34% 0, 100% 0, 100% 100%, 0 100%);
   background: var(--game-ui-nav-home-bg);
   color: var(--game-ui-nav-home-text);
   font-weight: 800;
   box-shadow: none;
-  transform: translateY(-50%);
+  transform: translateX(0);
   transition:
     background var(--motion-base) var(--ease-soft),
     transform var(--motion-base) var(--ease-smooth),
-    opacity var(--motion-fast) var(--ease-soft);
+    opacity var(--motion-fast) var(--ease-soft),
+    box-shadow var(--motion-base) var(--ease-soft);
 }
 
 .next-icon-button.staged {
   opacity: 0;
-  transform: translateY(calc(-50% + 6px));
+  transform: translateX(10px);
   pointer-events: none;
 }
 
 .next-icon-button:hover {
   background: var(--game-ui-home-bg);
-  transform: translate(2px, -50%);
+  transform: translateX(2px) scale(1.015);
+  box-shadow: 0 16px 30px rgba(15, 23, 42, 0.16);
+}
+
+.next-icon-button:hover .next-arrow {
+  transform: translateX(3px);
+}
+
+.next-arrow {
+  transition: transform 180ms var(--ease-snappy);
 }
 
 .next-arrow {
   position: relative;
-  width: 15px;
-  height: 10px;
+  width: 24px;
+  height: 14px;
 }
 
 .next-arrow::before,
@@ -3170,14 +3209,14 @@ body.game-ui-dark .streak-pill::before {
 }
 
 .next-arrow::before {
-  width: 15px;
+  width: 24px;
   height: 2px;
   transform: translateY(-50%);
 }
 
 .next-arrow::after {
-  width: 7px;
-  height: 7px;
+  width: 9px;
+  height: 9px;
   border-top: 2px solid currentColor;
   border-right: 2px solid currentColor;
   background: transparent;
@@ -3672,86 +3711,197 @@ body.game-ui-dark .streak-pill::before {
 .game-header {
   top: 16px;
   width: min(760px, calc(100% - 44px));
-  display: flex;
+  position: absolute;
+  left: 50%;
+  right: auto;
+  margin-inline: 0;
+  transform: translateX(-50%);
+  display: grid;
+  grid-template-columns: minmax(88px, 1fr) auto minmax(88px, 1fr);
   align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  padding: 8px 10px;
-  border-radius: 18px;
-  background: var(--game-ui-nav-bg);
-  border: 1px solid var(--game-ui-nav-border);
-  box-shadow: var(--game-ui-nav-shadow);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 22px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.08)),
+    var(--game-ui-nav-bg);
+  border: 1px solid color-mix(in srgb, var(--game-ui-nav-border) 88%, white 12%);
+  box-shadow:
+    0 18px 38px rgba(15, 23, 42, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.26);
+  backdrop-filter: blur(18px) saturate(145%);
+  -webkit-backdrop-filter: blur(18px) saturate(145%);
   isolation: isolate;
 }
 
+#game-screen .game-header {
+  left: 50% !important;
+  right: auto !important;
+  transform: translateX(-50%) !important;
+}
+
 #round-label {
-  position: absolute;
-  top: 50%;
-  left: 50%;
+  position: static;
   z-index: 1;
-  justify-self: auto;
-  transform: translate(-50%, -50%);
+  min-width: 170px;
+  width: clamp(170px, 19vw, 194px);
+  display: grid;
+  place-items: center;
+  gap: 2px;
+  min-height: 44px;
+  padding: 7px 14px 6px;
+  border-radius: 15px;
   pointer-events: none;
-  min-width: 142px;
-  background: var(--game-ui-nav-pill-bg);
-  border-color: var(--game-ui-nav-pill-border);
-  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.06);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.08)),
+    color-mix(in srgb, var(--game-ui-nav-pill-bg) 92%, white 8%);
+  border: 1px solid color-mix(in srgb, var(--game-ui-nav-pill-border) 80%, white 20%);
+  box-shadow:
+    0 12px 28px rgba(15, 23, 42, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.34);
+  grid-column: 2;
+  justify-self: center;
+  align-self: center;
+  transform: none;
 }
 
-.game-header > .miss-track:not(.hidden) {
-  margin-left: auto;
+.hud-status-group {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: nowrap;
+  position: relative;
+  z-index: 2;
+  grid-column: 3;
+  justify-self: end;
+  margin-left: 0;
+  width: max-content;
 }
 
-.game-header > .miss-track.hidden + .streak-pill {
-  margin-left: auto;
+.round-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-width: 0;
+  line-height: 1;
+}
+
+.round-kicker {
+  color: var(--game-ui-muted);
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  opacity: 0.82;
+}
+
+.round-value {
+  color: var(--game-ui-nav-pill-text);
+  font-size: 0.9rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  transition:
+    opacity 180ms var(--ease-smooth),
+    transform 220ms var(--ease-smooth),
+    color 180ms var(--ease-smooth);
+}
+
+.round-progress {
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.18);
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition:
+    opacity 240ms var(--ease-smooth),
+    transform 280ms var(--ease-smooth);
+}
+
+.round-progress-bar {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #8bd6ff 0%, #4ade80 100%);
+  transform-origin: left center;
+  transform: scaleX(0.33);
+  transition: transform 620ms var(--ease-smooth);
 }
 
 #round-label::before {
-  content: "\25CB" !important;
+  content: none !important;
+  display: none !important;
 }
 
-.streak-pill::before {
-  content: "" !important;
-  width: 14px;
-  height: 14px;
-  display: inline-block;
-  flex: 0 0 14px;
-  opacity: 0.7;
-  background: url("media/icons/flame.svg") center / contain no-repeat !important;
+#round-label.show-progress .round-main {
+  opacity: 0;
+  transform: translateY(4px);
 }
 
-.timer-pill::before {
-  content: "\25D4" !important;
+#round-label.show-progress .round-progress {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-#score-label::before {
-  content: "\25CF" !important;
+.round-main {
+  transition:
+    opacity 240ms var(--ease-smooth),
+    transform 280ms var(--ease-smooth);
+}
+
+#round-label.round-status-good .round-value {
+  color: #16a34a;
+}
+
+#round-label.round-status-bad .round-value {
+  color: #ef4444;
 }
 
 .game-header .home-button,
 .game-header .status-pill,
 .game-header .miss-track {
-  min-height: 38px;
-  border-radius: 12px;
-  box-shadow: none;
+  min-height: 44px;
+  border-radius: 15px;
+  box-shadow:
+    0 8px 22px rgba(15, 23, 42, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  transition:
+    transform 180ms var(--ease-snappy),
+    opacity 180ms var(--ease-smooth),
+    box-shadow 180ms var(--ease-smooth),
+    border-color 180ms var(--ease-smooth),
+    background 180ms var(--ease-smooth);
 }
 
 .game-header .home-button {
-  min-width: 82px;
-  padding: 0 14px;
+  grid-column: 1;
+  min-width: 44px;
+  width: 44px;
+  padding: 0;
   background: var(--game-ui-nav-home-bg);
   border: 1px solid var(--game-ui-nav-home-border);
   color: var(--game-ui-nav-home-text);
-  font-size: 0.84rem;
+  font-size: 0.8rem;
   font-weight: 800;
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+  justify-content: flex-start;
+  justify-self: start;
+  align-self: center;
   transition:
-    background var(--motion-fast) var(--ease-soft),
-    border-color var(--motion-fast) var(--ease-soft),
-    transform var(--motion-fast) var(--ease-smooth),
-    color var(--motion-fast) var(--ease-soft);
+    width 240ms var(--ease-smooth),
+    padding 240ms var(--ease-smooth),
+    transform 180ms var(--ease-snappy),
+    box-shadow 180ms var(--ease-smooth),
+    border-color 180ms var(--ease-smooth),
+    background 180ms var(--ease-smooth);
 }
 
 .game-header .home-button::before,
@@ -3759,77 +3909,175 @@ body.game-ui-dark .streak-pill::before {
   display: none !important;
 }
 
+.home-button-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  width: 15px;
+  height: 15px;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+.home-button-icon {
+  color: currentColor;
+}
+
+.home-button-icon i {
+  display: block;
+}
+
+.home-button-text {
+  margin-left: 36px;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition:
+    opacity 200ms var(--ease-smooth),
+    transform 220ms var(--ease-smooth);
+  white-space: nowrap;
+}
+
 .game-header .home-button:hover {
-  padding-left: 16px;
   color: var(--game-ui-nav-home-text);
   background: var(--game-ui-home-bg);
   border-color: var(--game-ui-home-border);
-  transform: translateY(-1px);
+  width: 96px;
+  padding-right: 14px;
+  transform: translateY(-2px);
+}
+
+.game-header .home-button:hover .home-button-text {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.game-header .home-button:active {
+  transform: translateY(0) scale(0.98);
 }
 
 .game-header .status-pill {
-  padding: 0 13px;
-  background: var(--game-ui-nav-pill-bg);
-  border: 1px solid var(--game-ui-nav-pill-border);
+  padding: 0 14px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.05)),
+    var(--game-ui-nav-pill-bg);
+  border: 1px solid color-mix(in srgb, var(--game-ui-nav-pill-border) 82%, white 18%);
   color: var(--game-ui-nav-pill-text);
   font-size: 0.82rem;
   font-weight: 800;
 }
 
+.game-header .status-pill:hover,
+.game-header .miss-track:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 12px 24px rgba(15, 23, 42, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
 .game-header .status-pill::before {
-  opacity: 0.34;
+  opacity: 0.42;
 }
 
 .game-header #score-label {
   color: var(--game-ui-nav-score-text);
-  min-width: 102px;
+  min-width: 108px;
   justify-content: center;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.04)),
+    var(--game-ui-nav-danger-bg);
+  border-color: var(--game-ui-nav-danger-border);
 }
 
 .game-header .streak-pill,
 .game-header .timer-pill {
-  min-width: 110px;
+  min-width: 112px;
   justify-content: center;
 }
 
 .game-header .streak-pill.active {
   color: var(--game-ui-nav-success-text);
-  background: var(--game-ui-nav-success-bg);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.02)),
+    var(--game-ui-nav-success-bg);
   border-color: var(--game-ui-nav-success-border);
 }
 
 .game-header .timer-pill.danger {
   color: var(--game-ui-nav-danger-text);
-  background: var(--game-ui-nav-danger-bg);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.02)),
+    var(--game-ui-nav-danger-bg);
   border-color: var(--game-ui-nav-danger-border);
 }
 
 .game-header .miss-track {
   min-width: 160px;
-  background: var(--game-ui-nav-pill-bg);
-  border: 1px solid var(--game-ui-nav-pill-border);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.03)),
+    var(--game-ui-nav-pill-bg);
+  border: 1px solid color-mix(in srgb, var(--game-ui-nav-pill-border) 82%, white 18%);
+}
+
+.game-header #score-label.reward,
+.game-header .streak-pill.boost {
+  animation-duration: 520ms;
 }
 
 @media (max-width: 640px) {
   .game-header {
+    left: 0;
+    transform: none;
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+      "home round"
+      "stats stats";
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
+    align-items: start;
+    gap: 10px;
     padding: 10px;
-    border-radius: 18px;
+    border-radius: 20px;
     width: calc(100% - 20px);
   }
 
-  #round-label {
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    min-width: 118px;
+  .game-header .home-button {
+    grid-area: home;
+    justify-self: start;
+    width: 44px;
+    min-width: 44px;
+    padding: 0;
   }
 
-  .game-header > .miss-track:not(.hidden),
-  .game-header > .miss-track.hidden + .streak-pill {
-    margin-left: 0;
+  #round-label {
+    grid-area: round;
+    position: static;
+    justify-self: stretch;
+    min-width: 0;
+    width: 100%;
+    min-height: 40px;
+    padding: 7px 12px 6px;
+  }
+
+  .round-main {
+    justify-content: center;
+  }
+
+  .round-kicker {
+    font-size: 0.58rem;
+  }
+
+  .round-value {
+    font-size: 0.86rem;
+  }
+
+  .hud-status-group {
+    grid-area: stats;
+    justify-content: space-between;
+    width: 100%;
+    gap: 8px;
+    flex-wrap: wrap;
   }
 
   .game-header .home-button,
@@ -3839,8 +4087,13 @@ body.game-ui-dark .streak-pill::before {
   }
 
   .game-header .home-button {
-    min-width: 0;
-    padding: 0 12px;
+    min-width: 44px;
+    width: 44px;
+    padding: 0;
+  }
+
+  .home-button-text {
+    display: none;
   }
 
   .game-header .status-pill {
@@ -3848,7 +4101,16 @@ body.game-ui-dark .streak-pill::before {
     font-size: 0.82rem;
   }
 
+  .game-header .streak-pill,
+  .game-header .timer-pill,
+  .game-header #score-label {
+    min-width: calc(50% - 4px);
+    flex: 1 1 calc(50% - 4px);
+  }
+
   .game-header .miss-track {
     min-width: 0;
+    flex: 1 1 100%;
+    order: 4;
   }
 }

@@ -404,6 +404,8 @@ const homeButtons = document.querySelectorAll(".home-button, .end-home-button");
 const playAgainButton = document.getElementById("play-again-button");
 const nextButton = document.getElementById("next-button");
 const roundLabel = document.getElementById("round-label");
+const roundValue = document.getElementById("round-value");
+const roundProgressBar = document.getElementById("round-progress-bar");
 const mistakesLabel = document.getElementById("mistakes-label");
 const streakLabel = document.getElementById("streak-label");
 const timerLabel = document.getElementById("timer-label");
@@ -486,6 +488,7 @@ let streakFeedbackTimer;
 let gameOverTimer;
 let roundTimer;
 let copyButtonResetTimer;
+let roundStatusTimer;
 const MAX_WRONG_ANSWERS_INFINITE = 10;
 const TRANSITION_MIN_DURATION = 420;
 const TRANSITION_MAX_DURATION = 2000;
@@ -801,6 +804,54 @@ function updateMistakesLabel() {
   mistakesLabel.classList.toggle("danger", isInfiniteMode() && missesLeft <= 3);
 }
 
+function updateRoundDisplay() {
+  const currentRoundNumber = currentRound + 1;
+  const isInfinite = isInfiniteMode();
+
+  roundValue.textContent = isInfinite
+    ? `${currentRoundNumber}`
+    : `${currentRoundNumber} / ${totalRounds}`;
+
+  roundLabel.classList.remove("show-progress");
+  roundLabel.classList.remove("round-status-good", "round-status-bad");
+  roundProgressBar.style.transform = `scaleX(${isInfinite ? 1 : Math.min(currentRoundNumber / totalRounds, 1)})`;
+  roundLabel.setAttribute(
+    "aria-label",
+    isInfinite
+      ? `Round ${currentRoundNumber}`
+      : `Round ${currentRoundNumber} of ${totalRounds}`
+  );
+}
+
+function showRoundStatus(message, isGood) {
+  clearTimeout(roundStatusTimer);
+  roundValue.textContent = message;
+  roundLabel.classList.toggle("round-status-good", isGood);
+  roundLabel.classList.toggle("round-status-bad", !isGood);
+  roundStatusTimer = setTimeout(() => {
+    updateRoundDisplay();
+  }, 1150);
+}
+
+async function playRoundProgressTransition() {
+  if (isInfiniteMode() || currentRound >= totalRounds - 1) {
+    return;
+  }
+
+  clearTimeout(roundStatusTimer);
+
+  const currentProgress = Math.min((currentRound + 1) / totalRounds, 1);
+  const nextProgress = Math.min((currentRound + 2) / totalRounds, 1);
+
+  roundLabel.classList.remove("round-status-good", "round-status-bad");
+  roundLabel.classList.add("show-progress");
+  roundProgressBar.style.transform = `scaleX(${currentProgress})`;
+  void roundProgressBar.offsetWidth;
+  roundProgressBar.style.transform = `scaleX(${nextProgress})`;
+
+  await wait(650);
+}
+
 function updateLeaderboardVisibility() {
   leaderboardOnlyElements.forEach((element) => {
     element.classList.toggle("hidden", !hasLeaderboardMode());
@@ -933,6 +984,7 @@ function goHome() {
   feedbackPanel.classList.remove("open");
   nextButton.disabled = false;
   nextButton.classList.remove("hidden", "staged");
+  clearTimeout(roundStatusTimer);
   setUiState("answering", false);
   setUiState("feedbackOpen", false);
   setUiState("roundComplete", false);
@@ -1014,6 +1066,7 @@ async function startGame(modeKey = selectedModeKey) {
   clearTimeout(rewardFeedbackTimer);
   clearTimeout(streakFeedbackTimer);
   clearTimeout(gameOverTimer);
+  clearTimeout(roundStatusTimer);
   scoreLabel.classList.remove("penalty");
   scoreLabel.classList.remove("reward");
   setUiState("answering", false);
@@ -1104,9 +1157,7 @@ async function renderRound(showTransition = false) {
     ...currentQuestion.wrongAnswers
   ]);
 
-  roundLabel.textContent = selectedModeKey === "infinite"
-    ? `Round ${currentRound + 1}`
-    : `Round ${currentRound + 1} / ${totalRounds}`;
+  updateRoundDisplay();
   updateMistakesLabel();
   spaceImage.classList.remove("loaded");
   spaceImage.onload = () => {
@@ -1195,6 +1246,8 @@ async function handleAnswer(selectedButton, selectedAnswer) {
     wrongAnswerCount += 1;
     currentStreak = 0;
   }
+
+  showRoundStatus(isCorrect ? "Locked in" : "Try again", isCorrect);
 
   updateMistakesLabel();
   updateStats();
@@ -1579,6 +1632,8 @@ async function goToNextStep() {
     endGame();
     return;
   }
+
+  await playRoundProgressTransition();
 
   currentRound += 1;
 
