@@ -397,6 +397,7 @@ const gamePanel = document.querySelector(".game-panel");
 const endPanel = document.querySelector(".end-panel");
 const modeButtons = document.querySelectorAll(".mode-card");
 const modeGrid = document.getElementById("mode-grid");
+const mobileModeSelect = document.getElementById("mobile-mode-select");
 const modeDescription = document.getElementById("mode-description");
 const startButton = document.getElementById("start-button");
 const dailyButton = document.getElementById("daily-button");
@@ -463,6 +464,7 @@ const leaderboardStorageKey = "spaceguessr-leaderboard";
 const playerNameStorageKey = "spaceguessr-player-name";
 const dailyPlayedStorageKey = "spaceguessr-daily-played";
 const gameThemeStorageKey = "spaceguessr-game-theme";
+const mobileThemeLock = window.matchMedia("(max-width: 640px)");
 const supabaseClient = window.supabase
   ? window.supabase.createClient(supabaseUrl, supabaseAnonKey)
   : null;
@@ -494,6 +496,7 @@ const TRANSITION_MIN_DURATION = 420;
 const TRANSITION_MAX_DURATION = 2000;
 const FEEDBACK_OPEN_DELAY = 220;
 const NEXT_BUTTON_DELAY = 380;
+const ROUND_PROGRESS_VISIBLE_DURATION = 1500;
 const preloadedImageUrls = new Set();
 const rankTiers = [
   { min: 0, title: "Space Noob" },
@@ -521,6 +524,13 @@ function getSupabaseErrorMessage(error, fallbackText) {
 }
 
 function applyGameTheme(themeName) {
+  if (mobileThemeLock.matches) {
+    document.body.classList.remove("game-ui-dark");
+    themeToggle.setAttribute("aria-pressed", "false");
+    themeToggle.setAttribute("aria-label", "Game UI stays in light mode on mobile");
+    return;
+  }
+
   const isDarkTheme = themeName === "dark";
   document.body.classList.toggle("game-ui-dark", isDarkTheme);
   themeToggle.setAttribute("aria-pressed", String(isDarkTheme));
@@ -532,6 +542,21 @@ function applyGameTheme(themeName) {
 }
 
 function loadGameTheme() {
+  if (mobileThemeLock.matches) {
+    applyGameTheme("light");
+    return;
+  }
+
+  const savedTheme = localStorage.getItem(gameThemeStorageKey);
+  applyGameTheme(savedTheme === "dark" ? "dark" : "light");
+}
+
+function syncThemeForViewport() {
+  if (mobileThemeLock.matches) {
+    applyGameTheme("light");
+    return;
+  }
+
   const savedTheme = localStorage.getItem(gameThemeStorageKey);
   applyGameTheme(savedTheme === "dark" ? "dark" : "light");
 }
@@ -833,15 +858,15 @@ function showRoundStatus(message, isGood) {
   }, 1150);
 }
 
-async function playRoundProgressTransition() {
-  if (isInfiniteMode() || currentRound >= totalRounds - 1) {
+async function playRoundProgressTransition(fromRound = currentRound) {
+  if (isInfiniteMode() || fromRound >= totalRounds - 1) {
     return;
   }
 
   clearTimeout(roundStatusTimer);
 
-  const currentProgress = Math.min((currentRound + 1) / totalRounds, 1);
-  const nextProgress = Math.min((currentRound + 2) / totalRounds, 1);
+  const currentProgress = Math.min((fromRound + 1) / totalRounds, 1);
+  const nextProgress = Math.min((fromRound + 2) / totalRounds, 1);
 
   roundLabel.classList.remove("round-status-good", "round-status-bad");
   roundLabel.classList.add("show-progress");
@@ -849,7 +874,8 @@ async function playRoundProgressTransition() {
   void roundProgressBar.offsetWidth;
   roundProgressBar.style.transform = `scaleX(${nextProgress})`;
 
-  await wait(650);
+  await wait(ROUND_PROGRESS_VISIBLE_DURATION);
+  updateRoundDisplay();
 }
 
 function updateLeaderboardVisibility() {
@@ -876,6 +902,9 @@ function selectMode(modeKey) {
   modeDescription.textContent = gameModes[selectedModeKey].description;
   startButton.textContent = `Start ${gameModes[selectedModeKey].label}`;
   updateLeaderboardVisibility();
+  if (mobileModeSelect) {
+    mobileModeSelect.value = modeKey;
+  }
 
   if (menuScoreboardPanel.classList.contains("open")) {
     renderLeaderboard(menuLeaderboardList, menuLeaderboardMode, null);
@@ -927,6 +956,19 @@ function setUiState(stateKey, isActive) {
   uiStateTargets.forEach((element) => {
     element.classList.toggle(stateClassName, isActive);
   });
+}
+
+function replayClass(element, className, duration = 520) {
+  if (!element) {
+    return;
+  }
+
+  element.classList.remove(className);
+  void element.offsetWidth;
+  element.classList.add(className);
+  window.setTimeout(() => {
+    element.classList.remove(className);
+  }, duration);
 }
 
 function wait(ms) {
@@ -982,8 +1024,14 @@ function goHome() {
   stopRoundTimer();
   hasAnswered = false;
   feedbackPanel.classList.remove("open");
+  feedbackPanel.classList.remove("feedback-good", "feedback-bad");
+  feedbackPanel.setAttribute("aria-hidden", "true");
+  gamePanel.classList.remove("round-feedback-good", "round-feedback-bad");
+  feedbackText.textContent = "";
+  factText.textContent = "";
+  sourceText.textContent = "";
   nextButton.disabled = false;
-  nextButton.classList.remove("hidden", "staged");
+  nextButton.classList.remove("hidden", "staged", "ready-pulse");
   clearTimeout(roundStatusTimer);
   setUiState("answering", false);
   setUiState("feedbackOpen", false);
@@ -1189,8 +1237,14 @@ async function renderRound(showTransition = false) {
   }
   answersContainer.innerHTML = "";
   feedbackPanel.classList.remove("open");
+  feedbackPanel.classList.remove("feedback-good", "feedback-bad");
+  feedbackPanel.setAttribute("aria-hidden", "true");
+  gamePanel.classList.remove("round-feedback-good", "round-feedback-bad");
+  feedbackText.textContent = "";
+  factText.textContent = "";
+  sourceText.textContent = "";
   nextButton.disabled = false;
-  nextButton.classList.remove("hidden");
+  nextButton.classList.remove("hidden", "ready-pulse");
   nextButton.classList.add("staged");
   hasAnswered = false;
   usedHintThisRound = false;
@@ -1230,6 +1284,8 @@ async function handleAnswer(selectedButton, selectedAnswer) {
   const answerButtons = answersContainer.querySelectorAll(".answer-button");
   const isTimeOut = selectedAnswer === "__timeout__";
   const isCorrect = selectedAnswer === currentQuestion.correctAnswer;
+  const panelFeedbackClass = isCorrect ? "round-feedback-good" : "round-feedback-bad";
+  const feedbackAnimationClass = isCorrect ? "feedback-good" : "feedback-bad";
 
   if (isCorrect) {
     correctGuessCount += 1;
@@ -1247,6 +1303,7 @@ async function handleAnswer(selectedButton, selectedAnswer) {
     currentStreak = 0;
   }
 
+  replayClass(gamePanel, panelFeedbackClass, 1800);
   showRoundStatus(isCorrect ? "Locked in" : "Try again", isCorrect);
 
   updateMistakesLabel();
@@ -1296,6 +1353,8 @@ async function handleAnswer(selectedButton, selectedAnswer) {
   sourceText.textContent = `Source: ${currentQuestion.source} (${currentQuestion.nasaId})${errorCountText}`;
   await wait(FEEDBACK_OPEN_DELAY);
   feedbackPanel.classList.add("open");
+  feedbackPanel.setAttribute("aria-hidden", "false");
+  replayClass(feedbackPanel, feedbackAnimationClass, 1400);
   setUiState("feedbackOpen", true);
   setUiState("roundComplete", true);
   setUiState("answering", false);
@@ -1303,6 +1362,7 @@ async function handleAnswer(selectedButton, selectedAnswer) {
   if (!isGameOver) {
     await wait(Math.max(0, NEXT_BUTTON_DELAY - FEEDBACK_OPEN_DELAY));
     nextButton.classList.remove("staged");
+    replayClass(nextButton, "ready-pulse", 1100);
   }
 }
 
@@ -1633,7 +1693,7 @@ async function goToNextStep() {
     return;
   }
 
-  await playRoundProgressTransition();
+  const previousRound = currentRound;
 
   currentRound += 1;
 
@@ -1644,6 +1704,7 @@ async function goToNextStep() {
 
   if (currentRound < totalRounds) {
     await renderRound();
+    void playRoundProgressTransition(previousRound);
     return;
   }
 
@@ -1656,10 +1717,23 @@ modeButtons.forEach((button) => {
   });
 });
 
+if (mobileModeSelect) {
+  mobileModeSelect.addEventListener("change", (event) => {
+    selectMode(event.target.value);
+  });
+}
+
 themeToggle.addEventListener("click", () => {
+  if (mobileThemeLock.matches) {
+    applyGameTheme("light");
+    return;
+  }
+
   const nextTheme = document.body.classList.contains("game-ui-dark") ? "light" : "dark";
   applyGameTheme(nextTheme);
 });
+
+mobileThemeLock.addEventListener("change", syncThemeForViewport);
 
 startButton.addEventListener("click", () => {
   startGame(selectedModeKey);

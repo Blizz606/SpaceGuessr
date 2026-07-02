@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=20260702-feedback">
   <link rel="icon" href="favicon.ico">
 
   <!-- Preview data for Discord, Twitter and the usual link-card chaos -->
@@ -40,6 +40,16 @@
         <div class="panel intro-panel">
           <!-- Mode picker. Basically: how do you want to suffer today? -->
           <div class="menu-mode-section">
+            <label class="mobile-mode-select-wrap" for="mobile-mode-select">
+              <span class="mobile-mode-select-label">Mode</span>
+              <select id="mobile-mode-select" class="mobile-mode-select" aria-label="Choose game mode">
+                <option value="quick">Quick · 3 rounds</option>
+                <option value="classic" selected>Classic · 5 rounds</option>
+                <option value="timed">Timed · 10s</option>
+                <option value="infinite">Infinite · Endless</option>
+              </select>
+            </label>
+
             <div class="mode-grid" id="mode-grid" aria-label="Choose game mode">
               <div class="mode-indicator" aria-hidden="true"></div>
 
@@ -194,7 +204,7 @@
           <div class="prompt-spacer"></div>
 
           <!-- Feedback opens after you answer -->
-          <div id="feedback-panel" class="feedback-panel">
+          <div id="feedback-panel" class="feedback-panel" aria-hidden="true">
             <p id="feedback-text" class="feedback-text"></p>
             <p id="fact-text" class="fact-text"></p>
             <p id="source-text" class="source-text"></p>
@@ -349,6 +359,6 @@
 
   <!-- Supabase comes from CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="script.js"></script>
+  <script src="script.js?v=20260702-feedback"></script>
 </body>
 </html>
