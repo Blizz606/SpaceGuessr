@@ -25,12 +25,14 @@ Live demo: [blizz606.github.io/SpaceGuessr](https://blizz606.github.io/SpaceGues
 
 ## Features
 
-- Curated library of NASA space images with facts and source metadata
+- Curated library of 70+ NASA space images with facts, source metadata, and difficulty tags
 - Five playable modes: `Quick`, `Classic`, `Timed`, `Daily`, and `Blind Reveal`
 - Responsive UI for desktop and mobile
-- Animated score flow, result states, and polished game feedback
+- Animated score flow, result states, confetti, streak effects, and polished game feedback
+- Lightweight in-browser audio feedback for hints, answers, streaks, and run endings
 - Online leaderboard support for score-chasing modes
 - Local fallback storage if the online leaderboard is unavailable
+- Automatic leaderboard saving for non-daily runs with compact name capture
 - Simple static deployment, including GitHub Pages
 
 ## Game Modes
@@ -45,6 +47,7 @@ Live demo: [blizz606.github.io/SpaceGuessr](https://blizz606.github.io/SpaceGues
 
 Leaderboard-supported modes submit scores automatically after a run.  
 If Supabase is unavailable, the game falls back to local score storage.
+Runs with `0` points are not saved.
 
 ## Scoring
 
@@ -53,6 +56,7 @@ If Supabase is unavailable, the game falls back to local score storage.
 - Streaks add bonus points on top of the base reward: `+10` at a 2x streak, `+20` at 3x, `+30` at 4x, and so on.
 - Wrong answers cost `-25` points and reset the current streak.
 - The visible score never drops below `0`.
+- A continued streak adds more points each time, so fast clean runs scale better than cautious low-streak runs.
 
 ## Tech Stack
 
@@ -61,6 +65,7 @@ If Supabase is unavailable, the game falls back to local score storage.
 - `script.js` for game logic, mode handling, scoring, content data, and leaderboard integration
 - Supabase for online leaderboard storage
 - NASA Image and Video Library as the primary content source
+- GitHub Actions for GitHub Pages deployment
 
 ## Run Locally
 
@@ -82,6 +87,10 @@ Then open the local URL shown in your terminal.
 
 ```txt
 .
+|-- .github/
+|   `-- workflows/
+|       `-- deploy-pages.yml
+|-- .nojekyll
 |-- index.html
 |-- style.css
 |-- script.js
@@ -100,6 +109,7 @@ Each entry includes:
 - `correctAnswer`
 - `wrongAnswers`
 - `fact`
+- `difficulty`
 
 Example:
 
@@ -114,7 +124,8 @@ Example:
 }
 ```
 
-That setup makes it easy to expand the question pool without changing the overall game system. I will add more Images as fast as I can to make it even better.
+That setup makes it easy to expand the question pool without changing the overall game system.  
+The current pool includes 70+ curated NASA-based targets across planets, moons, nebulae, galaxies, and iconic deep-space imagery.
 
 ## Leaderboard Setup
 
@@ -157,6 +168,7 @@ with check (
 ```
 
 The game also compares scores by player name and only replaces an existing score when the new result is better.
+Daily mode does not save scores, and runs with `0` points are intentionally excluded from saving.
 
 ## Deployment
 
@@ -167,9 +179,21 @@ Because the project is fully static, it works well with:
 - Vercel static hosting
 - Any simple web server
 
+### GitHub Pages
+
+The repo includes a GitHub Actions workflow at `.github/workflows/deploy-pages.yml` for deploying the static site.
+
+Recommended setup:
+
+1. Push to `main`
+2. In GitHub repository settings, open `Pages`
+3. Set the publishing source to `GitHub Actions`
+
+The `.nojekyll` file is included so GitHub Pages serves the project as a plain static site without Jekyll processing.
 
 
-## Reviwes
+
+## Reviews
 "I love space and I could genuinely play this for hours on end, well done!"
 
 "Fun game, I quite enjoyed it. Design is good, animations are smooth, overall just high quality and I can tell a lot of care went into it."
@@ -185,4 +209,5 @@ Because the project is fully static, it works well with:
 ## AI Use
 
 AI was used as a development aid for parts of the JavaScript workflow, mainly around debugging and structuring logic.  
+ChatGPT was also used to help research and shortlist additional NASA images for the expanded question pool.  
 The project itself was still manually tested, integrated, and iterated on during development.
