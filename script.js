@@ -906,7 +906,7 @@ function selectMode(modeKey) {
     mobileModeSelect.value = modeKey;
   }
 
-  if (menuScoreboardPanel.classList.contains("open")) {
+  if (menuScoreboardPanel && menuScoreboardPanel.classList.contains("open")) {
     renderLeaderboard(menuLeaderboardList, menuLeaderboardMode, null);
   }
 }
@@ -917,6 +917,8 @@ function showScreen(screenName) {
   });
 
   screens[screenName].classList.add("active");
+  themeToggle.hidden = screenName !== "start";
+  themeToggle.setAttribute("aria-hidden", String(screenName !== "start"));
   setUiState("resultsView", screenName === "end");
 
   if (screenName !== "game") {
@@ -1745,12 +1747,33 @@ homeButtons.forEach((button) => {
   button.addEventListener("click", goHome);
 });
 scoreForm.addEventListener("submit", saveCurrentScore);
-menuScoreboardToggle.addEventListener("click", () => {
-  const isOpen = menuScoreboardPanel.classList.toggle("open");
-  menuScoreboardToggle.setAttribute("aria-expanded", String(isOpen));
+if (menuScoreboardToggle && menuScoreboardPanel) {
+  menuScoreboardToggle.addEventListener("click", () => {
+    const isOpen = menuScoreboardPanel.classList.toggle("open");
+    menuScoreboardToggle.setAttribute("aria-expanded", String(isOpen));
 
-  if (isOpen) {
-    void renderLeaderboard(menuLeaderboardList, menuLeaderboardMode, null);
+    if (isOpen) {
+      void renderLeaderboard(menuLeaderboardList, menuLeaderboardMode, null);
+    }
+  });
+}
+document.addEventListener("click", (event) => {
+  if (!menuScoreboardToggle || !menuScoreboardPanel) {
+    return;
+  }
+
+  const target = event.target;
+
+  if (!(target instanceof Node)) {
+    return;
+  }
+
+  const clickedInsideLeaderboard = menuScoreboardPanel.contains(target);
+  const clickedToggle = menuScoreboardToggle.contains(target);
+
+  if (!clickedInsideLeaderboard && !clickedToggle) {
+    menuScoreboardPanel.classList.remove("open");
+    menuScoreboardToggle.setAttribute("aria-expanded", "false");
   }
 });
 selectMode(selectedModeKey);
@@ -1758,6 +1781,9 @@ loadGameTheme();
 updateLeaderboardVisibility();
 updateDailyAvailability();
 updateStreakLabel();
+if (menuScoreboardPanel && menuScoreboardPanel.classList.contains("open")) {
+  void renderLeaderboard(menuLeaderboardList, menuLeaderboardMode, null);
+}
 playAgainButton.addEventListener("click", () => {
   startGame(selectedModeKey);
 });
