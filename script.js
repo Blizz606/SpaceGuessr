@@ -344,6 +344,246 @@ const spaceLocations = [
     correctAnswer: "Hubble Ultra Deep Field",
     wrongAnswers: ["Andromeda Galaxy", "Whirlpool Galaxy", "Pleiades"],
     fact: "The Hubble Ultra Deep Field reveals thousands of distant galaxies."
+  },
+  {
+    imageUrl: "https://images-assets.nasa.gov/image/PIA13001/PIA13001~small.jpg",
+    nasaId: "PIA13001",
+    source: "NASA Image and Video Library",
+    correctAnswer: "Venus",
+    wrongAnswers: ["Mercury", "Mars", "Io"],
+    fact: "Venus is wrapped in thick clouds and has one of the hottest surfaces in the solar system."
+  },
+  {
+    imageUrl: "https://images-assets.nasa.gov/image/PIA02201/PIA02201~small.jpg",
+    nasaId: "PIA02201",
+    source: "NASA Image and Video Library",
+    correctAnswer: "Io",
+    wrongAnswers: ["Europa", "Ganymede", "Callisto"],
+    fact: "Io is Jupiter's volcanic moon and the most geologically active world known."
+  },
+  {
+    imageUrl: "https://images-assets.nasa.gov/image/PIA11826/PIA11826~small.jpg",
+    nasaId: "PIA11826",
+    source: "NASA Image and Video Library",
+    correctAnswer: "Deimos",
+    wrongAnswers: ["Phobos", "Ceres", "The Moon"],
+    fact: "Deimos is the smaller outer moon of Mars and looks like a captured asteroid."
+  },
+  {
+    imageUrl: "https://images-assets.nasa.gov/image/PIA06572/PIA06572~small.jpg",
+    nasaId: "PIA06572",
+    source: "NASA Image and Video Library",
+    correctAnswer: "Mimas",
+    wrongAnswers: ["Tethys", "Enceladus", "Rhea"],
+    fact: "Mimas is a Saturn moon famous for the giant Herschel crater that dominates one hemisphere."
+  },
+  {
+    imageUrl: "https://images-assets.nasa.gov/image/PIA02276/PIA02276~small.jpg",
+    nasaId: "PIA02276",
+    source: "NASA Image and Video Library",
+    correctAnswer: "Tethys",
+    wrongAnswers: ["Dione", "Rhea", "Mimas"],
+    fact: "Tethys is an icy moon of Saturn marked by a huge canyon called Ithaca Chasma."
+  },
+  {
+    imageUrl: "https://images-assets.nasa.gov/image/PIA07742/PIA07742~small.jpg",
+    nasaId: "PIA07742",
+    source: "NASA Image and Video Library",
+    correctAnswer: "Hyperion",
+    wrongAnswers: ["Phoebe", "Iapetus", "Mimas"],
+    fact: "Hyperion has a porous sponge-like surface and tumbles chaotically around Saturn."
+  },
+  {
+    imageUrl: "https://images-assets.nasa.gov/image/PIA00034/PIA00034~thumb.jpg",
+    nasaId: "PIA00034",
+    source: "NASA Image and Video Library",
+    correctAnswer: "Oberon",
+    wrongAnswers: ["Titania", "Umbriel", "Ariel"],
+    fact: "Oberon is the outermost large moon of Uranus seen up close by Voyager 2."
+  },
+  {
+    imageUrl: "https://images-assets.nasa.gov/image/PIA00040/PIA00040~thumb.jpg",
+    nasaId: "PIA00040",
+    source: "NASA Image and Video Library",
+    correctAnswer: "Umbriel",
+    wrongAnswers: ["Oberon", "Titania", "Miranda"],
+    fact: "Umbriel is a dark Uranian moon with an old cratered surface."
+  },
+  {
+    imageUrl: "https://images-assets.nasa.gov/image/PIA00039/PIA00039~small.jpg",
+    nasaId: "PIA00039",
+    source: "NASA Image and Video Library",
+    correctAnswer: "Titania",
+    wrongAnswers: ["Oberon", "Umbriel", "Triton"],
+    fact: "Titania is the largest moon of Uranus and shows giant faults and bright scarps."
+  },
+  {
+    imageUrl: "https://images-assets.nasa.gov/image/PIA18906/PIA18906~medium.jpg",
+    nasaId: "PIA18906",
+    source: "NASA Image and Video Library",
+    correctAnswer: "Sun",
+    wrongAnswers: ["Venus", "Jupiter", "Helix Nebula"],
+    fact: "This view shows the Sun in high-energy X-rays, highlighting magnetic activity and hot plasma."
+  },
+  {
+    imageUrl: "https://images-assets.nasa.gov/image/PIA15658/PIA15658~medium.jpg",
+    nasaId: "PIA15658",
+    source: "NASA Image and Video Library",
+    correctAnswer: "Helix Nebula",
+    wrongAnswers: ["Ring Nebula", "Cat's Eye Nebula", "Rosette Nebula"],
+    fact: "The Helix Nebula is a nearby planetary nebula formed as a sun-like star shed its outer layers."
+  },
+  {
+    imageUrl: "https://images-assets.nasa.gov/image/carina_nebula/carina_nebula~medium.jpg",
+    nasaId: "carina_nebula",
+    source: "NASA Image and Video Library",
+    correctAnswer: "Carina Nebula",
+    wrongAnswers: ["Lagoon Nebula", "Trifid Nebula", "Tarantula Nebula"],
+    fact: "The Carina Nebula is a turbulent star-forming region home to massive young stars."
+  },
+  {
+    imageUrl: "https://images-assets.nasa.gov/image/PIA04220/PIA04220~small.jpg",
+    nasaId: "PIA04220",
+    source: "NASA Image and Video Library",
+    correctAnswer: "Trifid Nebula",
+    wrongAnswers: ["Lagoon Nebula", "Orion Nebula", "Eagle Nebula"],
+    fact: "The Trifid Nebula mixes glowing emission gas with dark dust lanes that split its bright core."
+  },
+  {
+    imageUrl: "https://images-assets.nasa.gov/image/PIA15635/PIA15635~medium.jpg",
+    nasaId: "PIA15635",
+    source: "NASA Image and Video Library",
+    correctAnswer: "Flame Nebula",
+    wrongAnswers: ["Horsehead Nebula", "Cone Nebula", "Helix Nebula"],
+    fact: "The Flame Nebula glows near Alnitak in Orion and is threaded by dark dust."
+  },
+  {
+    imageUrl: "https://images-assets.nasa.gov/image/PIA23121/PIA23121~medium.jpg",
+    nasaId: "PIA23121",
+    source: "NASA Image and Video Library",
+    correctAnswer: "Butterfly Nebula",
+    wrongAnswers: ["Ring Nebula", "Cat's Eye Nebula", "Flame Nebula"],
+    fact: "The Butterfly Nebula is a bipolar planetary nebula with two bright wing-like lobes."
+  },
+  {
+    imageUrl: "https://images-assets.nasa.gov/image/PIA25165/PIA25165~medium.jpg",
+    nasaId: "PIA25165",
+    source: "NASA Image and Video Library",
+    correctAnswer: "Triangulum Galaxy",
+    wrongAnswers: ["Andromeda Galaxy", "Whirlpool Galaxy", "Pinwheel Galaxy"],
+    fact: "The Triangulum Galaxy, also called M33, is one of the closest spiral galaxies to the Milky Way."
+  },
+  {
+    imageUrl: "https://images-assets.nasa.gov/image/PIA14403/PIA14403~medium.jpg",
+    nasaId: "PIA14403",
+    source: "NASA Image and Video Library",
+    correctAnswer: "Pinwheel Galaxy",
+    wrongAnswers: ["Triangulum Galaxy", "Whirlpool Galaxy", "Sombrero Galaxy"],
+    fact: "The Pinwheel Galaxy, also known as M101, is a face-on spiral rich in star formation."
+  },
+  {
+    imageUrl: "https://images-assets.nasa.gov/image/PIA03296/PIA03296~medium.jpg",
+    nasaId: "PIA03296",
+    source: "NASA Image and Video Library",
+    correctAnswer: "Cartwheel Galaxy",
+    wrongAnswers: ["Whirlpool Galaxy", "Antennae Galaxies", "Stephan Quintet"],
+    fact: "The Cartwheel Galaxy likely got its ring shape after a dramatic galactic collision."
+  },
+  {
+    imageUrl: "https://images-assets.nasa.gov/image/PIA04624/PIA04624~medium.jpg",
+    nasaId: "PIA04624",
+    source: "NASA Image and Video Library",
+    correctAnswer: "Centaurus A",
+    wrongAnswers: ["Messier 87", "Sculptor Galaxy", "Sombrero Galaxy"],
+    fact: "Centaurus A is a peculiar galaxy with a bright core and a thick dark dust lane."
+  },
+  {
+    imageUrl: "https://images-assets.nasa.gov/image/PIA17256/PIA17256~medium.jpg",
+    nasaId: "PIA17256",
+    source: "NASA Image and Video Library",
+    correctAnswer: "Sculptor Galaxy",
+    wrongAnswers: ["Centaurus A", "Pinwheel Galaxy", "M82 Galaxy"],
+    fact: "The Sculptor Galaxy is a nearby spiral often studied in infrared and X-ray light."
+  },
+  {
+    imageUrl: "https://images-assets.nasa.gov/image/GSFC_20171208_Archive_e001327/GSFC_20171208_Archive_e001327~small.jpg",
+    nasaId: "GSFC_20171208_Archive_e001327",
+    source: "NASA Image and Video Library",
+    correctAnswer: "Antennae Galaxies",
+    wrongAnswers: ["Stephan Quintet", "Cartwheel Galaxy", "Whirlpool Galaxy"],
+    fact: "The Antennae Galaxies are two colliding spirals throwing out long tidal tails of stars and gas."
+  },
+  {
+    imageUrl: "https://images-assets.nasa.gov/image/PIA09579/PIA09579~medium.jpg",
+    nasaId: "PIA09579",
+    source: "NASA Image and Video Library",
+    correctAnswer: "M81 Galaxy",
+    wrongAnswers: ["M82 Galaxy", "Triangulum Galaxy", "Andromeda Galaxy"],
+    fact: "M81 is a grand-design spiral galaxy in the same sky neighborhood as starburst galaxy M82."
+  },
+  {
+    imageUrl: "https://images-assets.nasa.gov/image/PIA04218/PIA04218~medium.jpg",
+    nasaId: "PIA04218",
+    source: "NASA Image and Video Library",
+    correctAnswer: "M82 Galaxy",
+    wrongAnswers: ["M81 Galaxy", "Whirlpool Galaxy", "Centaurus A"],
+    fact: "M82 is a starburst galaxy blasting material into space from intense stellar activity."
+  },
+  {
+    imageUrl: "https://images-assets.nasa.gov/image/PIA04201/PIA04201~medium.jpg",
+    nasaId: "PIA04201",
+    source: "NASA Image and Video Library",
+    correctAnswer: "Stephan Quintet",
+    wrongAnswers: ["Antennae Galaxies", "Cartwheel Galaxy", "Messier 87"],
+    fact: "Stephan Quintet is a famous compact group of interacting galaxies."
+  },
+  {
+    imageUrl: "https://images-assets.nasa.gov/image/GSFC_20171208_Archive_e000842/GSFC_20171208_Archive_e000842~medium.jpg",
+    nasaId: "GSFC_20171208_Archive_e000842",
+    source: "NASA Image and Video Library",
+    correctAnswer: "Pillars of Creation",
+    wrongAnswers: ["Horsehead Nebula", "Carina Nebula", "Veil Nebula"],
+    fact: "The Pillars of Creation are towering columns of gas and dust inside the Eagle Nebula."
+  },
+  {
+    imageUrl: "https://images-assets.nasa.gov/image/PIA19968/PIA19968~medium.jpg",
+    nasaId: "PIA19968",
+    source: "NASA Image and Video Library",
+    correctAnswer: "Charon",
+    wrongAnswers: ["Pluto", "Nix", "Triton"],
+    fact: "Charon is Pluto's largest moon and shows canyons, fractures, and contrasting terrain colors."
+  },
+  {
+    imageUrl: "https://images-assets.nasa.gov/image/PIA20287/PIA20287~small.jpg",
+    nasaId: "PIA20287",
+    source: "NASA Image and Video Library",
+    correctAnswer: "Nix",
+    wrongAnswers: ["Hydra", "Charon", "Deimos"],
+    fact: "Nix is one of Pluto's small moons and has an irregular shape with bright icy patches."
+  },
+  {
+    imageUrl: "https://images-assets.nasa.gov/image/PIA20581/PIA20581~small.jpg",
+    nasaId: "PIA20581",
+    source: "NASA Image and Video Library",
+    correctAnswer: "Hydra",
+    wrongAnswers: ["Nix", "Charon", "Phoebe"],
+    fact: "Hydra is a small outer moon of Pluto discovered in 2005."
+  },
+  {
+    imageUrl: "https://images-assets.nasa.gov/image/PIA06062/PIA06062~thumb.jpg",
+    nasaId: "PIA06062",
+    source: "NASA Image and Video Library",
+    correctAnswer: "Phoebe",
+    wrongAnswers: ["Hyperion", "Iapetus", "Mimas"],
+    fact: "Phoebe is a dark irregular moon of Saturn that may have been captured from the outer solar system."
+  },
+  {
+    imageUrl: "https://images-assets.nasa.gov/image/PIA10063/PIA10063~medium.jpg",
+    nasaId: "PIA10063",
+    source: "NASA Image and Video Library",
+    correctAnswer: "Olympus Mons",
+    wrongAnswers: ["Valles Marineris", "Gale Crater", "Venus"],
+    fact: "Olympus Mons is the tallest volcano in the solar system and rises high above the Martian plains."
   }
 ];
 
@@ -370,19 +610,20 @@ const gameModes = {
     seconds: 10,
     description: "Race against the clock and answer before time runs out."
   },
+  blind: {
+    label: "Blind Reveal",
+    rounds: 5,
+    index: 3,
+    hints: 1,
+    seconds: 15,
+    description: "A hidden image slowly reveals itself, the countdown runs, and every reveal lowers the reward."
+  },
   daily: {
     label: "Daily",
     rounds: 1,
     index: null,
     hints: 0,
     description: "One shared image per day, same challenge for everyone."
-  },
-  infinite: {
-    label: "Infinite",
-    rounds: Infinity,
-    index: 3,
-    hints: 3,
-    description: "Keep going as long as you can."
   }
 };
 
@@ -401,9 +642,14 @@ const mobileModeSelect = document.getElementById("mobile-mode-select");
 const modeDescription = document.getElementById("mode-description");
 const startButton = document.getElementById("start-button");
 const dailyButton = document.getElementById("daily-button");
+const helpWidget = document.getElementById("help-widget");
+const helpToggleButton = document.getElementById("help-toggle-button");
+const helpCloseButton = document.getElementById("help-close-button");
+const helpPanel = document.getElementById("help-panel");
 const homeButtons = document.querySelectorAll(".home-button, .end-home-button");
 const playAgainButton = document.getElementById("play-again-button");
 const nextButton = document.getElementById("next-button");
+const gameHeader = document.querySelector(".game-header");
 const roundLabel = document.getElementById("round-label");
 const roundValue = document.getElementById("round-value");
 const roundProgressBar = document.getElementById("round-progress-bar");
@@ -412,6 +658,8 @@ const streakLabel = document.getElementById("streak-label");
 const timerLabel = document.getElementById("timer-label");
 const scoreLabel = document.getElementById("score-label");
 const spaceImage = document.getElementById("space-image");
+const imageFrame = document.querySelector(".image-frame");
+const confettiLayer = document.getElementById("confetti-layer");
 const answersContainer = document.getElementById("answers-container");
 const feedbackPanel = document.getElementById("feedback-panel");
 const feedbackText = document.getElementById("feedback-text");
@@ -422,6 +670,8 @@ const hintButton = document.getElementById("hint-button");
 const hintCount = document.getElementById("hint-count");
 const finalHeading = document.getElementById("final-heading");
 const finalScore = document.getElementById("final-score");
+const runSummaryTitle = document.getElementById("run-summary-title");
+const runSummaryText = document.getElementById("run-summary-text");
 const ratingText = document.getElementById("rating-text");
 const rankBadge = document.getElementById("rank-badge");
 const endStatCorrect = document.getElementById("end-stat-correct");
@@ -435,10 +685,13 @@ const copyShareButton = document.getElementById("copy-share-button");
 const nativeShareButton = document.getElementById("native-share-button");
 const transitionOverlay = document.getElementById("transition-overlay");
 const transitionText = document.getElementById("transition-text");
+const toastMessage = document.getElementById("toast-message");
 const themeToggle = document.getElementById("theme-toggle");
 const scoreForm = document.getElementById("score-form");
 const savedPlayerName = document.getElementById("saved-player-name");
 const playerNameInput = document.getElementById("player-name");
+const autoNameForm = document.getElementById("auto-name-form");
+const autoPlayerNameInput = document.getElementById("auto-player-name");
 const saveMessage = document.getElementById("save-message");
 const leaderboardList = document.getElementById("leaderboard-list");
 const leaderboardMode = document.getElementById("leaderboard-mode");
@@ -446,6 +699,7 @@ const menuScoreboardToggle = document.getElementById("menu-scoreboard-toggle");
 const menuScoreboardPanel = document.getElementById("menu-scoreboard-panel");
 const menuLeaderboardList = document.getElementById("menu-leaderboard-list");
 const menuLeaderboardMode = document.getElementById("menu-leaderboard-mode");
+const menuLeaderboardPanelCard = document.querySelector(".menu-leaderboard-panel");
 const leaderboardOnlyElements = document.querySelectorAll(".leaderboard-only");
 
 const uiStateTargets = [document.body, gamePanel, endPanel].filter(Boolean);
@@ -489,14 +743,28 @@ let rewardFeedbackTimer;
 let streakFeedbackTimer;
 let gameOverTimer;
 let roundTimer;
+let blindRevealTimer;
+let blindRevealStepIndex = 0;
+let confettiCleanupTimer;
 let copyButtonResetTimer;
 let roundStatusTimer;
-const MAX_WRONG_ANSWERS_INFINITE = 10;
+let toastTimer;
+let menuLeaderboardCache = null;
+let menuLeaderboardPrefetchPromise = null;
+let audioContext = null;
+let audioMasterGain = null;
 const TRANSITION_MIN_DURATION = 420;
 const TRANSITION_MAX_DURATION = 2000;
 const FEEDBACK_OPEN_DELAY = 220;
 const NEXT_BUTTON_DELAY = 380;
 const ROUND_PROGRESS_VISIBLE_DURATION = 1500;
+const BLIND_REVEAL_INTERVAL = 2500;
+const BLIND_REVEAL_STEPS = [0.14, 0.24, 0.36, 0.5, 0.66, 0.84, 1];
+const BLIND_REVEAL_POINTS = [80, 70, 60, 50, 40, 30, 20];
+const STREAK_BONUS_STEP = 10;
+const CONFETTI_COLORS = ["#f2d74e", "#95c3de", "#ff9a91", "#7dd3fc", "#86efac"];
+const CONFETTI_COUNT = 56;
+const AUDIO_MASTER_LEVEL = 0.22;
 const preloadedImageUrls = new Set();
 const rankTiers = [
   { min: 0, title: "Space Noob" },
@@ -508,6 +776,86 @@ const rankTiers = [
   { min: 500, title: "Cosmic Genius" },
   { min: 600, title: "Universe Legend" }
 ];
+
+const locationDifficultyById = {
+  PIA15691: "easy",
+  "as11-37-5545": "easy",
+  PIA01262: "easy",
+  PIA12513: "easy",
+  iss045e013851: "easy",
+  PIA01322: "medium",
+  PIA01391: "medium",
+  PIA01539: "medium",
+  PIA04921: "medium",
+  PIA09109: "medium",
+  PIA12778: "medium",
+  PIA17658: "medium",
+  GSFC_20171208_Archive_e001625: "easy",
+  PIA19693: "hard",
+  PIA14443: "hard",
+  PIA03606: "hard",
+  PIA15226: "hard",
+  PIA10957: "hard",
+  PIA20309: "medium",
+  PIA17211: "medium",
+  PIA22056: "hard",
+  GSFC_20171208_Archive_e001925: "hard",
+  PIA04215: "hard",
+  GSFC_20171208_Archive_e001955: "hard",
+  PIA09268: "hard",
+  GSFC_20171208_Archive_e002155: "hard",
+  GSFC_20171208_Archive_e002058: "hard",
+  PIA09262: "hard",
+  GSFC_20171208_Archive_e001642: "hard",
+  GSFC_20171208_Archive_e002039: "hard",
+  PIA23122: "hard",
+  PIA21770: "hard",
+  PIA00521: "hard",
+  PIA03456: "hard",
+  PIA17195: "hard",
+  PIA12546: "hard",
+  PIA12521: "hard",
+  PIA00037: "hard",
+  PIA01490: "hard",
+  PIA01994: "hard",
+  PIA13693: "hard",
+  PIA00452: "medium",
+  GSFC_20171208_Archive_e001651: "hard",
+  PIA13001: "easy",
+  PIA02201: "medium",
+  PIA11826: "hard",
+  PIA06572: "hard",
+  PIA02276: "hard",
+  PIA07742: "hard",
+  PIA00034: "hard",
+  PIA00040: "hard",
+  PIA00039: "hard",
+  PIA18906: "easy",
+  PIA15658: "medium",
+  carina_nebula: "medium",
+  PIA04220: "hard",
+  PIA15635: "hard",
+  PIA23121: "hard",
+  PIA25165: "hard",
+  PIA14403: "hard",
+  PIA03296: "hard",
+  PIA04624: "hard",
+  PIA17256: "hard",
+  GSFC_20171208_Archive_e001327: "hard",
+  PIA09579: "hard",
+  PIA04218: "hard",
+  PIA04201: "hard",
+  GSFC_20171208_Archive_e000842: "hard",
+  PIA19968: "hard",
+  PIA20287: "hard",
+  PIA20581: "hard",
+  PIA06062: "hard",
+  PIA10063: "medium"
+};
+
+spaceLocations.forEach((location) => {
+  location.difficulty = locationDifficultyById[location.nasaId] || "medium";
+});
 
 function getSupabaseErrorMessage(error, fallbackText) {
   if (!error) {
@@ -524,45 +872,118 @@ function getSupabaseErrorMessage(error, fallbackText) {
 }
 
 function applyGameTheme(themeName) {
-  if (mobileThemeLock.matches) {
-    document.body.classList.remove("game-ui-dark");
+  document.body.classList.remove("game-ui-dark");
+
+  if (themeToggle) {
     themeToggle.setAttribute("aria-pressed", "false");
-    themeToggle.setAttribute("aria-label", "Game UI stays in light mode on mobile");
-    return;
+    themeToggle.setAttribute("aria-label", "Game UI stays in light mode");
   }
 
-  const isDarkTheme = themeName === "dark";
-  document.body.classList.toggle("game-ui-dark", isDarkTheme);
-  themeToggle.setAttribute("aria-pressed", String(isDarkTheme));
-  themeToggle.setAttribute(
-    "aria-label",
-    isDarkTheme ? "Switch game UI to light mode" : "Switch game UI to dark mode"
-  );
-  localStorage.setItem(gameThemeStorageKey, isDarkTheme ? "dark" : "light");
+  localStorage.setItem(gameThemeStorageKey, "light");
 }
 
 function loadGameTheme() {
-  if (mobileThemeLock.matches) {
-    applyGameTheme("light");
-    return;
-  }
-
-  const savedTheme = localStorage.getItem(gameThemeStorageKey);
-  applyGameTheme(savedTheme === "dark" ? "dark" : "light");
+  applyGameTheme("light");
 }
 
 function syncThemeForViewport() {
-  if (mobileThemeLock.matches) {
-    applyGameTheme("light");
+  applyGameTheme("light");
+}
+
+function ensureAudioContext() {
+  const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+
+  if (!AudioContextClass) {
+    return null;
+  }
+
+  if (!audioContext) {
+    audioContext = new AudioContextClass();
+    audioMasterGain = audioContext.createGain();
+    audioMasterGain.gain.value = AUDIO_MASTER_LEVEL;
+    audioMasterGain.connect(audioContext.destination);
+  }
+
+  if (audioContext.state === "suspended") {
+    void audioContext.resume().catch(() => {});
+  }
+
+  return audioContext;
+}
+
+function scheduleTone(startTime, frequency, duration, volume, type = "sine") {
+  const activeAudioContext = ensureAudioContext();
+
+  if (!activeAudioContext || !audioMasterGain) {
     return;
   }
 
-  const savedTheme = localStorage.getItem(gameThemeStorageKey);
-  applyGameTheme(savedTheme === "dark" ? "dark" : "light");
+  const oscillator = activeAudioContext.createOscillator();
+  const gainNode = activeAudioContext.createGain();
+
+  oscillator.type = type;
+  oscillator.frequency.setValueAtTime(frequency, startTime);
+  gainNode.gain.setValueAtTime(0.0001, startTime);
+  gainNode.gain.exponentialRampToValueAtTime(Math.max(0.0001, volume), startTime + 0.02);
+  gainNode.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
+
+  oscillator.connect(gainNode);
+  gainNode.connect(audioMasterGain);
+  oscillator.start(startTime);
+  oscillator.stop(startTime + duration + 0.04);
+}
+
+function playSoundEffect(effectName) {
+  const activeAudioContext = ensureAudioContext();
+
+  if (!activeAudioContext) {
+    return;
+  }
+
+  const now = activeAudioContext.currentTime + 0.01;
+
+  if (effectName === "correct") {
+    scheduleTone(now, 523.25, 0.12, 0.12, "triangle");
+    scheduleTone(now + 0.1, 659.25, 0.16, 0.11, "triangle");
+    scheduleTone(now + 0.2, 783.99, 0.22, 0.1, "sine");
+    return;
+  }
+
+  if (effectName === "wrong") {
+    scheduleTone(now, 220, 0.16, 0.11, "sawtooth");
+    scheduleTone(now + 0.08, 174.61, 0.22, 0.1, "triangle");
+    return;
+  }
+
+  if (effectName === "streak") {
+    scheduleTone(now, 659.25, 0.08, 0.1, "square");
+    scheduleTone(now + 0.07, 783.99, 0.1, 0.09, "square");
+    scheduleTone(now + 0.14, 987.77, 0.14, 0.08, "triangle");
+    return;
+  }
+
+  if (effectName === "hint") {
+    scheduleTone(now, 440, 0.08, 0.06, "sine");
+    scheduleTone(now + 0.08, 587.33, 0.1, 0.05, "triangle");
+    return;
+  }
+
+  if (effectName === "finish-good") {
+    scheduleTone(now, 392, 0.16, 0.12, "triangle");
+    scheduleTone(now + 0.1, 523.25, 0.2, 0.11, "triangle");
+    scheduleTone(now + 0.22, 659.25, 0.3, 0.1, "sine");
+    scheduleTone(now + 0.36, 783.99, 0.42, 0.08, "sine");
+    return;
+  }
+
+  if (effectName === "finish-bad") {
+    scheduleTone(now, 311.13, 0.16, 0.1, "triangle");
+    scheduleTone(now + 0.12, 261.63, 0.24, 0.09, "triangle");
+  }
 }
 
 function isInfiniteMode() {
-  return selectedModeKey === "infinite";
+  return false;
 }
 
 function isDailyMode() {
@@ -573,8 +994,20 @@ function isTimedMode() {
   return selectedModeKey === "timed";
 }
 
+function isBlindRevealMode() {
+  return selectedModeKey === "blind";
+}
+
+function hasRoundCountdown() {
+  return isTimedMode() || isBlindRevealMode();
+}
+
 function hasLeaderboardMode() {
-  return isInfiniteMode();
+  return !isDailyMode();
+}
+
+function getActiveModeConfig() {
+  return gameModes[selectedModeKey];
 }
 
 function updateHintUI() {
@@ -601,14 +1034,15 @@ function updateHintUI() {
 }
 
 function updateTimerUI() {
-  if (!isTimedMode()) {
+  if (!hasRoundCountdown()) {
     timerLabel.classList.add("hidden");
     return;
   }
 
   timerLabel.classList.remove("hidden");
-  timerLabel.textContent = `Time: ${timeLeft}`;
-  timerLabel.classList.toggle("danger", timeLeft <= 3);
+  timerLabel.textContent = String(timeLeft);
+  timerLabel.setAttribute("aria-label", `${timeLeft} seconds remaining`);
+  timerLabel.classList.toggle("danger", timeLeft <= 5);
 }
 
 function stopRoundTimer() {
@@ -616,13 +1050,13 @@ function stopRoundTimer() {
 }
 
 function startRoundTimer() {
-  if (!isTimedMode()) {
+  if (!hasRoundCountdown()) {
     updateTimerUI();
     return;
   }
 
   stopRoundTimer();
-  timeLeft = gameModes.timed.seconds;
+  timeLeft = getActiveModeConfig().seconds;
   updateTimerUI();
 
   roundTimer = setInterval(() => {
@@ -636,7 +1070,152 @@ function startRoundTimer() {
   }, 1000);
 }
 
-function useHint() {
+function stopBlindRevealTimer() {
+  window.clearInterval(blindRevealTimer);
+  blindRevealTimer = null;
+}
+
+function getBlindRevealPoints() {
+  const safeIndex = Math.min(blindRevealStepIndex, BLIND_REVEAL_POINTS.length - 1);
+  return BLIND_REVEAL_POINTS[safeIndex];
+}
+
+function getStreakBonus(streakValue) {
+  return Math.max(0, streakValue - 1) * STREAK_BONUS_STEP;
+}
+
+function getPointsForCorrectGuess(streakValue) {
+  const basePoints = isBlindRevealMode() ? getBlindRevealPoints() : 50;
+  const streakBonus = getStreakBonus(streakValue);
+
+  return {
+    basePoints,
+    streakBonus,
+    totalPoints: basePoints + streakBonus
+  };
+}
+
+function setHelpPanelOpen(isOpen) {
+  if (!helpWidget || !helpToggleButton || !helpPanel) {
+    return;
+  }
+
+  helpWidget.classList.toggle("open", isOpen);
+  helpPanel.classList.toggle("open", isOpen);
+  helpPanel.setAttribute("aria-hidden", String(!isOpen));
+  helpToggleButton.setAttribute("aria-expanded", String(isOpen));
+}
+
+function setBlindRevealProgress(progress) {
+  const normalizedProgress = Math.max(0, Math.min(1, progress));
+  const revealPercent = `${(normalizedProgress * 100).toFixed(2)}%`;
+  const blurPixels = `${(18 - (normalizedProgress * 18)).toFixed(2)}px`;
+
+  spaceImage.style.setProperty("--blind-reveal-progress", revealPercent);
+  spaceImage.style.setProperty("--blind-reveal-blur", blurPixels);
+}
+
+function applyBlindRevealState() {
+  const imageFrame = spaceImage.parentElement;
+
+  if (!imageFrame) {
+    return;
+  }
+
+  imageFrame.classList.toggle("blind-reveal-mode", isBlindRevealMode());
+
+  if (!isBlindRevealMode()) {
+    setBlindRevealProgress(1);
+    stopBlindRevealTimer();
+  }
+}
+
+function startBlindRevealTimer() {
+  if (!isBlindRevealMode()) {
+    applyBlindRevealState();
+    return;
+  }
+
+  stopBlindRevealTimer();
+  applyBlindRevealState();
+  blindRevealStepIndex = 0;
+  setBlindRevealProgress(BLIND_REVEAL_STEPS[blindRevealStepIndex]);
+
+  blindRevealTimer = window.setInterval(() => {
+    blindRevealStepIndex += 1;
+    const nextProgress = BLIND_REVEAL_STEPS[Math.min(blindRevealStepIndex, BLIND_REVEAL_STEPS.length - 1)];
+    setBlindRevealProgress(nextProgress);
+
+    if (blindRevealStepIndex >= BLIND_REVEAL_STEPS.length - 1) {
+      stopBlindRevealTimer();
+    }
+  }, BLIND_REVEAL_INTERVAL);
+}
+
+function waitForNextFrame() {
+  return new Promise((resolve) => {
+    requestAnimationFrame(() => resolve());
+  });
+}
+
+async function animateHintRemoval(buttonsToRemove) {
+  const visibleButtons = Array.from(answersContainer.querySelectorAll(".answer-button"))
+    .filter((button) => !button.hidden);
+  const firstRects = new Map(
+    visibleButtons.map((button) => [button, button.getBoundingClientRect()])
+  );
+
+  buttonsToRemove.forEach((button) => {
+    button.disabled = true;
+    button.setAttribute("aria-hidden", "true");
+    button.classList.add("hint-removing");
+  });
+
+  await waitForNextFrame();
+  await new Promise((resolve) => {
+    setTimeout(resolve, 260);
+  });
+
+  buttonsToRemove.forEach((button) => {
+    button.classList.remove("hint-removing");
+    button.classList.add("hint-hidden");
+    button.hidden = true;
+  });
+
+  await waitForNextFrame();
+
+  visibleButtons
+    .filter((button) => !buttonsToRemove.includes(button) && !button.hidden)
+    .forEach((button) => {
+      const firstRect = firstRects.get(button);
+      const lastRect = button.getBoundingClientRect();
+      const deltaX = firstRect.left - lastRect.left;
+      const deltaY = firstRect.top - lastRect.top;
+
+      if (deltaX === 0 && deltaY === 0) {
+        return;
+      }
+
+      button.animate(
+        [
+          {
+            transform: `translate(${deltaX}px, ${deltaY}px) scale(0.985)`,
+            boxShadow: "0 18px 38px rgba(15, 23, 42, 0.14)"
+          },
+          {
+            transform: "translate(0, 0) scale(1)",
+            boxShadow: ""
+          }
+        ],
+        {
+          duration: 340,
+          easing: "cubic-bezier(0.22, 1, 0.36, 1)"
+        }
+      );
+    });
+}
+
+async function useHint() {
   if (isDailyMode()) {
     return;
   }
@@ -653,13 +1232,9 @@ function useHint() {
 
   hintsLeft -= 1;
   usedHintThisRound = true;
-
-  wrongButtons.forEach((button) => {
-    button.disabled = true;
-    button.classList.add("hint-hidden");
-  });
-
+  playSoundEffect("hint");
   updateHintUI();
+  await animateHintRemoval(wrongButtons);
 }
 
 function getDailyKey(date = new Date()) {
@@ -713,10 +1288,6 @@ function getAccuracyValue() {
 }
 
 function getFinishedRounds() {
-  if (isInfiniteMode()) {
-    return currentRound + 1;
-  }
-
   return totalRounds;
 }
 
@@ -810,41 +1381,71 @@ function showStreakFeedback() {
   streakLabel.classList.add("boost");
   streakFeedbackTimer = setTimeout(() => {
     streakLabel.classList.remove("boost");
-  }, 620);
+  }, 760);
+}
+
+function clearConfetti() {
+  clearTimeout(confettiCleanupTimer);
+
+  if (!confettiLayer) {
+    return;
+  }
+
+  confettiLayer.innerHTML = "";
+  confettiLayer.classList.remove("is-active");
+}
+
+function showConfetti() {
+  if (!confettiLayer) {
+    return;
+  }
+
+  clearConfetti();
+  confettiLayer.classList.add("is-active");
+
+  for (let index = 0; index < CONFETTI_COUNT; index += 1) {
+    const piece = document.createElement("span");
+    const color = CONFETTI_COLORS[index % CONFETTI_COLORS.length];
+    const left = 4 + Math.random() * 92;
+    const delay = Math.random() * 0.35;
+    const duration = 3.4 + Math.random() * 1.4;
+    const drift = Math.random() * 24 - 12;
+    const rotate = 720 + Math.random() * 900;
+    const size = 8 + Math.random() * 9;
+
+    piece.className = "confetti";
+    piece.style.setProperty("--confetti-color", color);
+    piece.style.setProperty("--confetti-left", `${left.toFixed(2)}%`);
+    piece.style.setProperty("--confetti-delay", `${delay.toFixed(2)}s`);
+    piece.style.setProperty("--confetti-duration", `${duration.toFixed(2)}s`);
+    piece.style.setProperty("--confetti-drift", `${drift.toFixed(2)}vw`);
+    piece.style.setProperty("--confetti-drift-a", `${(drift * -0.45).toFixed(2)}vw`);
+    piece.style.setProperty("--confetti-drift-b", `${(drift * 0.55).toFixed(2)}vw`);
+    piece.style.setProperty("--confetti-drift-c", `${(drift * -0.85).toFixed(2)}vw`);
+    piece.style.setProperty("--confetti-rotate", `${rotate.toFixed(0)}deg`);
+    piece.style.setProperty("--confetti-size", `${size.toFixed(0)}px`);
+    piece.style.setProperty("--confetti-radius", index % 3 === 0 ? "999px" : "3px");
+    confettiLayer.appendChild(piece);
+  }
+
+  confettiCleanupTimer = setTimeout(clearConfetti, 4600);
 }
 
 function updateMistakesLabel() {
-  const missesLeft = Math.max(0, MAX_WRONG_ANSWERS_INFINITE - wrongAnswerCount);
-  const dots = Array.from({ length: MAX_WRONG_ANSWERS_INFINITE }, (_, index) => {
-    const isLost = index < wrongAnswerCount;
-    return `<span class="miss-dot${isLost ? " lost" : ""}" aria-hidden="true"></span>`;
-  }).join("");
-
-  mistakesLabel.innerHTML = `
-    <span class="miss-track-label">${missesLeft} left</span>
-    <span class="miss-dots" aria-hidden="true">${dots}</span>
-  `;
-  mistakesLabel.setAttribute("aria-label", `${missesLeft} misses left before game over`);
-  mistakesLabel.classList.toggle("hidden", !isInfiniteMode());
-  mistakesLabel.classList.toggle("danger", isInfiniteMode() && missesLeft <= 3);
+  mistakesLabel.classList.add("hidden");
+  mistakesLabel.innerHTML = "";
 }
 
 function updateRoundDisplay() {
   const currentRoundNumber = currentRound + 1;
-  const isInfinite = isInfiniteMode();
-
-  roundValue.textContent = isInfinite
-    ? `${currentRoundNumber}`
-    : `${currentRoundNumber} / ${totalRounds}`;
+  roundValue.textContent = `${currentRoundNumber} / ${totalRounds}`;
 
   roundLabel.classList.remove("show-progress");
   roundLabel.classList.remove("round-status-good", "round-status-bad");
-  roundProgressBar.style.transform = `scaleX(${isInfinite ? 1 : Math.min(currentRoundNumber / totalRounds, 1)})`;
+  roundProgressBar.style.transform = `scaleX(${Math.min(currentRoundNumber / totalRounds, 1)})`;
   roundLabel.setAttribute(
     "aria-label",
-    isInfinite
-      ? `Round ${currentRoundNumber}`
-      : `Round ${currentRoundNumber} of ${totalRounds}`
+    `Round ${currentRoundNumber} of ${totalRounds}`
   );
 }
 
@@ -859,7 +1460,7 @@ function showRoundStatus(message, isGood) {
 }
 
 async function playRoundProgressTransition(fromRound = currentRound) {
-  if (isInfiniteMode() || fromRound >= totalRounds - 1) {
+  if (fromRound >= totalRounds - 1) {
     return;
   }
 
@@ -886,8 +1487,13 @@ function updateLeaderboardVisibility() {
   updateMistakesLabel();
 }
 
+function syncGameHeaderLayout() {
+  gameHeader.classList.toggle("timed-layout", hasRoundCountdown());
+}
+
 function selectMode(modeKey) {
   selectedModeKey = modeKey;
+  const activeMode = getActiveModeConfig();
   const selectedIndex = gameModes[selectedModeKey].index;
 
   modeButtons.forEach((button) => {
@@ -899,8 +1505,9 @@ function selectMode(modeKey) {
     modeGrid.style.setProperty("--selected-mode-index", selectedIndex);
   }
 
-  modeDescription.textContent = gameModes[selectedModeKey].description;
-  startButton.textContent = `Start ${gameModes[selectedModeKey].label}`;
+  modeDescription.textContent = activeMode.description;
+  startButton.textContent = `Start ${activeMode.label}`;
+  syncGameHeaderLayout();
   updateLeaderboardVisibility();
   if (mobileModeSelect) {
     mobileModeSelect.value = modeKey;
@@ -909,6 +1516,9 @@ function selectMode(modeKey) {
   if (menuScoreboardPanel && menuScoreboardPanel.classList.contains("open")) {
     renderLeaderboard(menuLeaderboardList, menuLeaderboardMode, null);
   }
+
+  menuLeaderboardCache = null;
+  void preloadMenuLeaderboard(true);
 }
 
 function showScreen(screenName) {
@@ -917,8 +1527,10 @@ function showScreen(screenName) {
   });
 
   screens[screenName].classList.add("active");
-  themeToggle.hidden = screenName !== "start";
-  themeToggle.setAttribute("aria-hidden", String(screenName !== "start"));
+  if (themeToggle) {
+    themeToggle.hidden = screenName !== "start";
+    themeToggle.setAttribute("aria-hidden", String(screenName !== "start"));
+  }
   setUiState("resultsView", screenName === "end");
 
   if (screenName !== "game") {
@@ -973,6 +1585,21 @@ function replayClass(element, className, duration = 520) {
   }, duration);
 }
 
+function showToast(message, type = "error") {
+  if (!toastMessage || !message) {
+    return;
+  }
+
+  clearTimeout(toastTimer);
+  toastMessage.textContent = message;
+  toastMessage.classList.remove("hidden", "error", "info");
+  toastMessage.classList.add(type);
+
+  toastTimer = window.setTimeout(() => {
+    toastMessage.classList.add("hidden");
+  }, 4200);
+}
+
 function wait(ms) {
   return new Promise((resolve) => {
     window.setTimeout(resolve, ms);
@@ -1000,6 +1627,10 @@ function preloadImageOnce(src) {
   });
 }
 
+function getQuestionPool() {
+  return spaceLocations;
+}
+
 async function preloadImagesInBackground(imageUrls) {
   for (const imageUrl of imageUrls) {
     await preloadImageOnce(imageUrl);
@@ -1012,12 +1643,13 @@ function buildInitialGameDeck() {
     return [getDailyQuestion()];
   }
 
-  // Infinite does not preload the whole universe at once.
-  if (isInfiniteMode()) {
-    return Array.from({ length: Math.min(8, spaceLocations.length) }, () => drawRandomQuestion());
-  }
+  const selectedQuestionIds = new Set();
 
-  return Array.from({ length: totalRounds }, () => drawRandomQuestion());
+  return Array.from({ length: totalRounds }, () => {
+    const nextQuestion = drawRandomQuestion(selectedQuestionIds);
+    selectedQuestionIds.add(nextQuestion.nasaId);
+    return nextQuestion;
+  });
 }
 
 function goHome() {
@@ -1035,6 +1667,9 @@ function goHome() {
   nextButton.disabled = false;
   nextButton.classList.remove("hidden", "staged", "ready-pulse");
   clearTimeout(roundStatusTimer);
+  stopBlindRevealTimer();
+  clearConfetti();
+  applyBlindRevealState();
   setUiState("answering", false);
   setUiState("feedbackOpen", false);
   setUiState("roundComplete", false);
@@ -1075,15 +1710,31 @@ function shuffleArray(items) {
   return shuffled;
 }
 
-function drawRandomQuestion() {
+function drawRandomQuestion(excludedIds = new Set()) {
   if (isDailyMode()) {
     return getDailyQuestion();
   }
 
-  if (randomBag.length === 0) {
-    randomBag = shuffleArray(spaceLocations);
+  const availableQuestions = randomBag.filter((question) => !excludedIds.has(question.nasaId));
+
+  if (availableQuestions.length > 0) {
+    const nextQuestion = availableQuestions[availableQuestions.length - 1];
+    const nextQuestionIndex = randomBag.findIndex((question) => question.nasaId === nextQuestion.nasaId);
+
+    if (nextQuestionIndex >= 0) {
+      randomBag.splice(nextQuestionIndex, 1);
+    }
+
+    return nextQuestion;
   }
 
+  const freshPool = getQuestionPool().filter((question) => !excludedIds.has(question.nasaId));
+
+  if (freshPool.length === 0) {
+    return getQuestionPool()[Math.floor(Math.random() * getQuestionPool().length)];
+  }
+
+  randomBag = shuffleArray(freshPool);
   return randomBag.pop();
 }
 
@@ -1096,8 +1747,8 @@ async function startGame(modeKey = selectedModeKey) {
   }
 
   selectedModeKey = modeKey;
-  totalRounds = gameModes[selectedModeKey].rounds;
-  randomBag = shuffleArray(spaceLocations);
+  totalRounds = getActiveModeConfig().rounds;
+  randomBag = shuffleArray(getQuestionPool());
   gameDeck = [];
   currentRound = 0;
   score = 0;
@@ -1107,16 +1758,22 @@ async function startGame(modeKey = selectedModeKey) {
   correctGuessCount = 0;
   currentStreak = 0;
   bestStreak = 0;
-  hintsLeft = gameModes[selectedModeKey].hints;
+  hintsLeft = getActiveModeConfig().hints;
   usedHintThisRound = false;
-  timeLeft = gameModes[selectedModeKey].seconds || 0;
+  blindRevealStepIndex = 0;
+  timeLeft = getActiveModeConfig().seconds || 0;
   saveMessage.textContent = "";
-  playerNameInput.value = localStorage.getItem(playerNameStorageKey) || "";
+  toggleAutoNameForm(false);
+  if (playerNameInput) {
+    playerNameInput.value = localStorage.getItem(playerNameStorageKey) || "";
+  }
   clearTimeout(scoreFeedbackTimer);
   clearTimeout(rewardFeedbackTimer);
   clearTimeout(streakFeedbackTimer);
   clearTimeout(gameOverTimer);
   clearTimeout(roundStatusTimer);
+  clearConfetti();
+  stopBlindRevealTimer();
   scoreLabel.classList.remove("penalty");
   scoreLabel.classList.remove("reward");
   setUiState("answering", false);
@@ -1129,6 +1786,7 @@ async function startGame(modeKey = selectedModeKey) {
   updateStreakLabel();
   updateHintUI();
   updateTimerUI();
+  applyBlindRevealState();
 
   if (isDailyMode()) {
     markDailyAsPlayed();
@@ -1180,23 +1838,32 @@ function endGame() {
   updateLeaderboardVisibility();
   ratingText.textContent = isDailyMode() ? getDailyResultText() : getRating(score);
   rankBadge.classList.toggle("daily-badge", isDailyMode());
+  const runSummary = getRunSummary();
+  runSummaryTitle.textContent = runSummary.title;
+  runSummaryText.textContent = runSummary.text;
   updateShareCard();
 
-  if (isInfiniteMode()) {
-    renderLeaderboard();
-  }
+  renderLeaderboard();
 
   showScreen("end");
   if (isDailyMode()) {
+    playSoundEffect(score > 0 ? "finish-good" : "finish-bad");
     showDailyResult();
     return;
   }
 
+  playSoundEffect(score >= 120 || getAccuracyValue() >= 70 ? "finish-good" : "finish-bad");
   animateFinalScore(score);
+  void autoSaveCurrentScore();
 }
 
 // This fills the UI with the current question and fresh answer buttons.
 async function renderRound(showTransition = false) {
+  clearConfetti();
+  if (imageFrame) {
+    imageFrame.classList.remove("round-resolve-good", "round-resolve-bad", "round-final-reveal");
+  }
+
   if (!gameDeck[currentRound]) {
     gameDeck[currentRound] = drawRandomQuestion();
   }
@@ -1218,6 +1885,8 @@ async function renderRound(showTransition = false) {
     spaceImage.classList.add("loaded");
   }
   spaceImage.alt = `Space image for ${currentQuestion.correctAnswer}`;
+  applyBlindRevealState();
+  replayClass(imageFrame, "round-intro", 1200);
 
   if (showTransition) {
     setTransitionState(true, "Preparing mission...");
@@ -1255,6 +1924,7 @@ async function renderRound(showTransition = false) {
   setUiState("roundComplete", false);
   updateHintUI();
   startRoundTimer();
+  startBlindRevealTimer();
 
   if (showTransition) {
     setTransitionState(false);
@@ -1281,6 +1951,11 @@ async function handleAnswer(selectedButton, selectedAnswer) {
   hasAnswered = true;
   setUiState("answering", true);
   stopRoundTimer();
+  timerLabel.classList.add("hidden");
+  stopBlindRevealTimer();
+  if (isBlindRevealMode()) {
+    setBlindRevealProgress(1);
+  }
 
   const currentQuestion = gameDeck[currentRound];
   const answerButtons = answersContainer.querySelectorAll(".answer-button");
@@ -1288,24 +1963,35 @@ async function handleAnswer(selectedButton, selectedAnswer) {
   const isCorrect = selectedAnswer === currentQuestion.correctAnswer;
   const panelFeedbackClass = isCorrect ? "round-feedback-good" : "round-feedback-bad";
   const feedbackAnimationClass = isCorrect ? "feedback-good" : "feedback-bad";
+  let earnedPoints = 0;
+  let streakBonus = 0;
 
   if (isCorrect) {
     correctGuessCount += 1;
     currentStreak += 1;
     bestStreak = Math.max(bestStreak, currentStreak);
-    setScore(score + 50);
+    const pointBreakdown = getPointsForCorrectGuess(currentStreak);
+    earnedPoints = pointBreakdown.totalPoints;
+    streakBonus = pointBreakdown.streakBonus;
+    setScore(score + earnedPoints);
     showCorrectAnswerReward();
+    showConfetti();
+    playSoundEffect("correct");
     if (currentStreak >= 2) {
       showStreakFeedback();
+      playSoundEffect("streak");
     }
   } else {
     setScore(score - 25);
     showScorePenaltyFeedback();
     wrongAnswerCount += 1;
     currentStreak = 0;
+    playSoundEffect("wrong");
   }
 
   replayClass(gamePanel, panelFeedbackClass, 1800);
+  replayClass(imageFrame, isCorrect ? "round-resolve-good" : "round-resolve-bad", 1200);
+  replayClass(imageFrame, "round-final-reveal", 950);
   showRoundStatus(isCorrect ? "Locked in" : "Try again", isCorrect);
 
   updateMistakesLabel();
@@ -1329,30 +2015,16 @@ async function handleAnswer(selectedButton, selectedAnswer) {
     selectedButton.classList.add("answered");
   }
 
-  // Infinite mode ends after too many wrong answers.
-  const isGameOver = isInfiniteMode() && wrongAnswerCount >= MAX_WRONG_ANSWERS_INFINITE;
-
   feedbackText.textContent = isCorrect
-    ? currentStreak >= 2
-      ? `+50 points. Clean guess. ${currentStreak}x streak.`
-      : "+50 points. Clean guess."
+    ? streakBonus > 0
+      ? `+${earnedPoints} points. +${streakBonus} streak bonus. ${currentStreak}x streak.`
+      : `+${earnedPoints} points. Clean guess.`
     : isTimeOut
       ? `Time is up. The correct answer was ${currentQuestion.correctAnswer}.`
       : `Not quite. The correct answer was ${currentQuestion.correctAnswer}.`;
 
-  const errorCountText = isInfiniteMode() 
-    ? `\nErrors: ${wrongAnswerCount}/${MAX_WRONG_ANSWERS_INFINITE}` 
-    : "";
-
-  if (isGameOver) {
-    feedbackText.textContent += "\n\nGame over. You reached 10 wrong answers.";
-    nextButton.disabled = true;
-    nextButton.classList.add("hidden");
-    gameOverTimer = setTimeout(endGame, 1400);
-  }
-
   factText.textContent = currentQuestion.fact;
-  sourceText.textContent = `Source: ${currentQuestion.source} (${currentQuestion.nasaId})${errorCountText}`;
+  sourceText.textContent = `Source: ${currentQuestion.source} (${currentQuestion.nasaId})`;
   await wait(FEEDBACK_OPEN_DELAY);
   feedbackPanel.classList.add("open");
   feedbackPanel.setAttribute("aria-hidden", "false");
@@ -1361,11 +2033,9 @@ async function handleAnswer(selectedButton, selectedAnswer) {
   setUiState("roundComplete", true);
   setUiState("answering", false);
 
-  if (!isGameOver) {
-    await wait(Math.max(0, NEXT_BUTTON_DELAY - FEEDBACK_OPEN_DELAY));
-    nextButton.classList.remove("staged");
-    replayClass(nextButton, "ready-pulse", 1100);
-  }
+  await wait(Math.max(0, NEXT_BUTTON_DELAY - FEEDBACK_OPEN_DELAY));
+  nextButton.classList.remove("staged");
+  replayClass(nextButton, "ready-pulse", 1100);
 }
 
 function getRating(scoreValue) {
@@ -1376,6 +2046,77 @@ function getDailyResultText() {
   return score > 0
     ? "You nailed today's image."
     : "Not today. Come back for the next one.";
+}
+
+function getRunSummary() {
+  const accuracy = getAccuracyValue();
+  const modeLabel = getActiveModeConfig().label;
+
+  if (isDailyMode()) {
+    return score > 0
+      ? {
+          title: "Daily mission cleared",
+          text: `You solved today's shared ${modeLabel.toLowerCase()} challenge with ${accuracy}% accuracy.`
+        }
+      : {
+          title: "Daily mission missed",
+          text: "Today's shared challenge got away, but the next daily image is another shot at it."
+        };
+  }
+
+  if (accuracy >= 90 && bestStreak >= 4) {
+    return {
+      title: "Near flawless orbit",
+      text: `Clinical answers, a ${bestStreak}x streak, and almost no wasted motion.`
+    };
+  }
+
+  if (score >= 220 && bestStreak >= 3) {
+    return {
+      title: "Momentum run",
+      text: `You built real pressure with a ${bestStreak}x streak and kept the score climbing.`
+    };
+  }
+
+  if (isBlindRevealMode() && score >= 180) {
+    return {
+      title: "Reveal sniper",
+      text: "You were reading the image early and cashing in before the easy clues appeared."
+    };
+  }
+
+  if (isTimedMode() && accuracy >= 70) {
+    return {
+      title: "Fast hands",
+      text: `Strong reads under the clock. ${accuracy}% accuracy in timed play is the real deal.`
+    };
+  }
+
+  if (accuracy >= 70) {
+    return {
+      title: "Sharp navigation",
+      text: `You kept the run tidy and landed ${accuracy}% of your guesses.`
+    };
+  }
+
+  if (bestStreak >= 3) {
+    return {
+      title: "Flash of brilliance",
+      text: `That ${bestStreak}x streak showed you had the read, even if the run swung around later.`
+    };
+  }
+
+  if (score === 0) {
+    return {
+      title: "Rough landing",
+      text: "This one never really ignited, but one clean streak changes the whole board."
+    };
+  }
+
+  return {
+    title: "Steady flight",
+    text: "A balanced run with room to push your streak higher on the next launch."
+  };
 }
 
 function showDailyResult() {
@@ -1411,8 +2152,14 @@ function animateFinalScore(targetScore) {
 
 function updateScoreFormState() {
   const storedName = localStorage.getItem(playerNameStorageKey);
-  scoreForm.classList.toggle("has-saved-name", Boolean(storedName));
-  savedPlayerName.textContent = storedName ? `Saving as ${storedName}` : "";
+
+  if (scoreForm) {
+    scoreForm.classList.toggle("has-saved-name", Boolean(storedName));
+  }
+
+  if (savedPlayerName) {
+    savedPlayerName.textContent = storedName ? `Saving as ${storedName}` : "";
+  }
 }
 
 function getLeaderboard() {
@@ -1478,11 +2225,9 @@ function upsertLocalScore(scoreEntry) {
 }
 
 function renderLeaderboardEntries(entries, listElement = leaderboardList, modeElement = leaderboardMode) {
-  modeElement.textContent = listElement === menuLeaderboardList
-    ? "Infinite"
-    : isDailyMode()
+  modeElement.textContent = isDailyMode()
       ? `Daily ${getDailyKey()}`
-      : gameModes[selectedModeKey].label;
+      : getActiveModeConfig().label;
   listElement.innerHTML = "";
 
   if (entries.length === 0) {
@@ -1513,34 +2258,18 @@ function renderLeaderboardEntries(entries, listElement = leaderboardList, modeEl
   });
 }
 
-async function renderLeaderboard(
-  listElement = leaderboardList,
-  modeElement = leaderboardMode,
-  messageElement = saveMessage
-) {
-  const renderMenuInfiniteBoard = listElement === menuLeaderboardList;
-
-  modeElement.textContent = renderMenuInfiniteBoard
-    ? "Infinite"
-    : isDailyMode()
-      ? `Daily ${getDailyKey()}`
-      : gameModes[selectedModeKey].label;
-  listElement.innerHTML = "";
-
-  const loadingItem = document.createElement("li");
-  loadingItem.className = "leaderboard-empty";
-  loadingItem.textContent = "Loading scores...";
-  listElement.appendChild(loadingItem);
-
+async function fetchLeaderboardEntries(renderMenuInfiniteBoard = false) {
   if (!supabaseClient) {
-    renderLeaderboardEntries(getCurrentModeEntries(), listElement, modeElement);
-    return;
+    return {
+      entries: getCurrentModeEntries(),
+      usedFallback: true
+    };
   }
 
   let query = supabaseClient
     .from(leaderboardTable)
     .select("name, score, mode, rounds, created_at")
-    .eq("mode", renderMenuInfiniteBoard ? "infinite" : selectedModeKey);
+    .eq("mode", selectedModeKey);
 
   if (!renderMenuInfiniteBoard && isDailyMode()) {
     const dailyStart = `${getDailyKey()}T00:00:00.000Z`;
@@ -1554,37 +2283,147 @@ async function renderLeaderboard(
     .limit(5);
 
   if (error) {
-    renderLeaderboardEntries(getCurrentModeEntries(), listElement, modeElement);
+    return {
+      entries: getCurrentModeEntries(),
+      usedFallback: true
+    };
+  }
 
+  return {
+    entries: data,
+    usedFallback: false
+  };
+}
+
+async function preloadMenuLeaderboard(forceRefresh = false) {
+  if (!menuLeaderboardList || !menuLeaderboardMode) {
+    return [];
+  }
+
+  if (menuLeaderboardCache && !forceRefresh) {
+    return menuLeaderboardCache;
+  }
+
+  if (menuLeaderboardPrefetchPromise && !forceRefresh) {
+    return menuLeaderboardPrefetchPromise;
+  }
+
+  menuLeaderboardPrefetchPromise = fetchLeaderboardEntries(true)
+    .then(({ entries }) => {
+      menuLeaderboardCache = entries;
+      return entries;
+    })
+    .finally(() => {
+      menuLeaderboardPrefetchPromise = null;
+    });
+
+  return menuLeaderboardPrefetchPromise;
+}
+
+async function renderLeaderboard(
+  listElement = leaderboardList,
+  modeElement = leaderboardMode,
+  messageElement = saveMessage
+) {
+  const renderMenuInfiniteBoard = listElement === menuLeaderboardList;
+
+  modeElement.textContent = isDailyMode()
+      ? `Daily ${getDailyKey()}`
+      : getActiveModeConfig().label;
+  listElement.innerHTML = "";
+
+  const loadingItem = document.createElement("li");
+  loadingItem.className = "leaderboard-empty";
+  loadingItem.textContent = "Loading scores...";
+  listElement.appendChild(loadingItem);
+
+  if (renderMenuInfiniteBoard && menuLeaderboardCache) {
+    renderLeaderboardEntries(menuLeaderboardCache, listElement, modeElement);
+    return;
+  }
+
+  const { entries, usedFallback } = await fetchLeaderboardEntries(renderMenuInfiniteBoard);
+
+  if (renderMenuInfiniteBoard && !usedFallback) {
+    menuLeaderboardCache = entries;
+  }
+
+  if (usedFallback) {
+    renderLeaderboardEntries(entries, listElement, modeElement);
     if (messageElement) {
-      messageElement.textContent = "Global leaderboard unavailable. Showing local scores.";
+      messageElement.textContent = "";
+      showToast("Global leaderboard unavailable. Showing local scores.");
     }
 
     return;
   }
 
-  renderLeaderboardEntries(data, listElement, modeElement);
+  renderLeaderboardEntries(entries, listElement, modeElement);
 }
 
-async function saveCurrentScore(event) {
-  event.preventDefault();
+function toggleAutoNameForm(isVisible) {
+  if (!autoNameForm) {
+    return;
+  }
+
+  autoNameForm.classList.toggle("hidden", !isVisible);
+  autoNameForm.setAttribute("aria-hidden", String(!isVisible));
+
+  if (isVisible) {
+    autoPlayerNameInput?.focus();
+  }
+}
+
+async function autoSaveCurrentScore() {
+  if (!hasLeaderboardMode() || hasSavedCurrentScore) {
+    return;
+  }
+
+  if (score <= 0) {
+    toggleAutoNameForm(false);
+    saveMessage.textContent = "";
+    return;
+  }
+
+  let playerName = localStorage.getItem(playerNameStorageKey) || "";
+
+  if (!playerName) {
+    toggleAutoNameForm(true);
+    saveMessage.textContent = "Choose a leaderboard name to save this run.";
+    return;
+  }
+
+  toggleAutoNameForm(false);
+  saveMessage.textContent = "";
+  await saveCurrentScore(null, playerName);
+}
+
+async function saveCurrentScore(event, providedName = "") {
+  event?.preventDefault();
 
   if (!hasLeaderboardMode()) {
-    saveMessage.textContent = "Scores are only saved in Infinite mode.";
+    showToast("Scores are not saved for Daily mode.");
+    return;
+  }
+
+  if (score <= 0) {
+    toggleAutoNameForm(false);
+    saveMessage.textContent = "";
+    showToast("Only runs above 0 points can be saved.");
     return;
   }
 
   const storedName = localStorage.getItem(playerNameStorageKey);
-  const playerName = (storedName || playerNameInput.value).trim();
+  const inputName = playerNameInput ? playerNameInput.value : "";
+  const playerName = (providedName || storedName || inputName).trim().slice(0, 18);
 
   if (!playerName) {
-    saveMessage.textContent = "Enter a name first.";
-    playerNameInput.focus();
+    showToast("Enter a name first.");
+    (autoPlayerNameInput || playerNameInput)?.focus();
     return;
   }
 
   if (hasSavedCurrentScore) {
-    saveMessage.textContent = "This score is already saved.";
     return;
   }
 
@@ -1592,16 +2431,17 @@ async function saveCurrentScore(event) {
     name: playerName,
     score,
     mode: selectedModeKey,
-    rounds: selectedModeKey === "infinite" ? currentRound + 1 : totalRounds,
+    rounds: totalRounds,
     date: new Date().toISOString(),
     dailyKey: isDailyMode() ? getDailyKey() : null
   };
 
   localStorage.setItem(playerNameStorageKey, playerName);
+  toggleAutoNameForm(false);
   updateScoreFormState();
-  const localSaveResult = upsertLocalScore(scoreEntry);
+  upsertLocalScore(scoreEntry);
 
-  // Save local first, then try the online leaderboard.
+  // Save local first, then try the online leaderboard when the mode supports it.
   if (supabaseClient) {
     let existingQuery = supabaseClient
       .from(leaderboardTable)
@@ -1618,10 +2458,7 @@ async function saveCurrentScore(event) {
     const { data: existingEntries, error: selectError } = await existingQuery.limit(1);
 
     if (selectError) {
-      saveMessage.textContent = getSupabaseErrorMessage(
-        selectError,
-        "Saved locally, but global save failed."
-      );
+      showToast(getSupabaseErrorMessage(selectError, "Saved locally, but global save failed."));
       hasSavedCurrentScore = true;
       renderLeaderboardEntries(getCurrentModeEntries());
       return;
@@ -1635,8 +2472,9 @@ async function saveCurrentScore(event) {
 
       if (!isBetterScore && !isTieWithMoreRounds) {
         hasSavedCurrentScore = true;
-        saveMessage.textContent = "Score saved, but your old score is still better.";
+        saveMessage.textContent = "";
         await renderLeaderboard();
+        await preloadMenuLeaderboard(true);
         return;
       }
 
@@ -1651,12 +2489,10 @@ async function saveCurrentScore(event) {
         .eq("id", existingEntry.id);
 
       if (updateError) {
-        saveMessage.textContent = getSupabaseErrorMessage(
-          updateError,
-          "Saved locally, but global update failed."
-        );
+        showToast(getSupabaseErrorMessage(updateError, "Saved locally, but global update failed."));
         hasSavedCurrentScore = true;
         renderLeaderboardEntries(getCurrentModeEntries());
+        await preloadMenuLeaderboard(true);
         return;
       }
     } else {
@@ -1669,40 +2505,26 @@ async function saveCurrentScore(event) {
       });
 
       if (insertError) {
-        saveMessage.textContent = getSupabaseErrorMessage(
-          insertError,
-          "Saved locally, but global save failed."
-        );
+        showToast(getSupabaseErrorMessage(insertError, "Saved locally, but global save failed."));
         hasSavedCurrentScore = true;
         renderLeaderboardEntries(getCurrentModeEntries());
+        await preloadMenuLeaderboard(true);
         return;
       }
     }
   }
 
   hasSavedCurrentScore = true;
-  saveMessage.textContent = localSaveResult === "improved"
-    ? "New best score saved."
-    : "Score saved.";
+  saveMessage.textContent = "";
   await renderLeaderboard();
+  await preloadMenuLeaderboard(true);
 }
 
 // Move forward one step. Either next round... or game over if the mode says so.
 async function goToNextStep() {
-  // Just in case: do not continue if infinite mode already hit game over.
-  if (isInfiniteMode() && wrongAnswerCount >= MAX_WRONG_ANSWERS_INFINITE) {
-    endGame();
-    return;
-  }
-
   const previousRound = currentRound;
 
   currentRound += 1;
-
-  if (selectedModeKey === "infinite") {
-    await renderRound();
-    return;
-  }
 
   if (currentRound < totalRounds) {
     await renderRound();
@@ -1725,14 +2547,8 @@ if (mobileModeSelect) {
   });
 }
 
-themeToggle.addEventListener("click", () => {
-  if (mobileThemeLock.matches) {
-    applyGameTheme("light");
-    return;
-  }
-
-  const nextTheme = document.body.classList.contains("game-ui-dark") ? "light" : "dark";
-  applyGameTheme(nextTheme);
+themeToggle?.addEventListener("click", () => {
+  applyGameTheme("light");
 });
 
 mobileThemeLock.addEventListener("change", syncThemeForViewport);
@@ -1743,22 +2559,44 @@ startButton.addEventListener("click", () => {
 dailyButton.addEventListener("click", () => {
   startGame("daily");
 });
+helpToggleButton?.addEventListener("click", () => {
+  const isOpen = helpWidget?.classList.contains("open") || false;
+  setHelpPanelOpen(!isOpen);
+});
+helpCloseButton?.addEventListener("click", () => {
+  setHelpPanelOpen(false);
+});
 homeButtons.forEach((button) => {
   button.addEventListener("click", goHome);
 });
-scoreForm.addEventListener("submit", saveCurrentScore);
+scoreForm?.addEventListener("submit", saveCurrentScore);
+autoNameForm?.addEventListener("submit", (event) => {
+  event.preventDefault();
+  void saveCurrentScore(null, autoPlayerNameInput?.value || "");
+});
 if (menuScoreboardToggle && menuScoreboardPanel) {
-  menuScoreboardToggle.addEventListener("click", () => {
+  menuScoreboardToggle.addEventListener("click", async () => {
+    const shouldOpen = !menuScoreboardPanel.classList.contains("open");
+
+    if (shouldOpen) {
+      await preloadMenuLeaderboard();
+    }
+
     const isOpen = menuScoreboardPanel.classList.toggle("open");
     menuScoreboardToggle.setAttribute("aria-expanded", String(isOpen));
+    menuScoreboardPanel.setAttribute("aria-hidden", String(!isOpen));
 
     if (isOpen) {
-      void renderLeaderboard(menuLeaderboardList, menuLeaderboardMode, null);
+      if (menuLeaderboardCache) {
+        renderLeaderboardEntries(menuLeaderboardCache, menuLeaderboardList, menuLeaderboardMode);
+      } else {
+        void renderLeaderboard(menuLeaderboardList, menuLeaderboardMode, null);
+      }
     }
   });
 }
 document.addEventListener("click", (event) => {
-  if (!menuScoreboardToggle || !menuScoreboardPanel) {
+  if (!menuScoreboardToggle || !menuScoreboardPanel || !menuLeaderboardPanelCard) {
     return;
   }
 
@@ -1768,12 +2606,24 @@ document.addEventListener("click", (event) => {
     return;
   }
 
-  const clickedInsideLeaderboard = menuScoreboardPanel.contains(target);
+  const clickedInsideLeaderboard = menuLeaderboardPanelCard.contains(target);
   const clickedToggle = menuScoreboardToggle.contains(target);
 
   if (!clickedInsideLeaderboard && !clickedToggle) {
     menuScoreboardPanel.classList.remove("open");
     menuScoreboardToggle.setAttribute("aria-expanded", "false");
+    menuScoreboardPanel.setAttribute("aria-hidden", "true");
+  }
+});
+document.addEventListener("click", (event) => {
+  if (!helpWidget || !helpWidget.classList.contains("open")) {
+    return;
+  }
+
+  const target = event.target;
+
+  if (target instanceof Node && !helpWidget.contains(target)) {
+    setHelpPanelOpen(false);
   }
 });
 selectMode(selectedModeKey);
@@ -1781,6 +2631,7 @@ loadGameTheme();
 updateLeaderboardVisibility();
 updateDailyAvailability();
 updateStreakLabel();
+void preloadMenuLeaderboard();
 if (menuScoreboardPanel && menuScoreboardPanel.classList.contains("open")) {
   void renderLeaderboard(menuLeaderboardList, menuLeaderboardMode, null);
 }
@@ -1811,6 +2662,11 @@ document.addEventListener("click", (event) => {
 });
 
 document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && helpWidget?.classList.contains("open")) {
+    setHelpPanelOpen(false);
+    return;
+  }
+
   if (event.key === "Escape" && shareModal.classList.contains("open")) {
     toggleShareModal(false);
     return;

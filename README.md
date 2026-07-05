@@ -26,10 +26,10 @@ Live demo: [blizz606.github.io/SpaceGuessr](https://blizz606.github.io/SpaceGues
 ## Features
 
 - Curated library of NASA space images with facts and source metadata
-- Five playable modes: `Quick`, `Classic`, `Timed`, `Daily`, and `Infinite`
+- Five playable modes: `Quick`, `Classic`, `Timed`, `Daily`, and `Blind Reveal`
 - Responsive UI for desktop and mobile
 - Animated score flow, result states, and polished game feedback
-- Online leaderboard support for `Infinite`
+- Online leaderboard support for score-chasing modes
 - Local fallback storage if the online leaderboard is unavailable
 - Simple static deployment, including GitHub Pages
 
@@ -41,10 +41,18 @@ Live demo: [blizz606.github.io/SpaceGuessr](https://blizz606.github.io/SpaceGues
 | `Classic` | 5 rounds | The standard SpaceGuessr experience |
 | `Timed` | 5 rounds, 10 seconds each | Answer before the clock runs out |
 | `Daily` | 1 shared image per day | Same challenge for everyone on that date |
-| `Infinite` | Endless | Keep going until your run ends |
+| `Blind Reveal` | 5 rounds, 15 seconds each | The image starts hidden and reveals more over time |
 
-`Infinite` currently submits scores to the online leaderboard.  
+Leaderboard-supported modes submit scores automatically after a run.  
 If Supabase is unavailable, the game falls back to local score storage.
+
+## Scoring
+
+- Correct answers are worth `+50` points in normal modes.
+- Blind Reveal starts at `+80` points, then drops to `70`, `60`, `50`, `40`, `30`, and `20` as more of the image is revealed.
+- Streaks add bonus points on top of the base reward: `+10` at a 2x streak, `+20` at 3x, `+30` at 4x, and so on.
+- Wrong answers cost `-25` points and reset the current streak.
+- The visible score never drops below `0`.
 
 ## Tech Stack
 
@@ -110,7 +118,7 @@ That setup makes it easy to expand the question pool without changing the overal
 
 ## Leaderboard Setup
 
-The online leaderboard uses Supabase and is currently wired up for score submission in `Infinite` mode.
+The online leaderboard uses Supabase and is wired up for score submission in leaderboard-supported modes.
 
 Suggested table:
 
@@ -144,7 +152,7 @@ with check (
   char_length(name) between 1 and 18
   and score >= 0
   and rounds > 0
-  and mode in ('quick', 'classic', 'timed', 'daily', 'infinite')
+  and mode in ('quick', 'classic', 'timed', 'daily', 'blind')
 );
 ```
 
