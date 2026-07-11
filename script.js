@@ -878,6 +878,8 @@ function updateModeGroupUI() {
   const groupKeys = Object.keys(modeGroups);
   const groupIndex = Math.max(groupKeys.indexOf(selectedModeGroup), 0);
 
+  document.body.classList.toggle("special-mode-group", selectedModeGroup === "special");
+
   modeGroupButtons.forEach((button) => {
     const isSelected = button.dataset.modeGroup === selectedModeGroup;
     button.classList.toggle("selected", isSelected);

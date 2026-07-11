@@ -25,8 +25,9 @@ Live demo: [blizz606.github.io/SpaceGuessr](https://blizz606.github.io/SpaceGues
 
 ## Features
 
-- Curated library of 70+ NASA space images with facts, source metadata, and difficulty tags
+- Curated library of 73 NASA space images with facts, source metadata, and difficulty tags
 - Six playable modes: `Quick`, `Classic`, `Timed`, `Daily`, `Blind Reveal`, and `Learn`
+- Casual and Special mode groups with a smooth menu background transition
 - Responsive UI for desktop and mobile
 - Animated score flow, result states, confetti, streak effects, and polished game feedback
 - Lightweight in-browser audio feedback for hints, answers, streaks, and run endings
@@ -64,26 +65,34 @@ Runs with `0` points are not saved.
 
 - `index.html` for structure and screens
 - `style.css` for layout, effects, responsiveness, and visual polish
-- `script.js` for game logic, mode handling, scoring, content data, and leaderboard integration
+- `script.js` for game logic, mode handling, scoring, transitions, audio, and leaderboard integration
+- `game-config.js` for mode configuration and rank tiers
+- `game-data.js` for the NASA image question pool
 - Supabase for online leaderboard storage
 - NASA Image and Video Library as the primary content source
 - GitHub Actions for GitHub Pages deployment
 
 ## Run Locally
 
-You can either use the live version or open the project locally.
+You can either use the live version or run the project locally.
 
-### Option 1: Open directly
+Because the app uses JavaScript modules, a local static server is the most reliable way to run it.
 
-Open `index.html` in your browser.
-
-### Option 2: Start a local static server
+### Option 1: Start a local static server
 
 ```bash
 npx serve .
 ```
 
 Then open the local URL shown in your terminal.
+
+### Option 2: Use Python
+
+```bash
+python3 -m http.server 4173
+```
+
+Then open `http://127.0.0.1:4173`.
 
 ## Project Structure
 
@@ -96,13 +105,21 @@ Then open the local URL shown in your terminal.
 |-- index.html
 |-- style.css
 |-- script.js
+|-- game-config.js
+|-- game-data.js
 |-- media/
+|   |-- BackgroundImage.png
+|   |-- BG_Image2.png
+|   |-- SpaceGuesrr.png
+|   `-- icons/
+|       `-- flame.svg
+|-- favicon.ico
 `-- preview.png
 ```
 
 ## Content Model
 
-The image pool is stored directly in `script.js` as a JavaScript array.  
+The image pool is stored in `game-data.js` as a JavaScript array and imported by `script.js`.  
 Each entry includes:
 
 - `imageUrl`
@@ -127,7 +144,9 @@ Example:
 ```
 
 That setup makes it easy to expand the question pool without changing the overall game system.  
-The current pool includes 70+ curated NASA-based targets across planets, moons, nebulae, galaxies, and iconic deep-space imagery.
+The current pool includes 73 curated NASA-based targets across planets, moons, nebulae, galaxies, and iconic deep-space imagery.
+
+Mode settings and rank thresholds live in `game-config.js`. That keeps game rules separate from the question data and the DOM-heavy runtime code.
 
 ## Leaderboard Setup
 
