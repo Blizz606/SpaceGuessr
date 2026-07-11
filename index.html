@@ -40,13 +40,19 @@
         <div class="panel intro-panel">
           <!-- Mode picker. Basically: how do you want to suffer today? -->
           <div class="menu-mode-section">
+            <div class="mode-group-switch" aria-label="Choose mode type">
+              <button class="mode-group-button selected" type="button" data-mode-group="casual">Casual</button>
+              <button class="mode-group-button" type="button" data-mode-group="special">Special</button>
+            </div>
+
             <label class="mobile-mode-select-wrap" for="mobile-mode-select">
               <span class="mobile-mode-select-label">Mode</span>
               <select id="mobile-mode-select" class="mobile-mode-select" aria-label="Choose game mode">
-                <option value="quick">Quick · 3 rounds</option>
-                <option value="classic" selected>Classic · 5 rounds</option>
-                <option value="timed">Timed · 10s</option>
-                <option value="blind">Blind Reveal · Uncover it</option>
+                <option value="quick" data-mode-group="casual">Quick · 3 rounds</option>
+                <option value="classic" data-mode-group="casual" selected>Classic · 5 rounds</option>
+                <option value="timed" data-mode-group="casual">Timed · 10s</option>
+                <option value="blind" data-mode-group="casual">Blind Reveal · Uncover it</option>
+                <option value="learn" data-mode-group="special">Learn · Guided</option>
               </select>
             </label>
 
@@ -71,6 +77,11 @@
               <button class="mode-card" data-mode="blind">
                 <span class="mode-name">Blind Reveal</span>
                 <span class="mode-meta">Uncover it</span>
+              </button>
+
+              <button class="mode-card hidden" data-mode="learn">
+                <span class="mode-name">Learn</span>
+                <span class="mode-meta">Guided</span>
               </button>
             </div>
           </div>
@@ -128,6 +139,7 @@
           <ul class="help-list">
             <li><strong>Correct:</strong> +50 points in normal modes.</li>
             <li><strong>Blind Reveal:</strong> starts at +80 and drops with each reveal.</li>
+            <li><strong>Learn:</strong> gives extra explanations and skips leaderboard pressure.</li>
             <li><strong>Streak:</strong> every continued streak adds +10 more points than the last.</li>
             <li><strong>Wrong:</strong> -25 points and your streak goes back to zero.</li>
           </ul>
@@ -343,7 +355,7 @@
 
   <!-- Supabase comes from CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="script.js?v=20260705-blind-reveal"></script>
+  <script type="module" src="script.js?v=20260710-structure"></script>
 </body>
 </html>
 

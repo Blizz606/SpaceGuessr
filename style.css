@@ -2063,6 +2063,102 @@ h2 {
   }
 }
 
+@keyframes missionLaunchImage {
+  0% {
+    opacity: 0;
+    transform: scale(1.14);
+    filter: saturate(1.2) brightness(1.12);
+  }
+
+  52% {
+    opacity: 1;
+    transform: scale(1.055);
+    filter: saturate(1.08) brightness(1.04);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1.03);
+    filter: saturate(1) brightness(1);
+  }
+}
+
+@keyframes missionLaunchShell {
+  0% {
+    opacity: 0;
+    transform: translateY(18px) scale(0.968);
+    filter: blur(10px);
+  }
+
+  62% {
+    opacity: 1;
+    transform: translateY(-2px) scale(1.01);
+    filter: blur(0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes missionLaunchDock {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(18px) scale(0.968);
+    filter: blur(10px);
+  }
+
+  62% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-2px) scale(1.01);
+    filter: blur(0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes missionLaunchHeader {
+  0% {
+    opacity: 0;
+    transform: translateY(-18px) scale(0.96);
+    filter: blur(12px);
+  }
+
+  58% {
+    opacity: 1;
+    transform: translateY(2px) scale(1.01);
+    filter: blur(0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes missionLaunchGlow {
+  0% {
+    opacity: 0;
+    transform: scale(1.16);
+  }
+
+  36% {
+    opacity: 0.82;
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+}
+
 @keyframes startButtonBounce {
   0% {
     transform: translateY(0) scaleX(1);
@@ -2103,6 +2199,40 @@ h2 {
   }
 }
 
+@keyframes modeGroupCardOut {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(8px) scale(0.975);
+    filter: blur(4px);
+  }
+}
+
+@keyframes modeGroupCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.965);
+    filter: blur(8px);
+  }
+
+  62% {
+    opacity: 1;
+    transform: translateY(2px) scale(1.012);
+    filter: blur(0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
 .mode-grid {
   --selected-mode-index: 1;
   --mode-count: 4;
@@ -2121,6 +2251,69 @@ h2 {
 
 .mode-grid::before {
   display: none;
+}
+
+.mode-group-switch {
+  --mode-group-index: 0;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px;
+  width: min(360px, 100%);
+  margin: 0 auto 20px;
+  padding: 4px;
+  border-radius: 999px;
+  background: rgba(214, 234, 255, 0.08);
+  border: 1px solid rgba(214, 234, 255, 0.12);
+  box-shadow: 0 12px 28px rgba(8, 21, 42, 0.08);
+  overflow: hidden;
+}
+
+.mode-group-switch::before {
+  content: "";
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 4px;
+  width: calc((100% - 8px) / 2);
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(243, 249, 255, 0.96), rgba(208, 229, 250, 0.86));
+  box-shadow: 0 10px 22px rgba(171, 212, 255, 0.18);
+  transform: translateX(calc(var(--mode-group-index) * 100%));
+  transition: transform 420ms var(--ease-smooth);
+}
+
+.mode-group-button {
+  position: relative;
+  z-index: 1;
+  min-height: 42px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(233, 242, 255, 0.74);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition:
+    background var(--motion-base) var(--ease-soft),
+    color var(--motion-base) var(--ease-soft),
+    transform var(--motion-base) var(--ease-smooth),
+    box-shadow var(--motion-base) var(--ease-soft);
+}
+
+.mode-group-button:disabled {
+  cursor: default;
+}
+
+.mode-group-button:hover {
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.mode-group-button.selected {
+  color: #10233f;
 }
 
 .mode-indicator {
@@ -2156,6 +2349,20 @@ h2 {
     transform var(--motion-base) var(--ease-smooth);
 }
 
+.mode-card.hidden {
+  display: none;
+}
+
+.mode-grid.mode-group-exit .mode-card:not(.hidden) {
+  animation: modeGroupCardOut 170ms var(--ease-smooth) both;
+  animation-delay: calc(var(--visible-mode-index) * 22ms);
+}
+
+.mode-grid.mode-group-enter .mode-card:not(.hidden) {
+  animation: modeGroupCardIn 420ms var(--ease-smooth) both;
+  animation-delay: calc(55ms + (var(--visible-mode-index) * 54ms));
+}
+
 .mode-card + .mode-card {
   box-shadow: none;
 }
@@ -2180,6 +2387,14 @@ h2 {
 
 .mode-card.selected:hover {
   background: transparent;
+}
+
+.mode-card:disabled,
+.mode-card.locked {
+  cursor: not-allowed;
+  color: rgba(235, 244, 255, 0.38);
+  opacity: 0.54;
+  transform: none;
 }
 
 .mode-name,
@@ -2514,6 +2729,11 @@ h2 {
   filter: blur(var(--blind-reveal-blur));
 }
 
+.image-frame.blind-reveal-resetting img {
+  opacity: 0;
+  transform: scale(1.08);
+}
+
 .image-frame::after {
   content: "";
   position: absolute;
@@ -2549,6 +2769,42 @@ h2 {
 
 .image-frame.round-final-reveal::before {
   animation: roundRevealFinish 0.95s var(--ease-smooth) both;
+}
+
+.game-panel.mission-launch .game-header {
+  animation: missionLaunchHeader 0.82s cubic-bezier(0.18, 1, 0.3, 1) both;
+}
+
+.game-panel.mission-launch .image-frame img.loaded {
+  animation: missionLaunchImage 0.92s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.game-panel.mission-launch .image-frame::before {
+  animation: missionLaunchGlow 0.9s ease-out both;
+}
+
+.game-panel.mission-launch .bottom-dock {
+  animation: missionLaunchDock 0.84s cubic-bezier(0.18, 1, 0.3, 1) both;
+  animation-delay: 70ms;
+}
+
+.game-panel.mission-launch .dock-top,
+.game-panel.mission-launch .answer-button,
+.game-panel.mission-launch .feedback-panel.open {
+  opacity: 0;
+  animation: missionLaunchShell 0.6s cubic-bezier(0.18, 1, 0.3, 1) both;
+}
+
+.game-panel.mission-launch .dock-top {
+  animation-delay: 110ms;
+}
+
+.game-panel.mission-launch .answer-button {
+  animation-delay: calc(170ms + (var(--answer-index) * 50ms));
+}
+
+.game-panel.mission-launch .feedback-panel.open {
+  animation-delay: 140ms;
 }
 
 .confetti-layer {
@@ -2643,7 +2899,6 @@ body.is-results-view .end-panel {
   background: var(--game-ui-shell);
   border: 1px solid var(--game-ui-shell-border);
   box-shadow: var(--game-ui-shell-shadow);
-  animation: headerDropIn 0.68s var(--ease-smooth) both;
 }
 
 #round-label {
@@ -3817,7 +4072,6 @@ body.game-ui-dark .streak-pill::before {
   box-shadow: var(--game-ui-nav-shadow);
   overflow-y: auto;
   overscroll-behavior: contain;
-  animation: dockSlideIn var(--motion-panel) var(--ease-smooth) both;
   transition:
     padding var(--motion-base) var(--ease-smooth),
     border-radius var(--motion-base) var(--ease-smooth),
@@ -3955,8 +4209,6 @@ body.game-ui-dark .streak-pill::before {
   font-weight: 700;
   font-size: 0.98rem;
   line-height: 1.35;
-  animation: answerIn var(--motion-slow) var(--ease-smooth) both;
-  animation-delay: calc(var(--answer-index) * 72ms);
   overflow: hidden;
   transform-origin: center;
   transition:
@@ -3970,6 +4222,11 @@ body.game-ui-dark .streak-pill::before {
     min-height 260ms var(--ease-smooth),
     padding 260ms var(--ease-smooth),
     border-width 260ms var(--ease-smooth);
+}
+
+.answer-button.answer-enter {
+  animation: answerIn var(--motion-slow) var(--ease-smooth) both;
+  animation-delay: calc(var(--answer-index) * 72ms);
 }
 
 .answer-button:hover:not(:disabled) {
@@ -4056,6 +4313,30 @@ body.game-ui-dark .streak-pill::before {
 
 .feedback-panel.feedback-bad.open {
   animation: feedbackBadNudge 720ms var(--ease-snappy) both;
+}
+
+body.learn-mode .feedback-panel.open {
+  background:
+    linear-gradient(135deg, rgba(234, 255, 245, 0.86), rgba(224, 241, 255, 0.74)),
+    var(--game-ui-nav-pill-bg);
+  border-color: rgba(111, 205, 177, 0.34);
+  box-shadow:
+    0 18px 42px rgba(26, 118, 91, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.54);
+}
+
+body.learn-mode .prompt-label::after {
+  content: "Learn Mode";
+  display: inline-flex;
+  margin-left: 10px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(35, 197, 135, 0.14);
+  color: #0f8f65;
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  vertical-align: middle;
 }
 
 .next-icon-button.ready-pulse:not(.staged) {
@@ -5139,9 +5420,9 @@ body.game-ui-dark .streak-pill::before {
 }
 
 .home-button-text {
-  margin-left: 36px;
+  margin-left: 30px;
   opacity: 0;
-  transform: translateX(-6px);
+  transform: translateX(-8px);
   transition:
     opacity 200ms var(--ease-smooth),
     transform 220ms var(--ease-smooth);
@@ -5152,8 +5433,8 @@ body.game-ui-dark .streak-pill::before {
   color: var(--game-ui-nav-home-text);
   background: var(--game-ui-home-bg);
   border-color: var(--game-ui-home-border);
-  width: 96px;
-  padding-right: 14px;
+  width: 100px;
+  padding-right: 18px;
   transform: translateY(-2px);
 }
 
@@ -5338,6 +5619,10 @@ body.game-ui-dark .streak-pill::before {
     width: calc(100% - 14px);
   }
 
+  .image-frame img {
+    object-position: center 45%;
+  }
+
   .game-header .home-button {
     grid-area: home;
     justify-self: start;
@@ -5418,5 +5703,76 @@ body.game-ui-dark .streak-pill::before {
     min-width: 0;
     flex: 1 1 100%;
     order: 4;
+  }
+
+  .bottom-dock {
+    width: calc(100% - 16px);
+    max-height: min(250px, calc(100svh - 124px));
+    padding: 10px 10px 12px;
+    border-radius: 18px;
+  }
+
+  .dock-top {
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+  }
+
+  .prompt-label {
+    font-size: 0.74rem;
+    letter-spacing: 0.12em;
+  }
+
+  .answers-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .answer-button {
+    min-height: 46px;
+    max-height: 72px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    font-size: 0.84rem;
+    line-height: 1.25;
+  }
+
+  .feedback-panel.open {
+    max-height: 36svh;
+    margin-bottom: 8px;
+    padding: 10px 14px 10px 14px;
+  }
+
+  .feedback-text {
+    font-size: 0.84rem;
+    line-height: 1.32;
+  }
+
+  .fact-text {
+    margin-top: 6px;
+    font-size: 0.76rem;
+    line-height: 1.42;
+  }
+
+  .source-text {
+    margin-top: 6px;
+    font-size: 0.64rem;
+  }
+
+  .next-icon-button {
+    min-height: 44px;
+    font-size: 0.84rem;
+  }
+}
+
+@media (max-width: 640px) and (max-height: 820px) {
+  .bottom-dock {
+    max-height: min(228px, calc(100svh - 132px));
+    padding: 9px 9px 10px;
+  }
+
+  .answer-button {
+    min-height: 42px;
+    padding: 9px 10px;
+    font-size: 0.8rem;
   }
 }
