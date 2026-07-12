@@ -229,6 +229,6 @@ The `.nojekyll` file is included so GitHub Pages serves the project as a plain s
 
 ## AI Use
 
-AI was used as a development aid for parts of the JavaScript workflow, mainly around debugging and structuring logic.  
+AI was used as a development aid for parts of the JavaScript workflow, mainly around debugging and structuring logic. Some CSS was also written by AI. But most things are either Coded by myself or reused from projects I did i the past.
 ChatGPT was also used to help research and shortlist additional NASA images for the expanded question pool.  
 The project itself was still manually tested, integrated, and iterated on during development.

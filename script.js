@@ -1,5 +1,6 @@
 import { gameModes, rankTiers } from "./game-config.js";
 import { spaceLocations } from "./game-data.js";
+import { isFeatureEnabled } from "./features-toggle.js";
 
 // Small DOM grab section so everything important is up here in one place.
 const screens = {
@@ -14,6 +15,11 @@ const modeGroupButtons = document.querySelectorAll(".mode-group-button");
 const modeButtons = document.querySelectorAll(".mode-card");
 const modeGrid = document.getElementById("mode-grid");
 const mobileModeSelect = document.getElementById("mobile-mode-select");
+const learnPackModal = document.getElementById("learn-pack-modal");
+const learnPackClose = document.getElementById("learn-pack-close");
+const learnPackPicker = document.getElementById("learn-pack-picker");
+const learnPackSelectedLabel = document.getElementById("learn-pack-selected-label");
+const learnPackStart = document.getElementById("learn-pack-start");
 const modeDescription = document.getElementById("mode-description");
 const startButton = document.getElementById("start-button");
 const dailyButton = document.getElementById("daily-button");
@@ -52,6 +58,9 @@ const rankBadge = document.getElementById("rank-badge");
 const endStatCorrect = document.getElementById("end-stat-correct");
 const endStatWrong = document.getElementById("end-stat-wrong");
 const endStatAccuracy = document.getElementById("end-stat-accuracy");
+const learnReviewPanel = document.getElementById("learn-review-panel");
+const learnReviewCount = document.getElementById("learn-review-count");
+const learnReviewList = document.getElementById("learn-review-list");
 const openShareButton = document.getElementById("open-share-button");
 const shareModal = document.getElementById("share-modal");
 const closeShareButton = document.getElementById("close-share-button");
@@ -110,7 +119,13 @@ let wrongAnswerCount = 0;
 let correctGuessCount = 0;
 let currentStreak = 0;
 let bestStreak = 0;
+let learnMissedQuestions = [];
 let selectedModeGroup = "casual";
+let selectedLearnPackId = "all";
+let isLearnPackPickerOpen = false;
+let contentQuestions = [];
+let contentQuestionsById = new Map();
+let contentPacks = [];
 let hintsLeft = 0;
 let usedHintThisRound = false;
 let timeLeft = 0;
@@ -152,6 +167,177 @@ const modeGroups = {
   casual: ["quick", "classic", "timed", "blind"],
   special: ["learn"]
 };
+
+const fallbackLearnPacks = [
+  {
+    id: "all",
+    label: "All Images",
+    description: "The full SpaceGuessr image pool.",
+    difficulty: "mixed",
+    questionIds: spaceLocations.map((question) => question.nasaId),
+    coverQuestionId: spaceLocations[0]?.nasaId
+  }
+];
+
+function normalizeContentQuestion(question) {
+  return {
+    imageUrl: question.imageUrl,
+    nasaId: question.nasaId || question.id,
+    source: question.source,
+    correctAnswer: question.answer || question.correctAnswer,
+    wrongAnswers: question.wrongAnswers,
+    fact: question.fact,
+    difficulty: question.difficulty,
+    category: question.category,
+    tags: question.tags || []
+  };
+}
+
+function getFallbackLearnQuestions() {
+  return spaceLocations;
+}
+
+function getActiveLearnPack() {
+  return contentPacks.find((pack) => pack.id === selectedLearnPackId)
+    || contentPacks[0]
+    || fallbackLearnPacks[0];
+}
+
+function getLearnPackQuestions(pack = getActiveLearnPack()) {
+  if (!pack || !contentQuestionsById.size) {
+    return getFallbackLearnQuestions();
+  }
+
+  const packQuestions = pack.questionIds
+    .map((questionId) => contentQuestionsById.get(questionId))
+    .filter(Boolean)
+    .map(normalizeContentQuestion);
+
+  return packQuestions.length > 0 ? packQuestions : getFallbackLearnQuestions();
+}
+
+function getPackCoverQuestion(pack) {
+  const coverId = pack.coverQuestionId || pack.questionIds?.[0];
+  return contentQuestionsById.get(coverId) || contentQuestions[0] || null;
+}
+
+function getPackCount(pack) {
+  return Array.isArray(pack.questionIds) ? pack.questionIds.length : 0;
+}
+
+function getLearnPackDisplayLabel(pack) {
+  return pack.id === "all" ? "No pack" : pack.label;
+}
+
+function getLearnPackDisplayDescription(pack) {
+  return pack.id === "all"
+    ? "Use the full image pool with no filter."
+    : pack.description;
+}
+
+function setLearnPackPickerOpen(isOpen) {
+  const shouldOpen = isOpen && hasLearnPackSelection();
+  isLearnPackPickerOpen = shouldOpen;
+  learnPackModal?.classList.toggle("open", shouldOpen);
+  learnPackModal?.setAttribute("aria-hidden", String(!shouldOpen));
+}
+
+function updateLearnPackSummary() {
+  const activePack = getActiveLearnPack();
+
+  if (learnPackSelectedLabel) {
+    learnPackSelectedLabel.textContent = `Selected: ${getLearnPackDisplayLabel(activePack)}`;
+  }
+}
+
+function renderLearnPackPicker() {
+  if (!learnPackPicker) {
+    return;
+  }
+
+  const packs = contentPacks.length > 0 ? contentPacks : fallbackLearnPacks;
+  learnPackPicker.innerHTML = "";
+  updateLearnPackSummary();
+
+  packs
+    .forEach((pack, index) => {
+      const coverQuestion = getPackCoverQuestion(pack);
+      const button = document.createElement("button");
+      button.className = "learn-pack-card";
+      button.type = "button";
+      button.dataset.packId = pack.id;
+      button.style.setProperty("--pack-index", String(index));
+      button.classList.toggle("selected", pack.id === selectedLearnPackId);
+      button.setAttribute("aria-pressed", String(pack.id === selectedLearnPackId));
+
+      const cover = document.createElement("span");
+      cover.className = "learn-pack-cover";
+      if (coverQuestion?.imageUrl) {
+        cover.style.backgroundImage = `url("${coverQuestion.imageUrl}")`;
+      }
+
+      const overlay = document.createElement("span");
+      overlay.className = "learn-pack-overlay";
+
+      const label = document.createElement("span");
+      label.className = "learn-pack-label";
+      label.textContent = getLearnPackDisplayLabel(pack);
+
+      const meta = document.createElement("span");
+      meta.className = "learn-pack-meta";
+      meta.textContent = `${getPackCount(pack)} images`;
+
+      const copy = document.createElement("span");
+      copy.className = "learn-pack-copy";
+      copy.textContent = getLearnPackDisplayDescription(pack);
+
+      cover.appendChild(overlay);
+      button.append(cover, label, meta, copy);
+      button.addEventListener("click", () => {
+        selectedLearnPackId = pack.id;
+        renderLearnPackPicker();
+      });
+
+      learnPackPicker.appendChild(button);
+    });
+}
+
+async function loadContentPacks() {
+  if (!hasLearnPackSelection() || !isFeatureEnabled("content.jsonPacks")) {
+    contentQuestions = [];
+    contentQuestionsById = new Map();
+    contentPacks = fallbackLearnPacks;
+    selectedLearnPackId = "all";
+    renderLearnPackPicker();
+    return;
+  }
+
+  try {
+    const response = await fetch("content/spaceguessr-content.json", { cache: "no-store" });
+
+    if (!response.ok) {
+      throw new Error(`Content request failed with ${response.status}`);
+    }
+
+    const content = await response.json();
+    contentQuestions = Array.isArray(content.questions) ? content.questions : [];
+    contentQuestionsById = new Map(contentQuestions.map((question) => [question.id, question]));
+    contentPacks = Array.isArray(content.packs) ? content.packs : [];
+
+    if (!contentPacks.some((pack) => pack.id === selectedLearnPackId)) {
+      selectedLearnPackId = contentPacks.find((pack) => pack.id === "all")?.id
+        || contentPacks[0]?.id
+        || selectedLearnPackId;
+    }
+  } catch {
+    contentQuestions = [];
+    contentQuestionsById = new Map();
+    contentPacks = fallbackLearnPacks;
+    selectedLearnPackId = "all";
+  }
+
+  renderLearnPackPicker();
+}
 
 function getSupabaseErrorMessage(error, fallbackText) {
   if (!error) {
@@ -230,6 +416,10 @@ function scheduleTone(startTime, frequency, duration, volume, type = "sine") {
 }
 
 function playSoundEffect(effectName) {
+  if (!isFeatureEnabled("gameplay.audioFeedback")) {
+    return;
+  }
+
   const activeAudioContext = ensureAudioContext();
 
   if (!activeAudioContext) {
@@ -298,12 +488,20 @@ function isLearnMode() {
   return selectedModeKey === "learn";
 }
 
+function isModeEnabled(modeKey) {
+  return isFeatureEnabled(`modes.${modeKey}`);
+}
+
 function hasRoundCountdown() {
   return isTimedMode() || isBlindRevealMode();
 }
 
 function hasLeaderboardMode() {
-  return !isDailyMode() && !isLearnMode();
+  return isFeatureEnabled("leaderboard.autoSave") && !isDailyMode() && !isLearnMode();
+}
+
+function hasLearnPackSelection() {
+  return isFeatureEnabled("gameplay.learnPackSelection");
 }
 
 function getActiveModeConfig() {
@@ -311,9 +509,9 @@ function getActiveModeConfig() {
 }
 
 function updateHintUI() {
-  hintRow.classList.toggle("hidden", isDailyMode());
+  hintRow.classList.toggle("hidden", isDailyMode() || isLearnMode() || !isFeatureEnabled("gameplay.hints"));
 
-  if (isDailyMode()) {
+  if (isDailyMode() || isLearnMode() || !isFeatureEnabled("gameplay.hints")) {
     return;
   }
 
@@ -449,16 +647,16 @@ function applyBlindRevealState() {
     return;
   }
 
-  imageFrame.classList.toggle("blind-reveal-mode", isBlindRevealMode());
+  imageFrame.classList.toggle("blind-reveal-mode", isBlindRevealMode() && isFeatureEnabled("gameplay.blindRevealEffect"));
 
-  if (!isBlindRevealMode()) {
+  if (!isBlindRevealMode() || !isFeatureEnabled("gameplay.blindRevealEffect")) {
     setBlindRevealProgress(1);
     stopBlindRevealTimer();
   }
 }
 
 function startBlindRevealTimer() {
-  if (!isBlindRevealMode()) {
+  if (!isBlindRevealMode() || !isFeatureEnabled("gameplay.blindRevealEffect")) {
     applyBlindRevealState();
     return;
   }
@@ -482,6 +680,8 @@ function startBlindRevealTimer() {
 async function swapRoundImage(currentQuestion) {
   const isBlindMode = isBlindRevealMode();
 
+  imageFrame?.classList.add("image-loading");
+
   if (isBlindMode) {
     stopBlindRevealTimer();
     imageFrame.classList.add("blind-reveal-resetting");
@@ -503,6 +703,7 @@ async function swapRoundImage(currentQuestion) {
 
       resolved = true;
       spaceImage.classList.add("loaded");
+      imageFrame?.classList.remove("image-loading");
 
       if (isBlindMode) {
         requestAnimationFrame(() => {
@@ -591,7 +792,7 @@ async function animateHintRemoval(buttonsToRemove) {
 }
 
 async function useHint() {
-  if (isDailyMode()) {
+  if (isDailyMode() || isLearnMode()) {
     return;
   }
 
@@ -631,9 +832,17 @@ function markDailyAsPlayed() {
 }
 
 function updateDailyAvailability() {
+  if (dailyButton && !isModeEnabled("daily")) {
+    dailyButton.hidden = true;
+    dailyButton.setAttribute("aria-hidden", "true");
+    return;
+  }
+
   const isLocked = hasPlayedDailyToday();
 
   if (dailyButton) {
+    dailyButton.hidden = false;
+    dailyButton.setAttribute("aria-hidden", "false");
     dailyButton.disabled = isLocked;
     dailyButton.classList.toggle("locked", isLocked);
     dailyButton.setAttribute(
@@ -652,6 +861,61 @@ function updateStats() {
   endStatCorrect.textContent = String(correctGuessCount);
   endStatWrong.textContent = String(wrongAnswerCount);
   endStatAccuracy.textContent = `${accuracy}%`;
+}
+
+function renderLearnReview() {
+  if (!learnReviewPanel || !learnReviewList || !learnReviewCount) {
+    return;
+  }
+
+  const missedCount = learnMissedQuestions.length;
+  learnReviewPanel.classList.toggle("hidden", !isLearnMode());
+  learnReviewPanel.setAttribute("aria-hidden", String(!isLearnMode()));
+  learnReviewCount.textContent = missedCount === 1 ? "1 missed" : `${missedCount} missed`;
+  learnReviewList.innerHTML = "";
+
+  if (!isLearnMode()) {
+    return;
+  }
+
+  if (missedCount === 0) {
+    const emptyState = document.createElement("p");
+    emptyState.className = "learn-review-empty";
+    emptyState.textContent = "No missed images this time.";
+    learnReviewList.appendChild(emptyState);
+    return;
+  }
+
+  learnMissedQuestions.forEach((item) => {
+    const card = document.createElement("article");
+    card.className = "learn-review-card";
+
+    const image = document.createElement("img");
+    image.className = "learn-review-image";
+    image.src = item.imageUrl;
+    image.alt = `Review image for ${item.correctAnswer}`;
+    image.loading = "lazy";
+
+    const body = document.createElement("div");
+    body.className = "learn-review-body";
+
+    const title = document.createElement("h4");
+    title.textContent = item.correctAnswer;
+
+    const guess = document.createElement("p");
+    guess.className = "learn-review-guess";
+    guess.textContent = item.selectedAnswer === "__timeout__"
+      ? "Your answer: time ran out"
+      : `Your answer: ${item.selectedAnswer}`;
+
+    const note = document.createElement("p");
+    note.className = "learn-review-note";
+    note.textContent = item.learningNote;
+
+    body.append(title, guess, note);
+    card.append(image, body);
+    learnReviewList.appendChild(card);
+  });
 }
 
 function getAccuracyValue() {
@@ -698,10 +962,17 @@ function updateShareCard() {
   const shareText = getShareText();
 
   sharePreviewText.textContent = shareText;
-  nativeShareButton.classList.toggle("hidden", typeof navigator.share !== "function");
+  nativeShareButton.classList.toggle(
+    "hidden",
+    typeof navigator.share !== "function" || !isFeatureEnabled("sharing.resultShare")
+  );
 }
 
 function toggleShareModal(forceOpen) {
+  if (!isFeatureEnabled("sharing.resultShare") && forceOpen !== false) {
+    return;
+  }
+
   const shouldOpen = typeof forceOpen === "boolean"
     ? forceOpen
     : shareModal.classList.contains("hidden");
@@ -773,6 +1044,10 @@ function clearConfetti() {
 }
 
 function showConfetti() {
+  if (!isFeatureEnabled("gameplay.confetti")) {
+    return;
+  }
+
   if (!confettiLayer) {
     return;
   }
@@ -861,7 +1136,30 @@ function updateLeaderboardVisibility() {
     element.classList.toggle("hidden", !hasLeaderboardMode());
   });
 
+  menuScoreboardToggle?.classList.toggle(
+    "hidden",
+    !isFeatureEnabled("menu.menuLeaderboard") || !hasLeaderboardMode()
+  );
+
   updateMistakesLabel();
+}
+
+function applyFeatureVisibility() {
+  helpWidget?.classList.toggle("hidden", !isFeatureEnabled("menu.helpWidget"));
+  openShareButton?.classList.toggle("hidden", !isFeatureEnabled("sharing.resultShare"));
+  menuScoreboardToggle?.classList.toggle("hidden", !isFeatureEnabled("menu.menuLeaderboard"));
+
+  if (!isFeatureEnabled("menu.helpWidget")) {
+    setHelpPanelOpen(false);
+  }
+
+  if (!isFeatureEnabled("sharing.resultShare")) {
+    toggleShareModal(false);
+  }
+
+  if (!hasLearnPackSelection()) {
+    setLearnPackPickerOpen(false);
+  }
 }
 
 function syncGameHeaderLayout() {
@@ -872,13 +1170,55 @@ function getModeGroupForMode(modeKey) {
   return Object.keys(modeGroups).find((groupKey) => modeGroups[groupKey].includes(modeKey)) || "casual";
 }
 
+function updateMenuBackgroundMode() {
+  const backgroundClasses = [
+    "menu-bg-quick",
+    "menu-bg-timed",
+    "menu-bg-blind",
+    "menu-bg-special"
+  ];
+
+  document.body.classList.remove(...backgroundClasses);
+
+  if (selectedModeKey === "quick") {
+    document.body.classList.add("menu-bg-quick");
+    return;
+  }
+
+  if (selectedModeKey === "timed") {
+    document.body.classList.add("menu-bg-timed");
+    return;
+  }
+
+  if (selectedModeKey === "blind") {
+    document.body.classList.add("menu-bg-blind");
+    return;
+  }
+
+  if (selectedModeGroup === "special" && isFeatureEnabled("menu.specialBackground")) {
+    document.body.classList.add("menu-bg-special");
+  }
+}
+
 function updateModeGroupUI() {
-  const activeModes = modeGroups[selectedModeGroup] || modeGroups.casual;
+  const groupingEnabled = isFeatureEnabled("menu.casualSpecialGroups");
+  const modeGroupSwitch = document.querySelector(".mode-group-switch");
+  const baseModes = groupingEnabled
+    ? modeGroups[selectedModeGroup] || modeGroups.casual
+    : Object.values(modeGroups).flat();
+  const activeModes = baseModes
+    .filter((modeKey) => isModeEnabled(modeKey));
   const selectedIndex = Math.max(activeModes.indexOf(selectedModeKey), 0);
   const groupKeys = Object.keys(modeGroups);
   const groupIndex = Math.max(groupKeys.indexOf(selectedModeGroup), 0);
 
-  document.body.classList.toggle("special-mode-group", selectedModeGroup === "special");
+  updateMenuBackgroundMode();
+  document.body.classList.toggle("learn-pack-menu", isLearnMode());
+  modeGroupSwitch?.classList.toggle("hidden", !groupingEnabled);
+
+  if (!isLearnMode()) {
+    setLearnPackPickerOpen(false);
+  }
 
   modeGroupButtons.forEach((button) => {
     const isSelected = button.dataset.modeGroup === selectedModeGroup;
@@ -899,11 +1239,12 @@ function updateModeGroupUI() {
     modeGrid.style.setProperty("--selected-mode-index", String(selectedIndex));
   }
 
-  document.querySelector(".mode-group-switch")?.style.setProperty("--mode-group-index", String(groupIndex));
+  modeGroupSwitch?.style.setProperty("--mode-group-index", String(groupIndex));
 
   if (mobileModeSelect) {
     Array.from(mobileModeSelect.options).forEach((option) => {
-      const isInActiveGroup = option.dataset.modeGroup === selectedModeGroup;
+      const isInActiveGroup = (option.dataset.modeGroup === selectedModeGroup || !groupingEnabled)
+        && isModeEnabled(option.value);
       option.hidden = !isInActiveGroup;
       option.disabled = !isInActiveGroup;
     });
@@ -1008,6 +1349,10 @@ function setTransitionState(isVisible, label = "Loading mission...") {
   setUiState("transitioning", isVisible);
 }
 
+function getRoundTransitionLabel() {
+  return isLearnMode() ? "Starting lesson..." : "Preparing mission...";
+}
+
 function setUiState(stateKey, isActive) {
   const stateClassName = uiStateClassMap[stateKey];
 
@@ -1076,6 +1421,10 @@ function preloadImageOnce(src) {
 }
 
 function getQuestionPool() {
+  if (isLearnMode() && hasLearnPackSelection()) {
+    return getLearnPackQuestions();
+  }
+
   return spaceLocations;
 }
 
@@ -1083,6 +1432,14 @@ async function preloadImagesInBackground(imageUrls) {
   for (const imageUrl of imageUrls) {
     await preloadImageOnce(imageUrl);
     await wait(0);
+  }
+}
+
+function preloadNextRoundImage() {
+  const nextQuestion = gameDeck[currentRound + 1];
+
+  if (nextQuestion?.imageUrl) {
+    void preloadImageOnce(nextQuestion.imageUrl);
   }
 }
 
@@ -1188,6 +1545,11 @@ function drawRandomQuestion(excludedIds = new Set()) {
 
 // Reset the whole game state and then jump into the first round.
 async function startGame(modeKey = selectedModeKey) {
+  if (!isModeEnabled(modeKey)) {
+    showToast("This mode is currently disabled.");
+    return;
+  }
+
   if (modeKey === "daily" && hasPlayedDailyToday()) {
     updateDailyAvailability();
     showScreen("start");
@@ -1207,6 +1569,7 @@ async function startGame(modeKey = selectedModeKey) {
   correctGuessCount = 0;
   currentStreak = 0;
   bestStreak = 0;
+  learnMissedQuestions = [];
   hintsLeft = getActiveModeConfig().hints;
   usedHintThisRound = false;
   blindRevealStepIndex = 0;
@@ -1232,6 +1595,7 @@ async function startGame(modeKey = selectedModeKey) {
   updateScoreFormState();
   updateLeaderboardVisibility();
   updateStats();
+  renderLearnReview();
   updateStreakLabel();
   updateHintUI();
   updateTimerUI();
@@ -1251,6 +1615,12 @@ async function startGame(modeKey = selectedModeKey) {
 }
 
 function updateScore() {
+  if (isLearnMode()) {
+    scoreLabel.textContent = "Learn";
+    scoreLabel.classList.add("zero-score");
+    return;
+  }
+
   scoreLabel.textContent = `Score: ${score}`;
   scoreLabel.classList.toggle("zero-score", score === 0);
 }
@@ -1289,7 +1659,7 @@ function endGame() {
   finalHeading.textContent = isDailyMode()
     ? "Daily result"
     : isLearnMode()
-      ? "Learning complete"
+      ? "Lesson review"
       : "Your final score";
   saveMessage.textContent = "";
   updateLeaderboardVisibility();
@@ -1302,6 +1672,7 @@ function endGame() {
   const runSummary = getRunSummary(finalScoreValue, finalAccuracyValue, finalBestStreakValue);
   runSummaryTitle.textContent = runSummary.title;
   runSummaryText.textContent = runSummary.text;
+  renderLearnReview();
   updateShareCard();
 
   renderLeaderboard();
@@ -1310,6 +1681,13 @@ function endGame() {
   if (isDailyMode()) {
     playSoundEffect(finalScoreValue > 0 ? "finish-good" : "finish-bad");
     showDailyResult();
+    return;
+  }
+
+  if (isLearnMode()) {
+    finalScore.classList.remove("daily-result", "success", "failed", "zero-score");
+    finalScore.textContent = `${totalRounds} studied`;
+    playSoundEffect(finalAccuracyValue >= 70 ? "finish-good" : "finish-bad");
     return;
   }
 
@@ -1345,7 +1723,7 @@ async function renderRound(showTransition = false) {
   applyBlindRevealState();
 
   if (showTransition) {
-    setTransitionState(true, "Preparing mission...");
+    setTransitionState(true, getRoundTransitionLabel());
     const allUpcomingImageUrls = gameDeck
       .slice(currentRound + 1)
       .map((question) => question.imageUrl);
@@ -1360,6 +1738,7 @@ async function renderRound(showTransition = false) {
   }
 
   await swapRoundImage(currentQuestion);
+  preloadNextRoundImage();
   replayClass(imageFrame, "round-intro", 1200);
 
   answersContainer.innerHTML = "";
@@ -1432,11 +1811,13 @@ async function handleAnswer(selectedButton, selectedAnswer) {
     const pointBreakdown = getPointsForCorrectGuess(currentStreak);
     earnedPoints = pointBreakdown.totalPoints;
     streakBonus = pointBreakdown.streakBonus;
-    setScore(score + earnedPoints);
-    showCorrectAnswerReward();
-    showConfetti();
+    if (!isLearnMode()) {
+      setScore(score + earnedPoints);
+      showCorrectAnswerReward();
+      showConfetti();
+    }
     playSoundEffect("correct");
-    if (currentStreak >= 2) {
+    if (currentStreak >= 2 && !isLearnMode()) {
       showStreakFeedback();
       playSoundEffect("streak");
     }
@@ -1448,6 +1829,15 @@ async function handleAnswer(selectedButton, selectedAnswer) {
     wrongAnswerCount += 1;
     currentStreak = 0;
     playSoundEffect("wrong");
+
+    if (isLearnMode()) {
+      learnMissedQuestions.push({
+        correctAnswer: currentQuestion.correctAnswer,
+        selectedAnswer,
+        imageUrl: currentQuestion.imageUrl,
+        learningNote: getLearningNote(currentQuestion)
+      });
+    }
   }
 
   replayClass(gamePanel, panelFeedbackClass, 1800);
@@ -1477,11 +1867,11 @@ async function handleAnswer(selectedButton, selectedAnswer) {
   }
 
   feedbackText.textContent = isCorrect
-    ? streakBonus > 0
+    ? isLearnMode()
+      ? "Nice read. You spotted the right object."
+      : streakBonus > 0
       ? `+${earnedPoints} points. +${streakBonus} streak bonus. ${currentStreak}x streak.`
-      : isLearnMode()
-        ? `Nice read. +${earnedPoints} learning points.`
-        : `+${earnedPoints} points. Clean guess.`
+      : `+${earnedPoints} points. Clean guess.`
     : isTimeOut
       ? `Time is up. The correct answer was ${currentQuestion.correctAnswer}.`
       : isLearnMode()
@@ -2028,6 +2418,14 @@ if (mobileModeSelect) {
   });
 }
 
+learnPackClose?.addEventListener("click", () => {
+  setLearnPackPickerOpen(false);
+});
+learnPackStart?.addEventListener("click", () => {
+  setLearnPackPickerOpen(false);
+  startGame("learn");
+});
+
 themeToggle?.addEventListener("click", () => {
   applyGameTheme("light");
 });
@@ -2035,6 +2433,12 @@ themeToggle?.addEventListener("click", () => {
 mobileThemeLock.addEventListener("change", syncThemeForViewport);
 
 startButton.addEventListener("click", () => {
+  if (isLearnMode() && hasLearnPackSelection()) {
+    renderLearnPackPicker();
+    setLearnPackPickerOpen(true);
+    return;
+  }
+
   startGame(selectedModeKey);
 });
 dailyButton?.addEventListener("click", () => {
@@ -2108,7 +2512,9 @@ document.addEventListener("click", (event) => {
   }
 });
 selectMode(selectedModeKey);
+void loadContentPacks();
 loadGameTheme();
+applyFeatureVisibility();
 updateLeaderboardVisibility();
 updateDailyAvailability();
 updateStreakLabel();
@@ -2141,9 +2547,19 @@ document.addEventListener("click", (event) => {
     toggleShareModal(false);
   }
 });
+document.addEventListener("click", (event) => {
+  if (event.target instanceof HTMLElement && event.target.dataset.closeLearnPack === "true") {
+    setLearnPackPickerOpen(false);
+  }
+});
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && helpWidget?.classList.contains("open")) {
     setHelpPanelOpen(false);
+    return;
+  }
+
+  if (event.key === "Escape" && learnPackModal?.classList.contains("open")) {
+    setLearnPackPickerOpen(false);
     return;
   }
 

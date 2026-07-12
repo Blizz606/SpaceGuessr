@@ -34,7 +34,10 @@
   <main class="app-shell">
     <!-- Start screen / main menu -->
     <section id="start-screen" class="screen active">
-      <div class="start-background-fade" aria-hidden="true"></div>
+      <div class="start-background-layer start-background-quick" aria-hidden="true"></div>
+      <div class="start-background-layer start-background-timed" aria-hidden="true"></div>
+      <div class="start-background-layer start-background-blind" aria-hidden="true"></div>
+      <div class="start-background-layer start-background-special" aria-hidden="true"></div>
       <div class="start-layout">
         <img class="main-logo" src="media/SpaceGuesrr.png" alt="SpaceGuessr logo">
 
@@ -85,6 +88,7 @@
                 <span class="mode-meta">Guided</span>
               </button>
             </div>
+
           </div>
 
           <!-- Short text for the currently selected mode -->
@@ -209,6 +213,7 @@
 
         <!-- Fullscreen image area -->
         <div class="image-frame">
+          <div class="image-loading-skeleton" aria-hidden="true"></div>
           <img id="space-image" src="" alt="A space scene to identify">
         </div>
 
@@ -292,6 +297,14 @@
           </div>
         </div>
 
+        <div id="learn-review-panel" class="learn-review-panel hidden" aria-hidden="true">
+          <div class="learn-review-header">
+            <h3>Review missed images</h3>
+            <span id="learn-review-count">0 missed</span>
+          </div>
+          <div id="learn-review-list" class="learn-review-list"></div>
+        </div>
+
         <form id="auto-name-form" class="auto-name-form leaderboard-only hidden" aria-hidden="true">
           <input id="auto-player-name" class="auto-name-input" type="text" maxlength="18" placeholder="Leaderboard name" autocomplete="off">
           <button class="auto-name-button" type="submit">Save</button>
@@ -317,6 +330,24 @@
         </div>
       </div>
     </section>
+
+    <!-- Learn pack chooser -->
+    <div id="learn-pack-modal" class="learn-pack-modal" aria-hidden="true">
+      <div class="learn-pack-backdrop" data-close-learn-pack="true"></div>
+      <div class="learn-pack-modal-card" role="dialog" aria-modal="true" aria-labelledby="learn-pack-modal-title">
+        <button id="learn-pack-close" class="learn-pack-close-button" type="button" aria-label="Close pack chooser">&times;</button>
+        <div class="learn-pack-modal-head">
+          <span class="learn-pack-modal-kicker">Learn Mode</span>
+          <h3 id="learn-pack-modal-title">Choose pack</h3>
+          <p class="learn-pack-modal-copy">Pick a focused set, or start without a pack.</p>
+        </div>
+        <div id="learn-pack-picker" class="learn-pack-picker" aria-label="Choose Learn pack"></div>
+        <div class="learn-pack-modal-footer">
+          <p id="learn-pack-selected-label" class="learn-pack-selected-label">Selected: No pack</p>
+          <button id="learn-pack-start" class="learn-pack-start-button" type="button">Start Learn</button>
+        </div>
+      </div>
+    </div>
 
     <!-- Share popup -->
     <div id="share-modal" class="share-modal hidden" aria-hidden="true">

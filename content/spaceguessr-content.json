@@ -1,0 +1,1768 @@
+{
+  "schemaVersion": 1,
+  "title": "SpaceGuessr Content",
+  "description": "Central question and image content for SpaceGuessr.",
+  "generatedFrom": "game-data.js",
+  "questions": [
+    {
+      "id": "mars",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA15691/PIA15691~medium.jpg",
+      "nasaId": "PIA15691",
+      "source": "NASA Image and Video Library",
+      "answer": "Mars",
+      "wrongAnswers": [
+        "The Moon",
+        "Earth",
+        "Mercury"
+      ],
+      "fact": "Curiosity captured this early color landscape after landing in Gale Crater.",
+      "difficulty": "easy",
+      "category": "planet",
+      "tags": [
+        "easy",
+        "planet",
+        "solar-system",
+        "starter"
+      ]
+    },
+    {
+      "id": "the-moon",
+      "imageUrl": "https://images-assets.nasa.gov/image/as11-37-5545/as11-37-5545~large.jpg",
+      "nasaId": "as11-37-5545",
+      "source": "NASA Image and Video Library",
+      "answer": "The Moon",
+      "wrongAnswers": [
+        "Mars",
+        "Mercury",
+        "Europa"
+      ],
+      "fact": "This Apollo 11 photo shows the U.S. flag standing on the Moon.",
+      "difficulty": "easy",
+      "category": "moon",
+      "tags": [
+        "easy",
+        "moon",
+        "solar-system",
+        "starter"
+      ]
+    },
+    {
+      "id": "jupiter",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA01262/PIA01262~small.jpg",
+      "nasaId": "PIA01262",
+      "source": "NASA Image and Video Library",
+      "answer": "Jupiter",
+      "wrongAnswers": [
+        "Saturn",
+        "Neptune",
+        "Uranus"
+      ],
+      "fact": "This Hubble view shows Jupiter's bands and major storm systems.",
+      "difficulty": "easy",
+      "category": "planet",
+      "tags": [
+        "easy",
+        "planet",
+        "solar-system",
+        "starter"
+      ]
+    },
+    {
+      "id": "saturn",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA12513/PIA12513~small.jpg",
+      "nasaId": "PIA12513",
+      "source": "NASA Image and Video Library",
+      "answer": "Saturn",
+      "wrongAnswers": [
+        "Jupiter",
+        "Uranus",
+        "Neptune"
+      ],
+      "fact": "Cassini captured Saturn and its famous ring system in this view.",
+      "difficulty": "easy",
+      "category": "planet",
+      "tags": [
+        "easy",
+        "planet",
+        "solar-system",
+        "starter"
+      ]
+    },
+    {
+      "id": "earth",
+      "imageUrl": "https://images-assets.nasa.gov/image/iss045e013851/iss045e013851~large.jpg",
+      "nasaId": "iss045e013851",
+      "source": "NASA Image and Video Library",
+      "answer": "Earth",
+      "wrongAnswers": [
+        "Mars",
+        "Venus",
+        "Titan"
+      ],
+      "fact": "This view of Earth was photographed from the ISS in orbit.",
+      "difficulty": "easy",
+      "category": "planet",
+      "tags": [
+        "easy",
+        "planet",
+        "solar-system",
+        "starter"
+      ]
+    },
+    {
+      "id": "orion-nebula",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA01322/PIA01322~large.jpg",
+      "nasaId": "PIA01322",
+      "source": "NASA Image and Video Library",
+      "answer": "Orion Nebula",
+      "wrongAnswers": [
+        "Jupiter",
+        "The Moon",
+        "Saturn"
+      ],
+      "fact": "The Orion Nebula is a nearby region where new stars are forming.",
+      "difficulty": "medium",
+      "category": "nebula",
+      "tags": [
+        "deep-space",
+        "medium",
+        "nebula",
+        "starter"
+      ]
+    },
+    {
+      "id": "uranus",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA01391/PIA01391~orig.jpg",
+      "nasaId": "PIA01391",
+      "source": "NASA Image and Video Library",
+      "answer": "Uranus",
+      "wrongAnswers": [
+        "Neptune",
+        "Saturn",
+        "Earth"
+      ],
+      "fact": "Voyager 2 captured Uranus, the ice giant that spins on its side.",
+      "difficulty": "medium",
+      "category": "planet",
+      "tags": [
+        "medium",
+        "planet",
+        "solar-system",
+        "starter"
+      ]
+    },
+    {
+      "id": "neptune",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA01539/PIA01539~orig.jpg",
+      "nasaId": "PIA01539",
+      "source": "NASA Image and Video Library",
+      "answer": "Neptune",
+      "wrongAnswers": [
+        "Uranus",
+        "Jupiter",
+        "Venus"
+      ],
+      "fact": "Voyager 2 is still the only spacecraft ever to visit Neptune.",
+      "difficulty": "medium",
+      "category": "planet",
+      "tags": [
+        "medium",
+        "planet",
+        "solar-system",
+        "starter"
+      ]
+    },
+    {
+      "id": "andromeda-galaxy",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA04921/PIA04921~orig.jpg",
+      "nasaId": "PIA04921",
+      "source": "NASA Image and Video Library",
+      "answer": "Andromeda Galaxy",
+      "wrongAnswers": [
+        "Orion Nebula",
+        "Saturn",
+        "Mars"
+      ],
+      "fact": "Andromeda is the nearest large spiral galaxy to the Milky Way.",
+      "difficulty": "medium",
+      "category": "galaxy",
+      "tags": [
+        "deep-space",
+        "galaxy",
+        "medium",
+        "starter"
+      ]
+    },
+    {
+      "id": "eagle-nebula",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA09109/PIA09109~orig.jpg",
+      "nasaId": "PIA09109",
+      "source": "NASA Image and Video Library",
+      "answer": "Eagle Nebula",
+      "wrongAnswers": [
+        "Andromeda Galaxy",
+        "The Moon",
+        "Jupiter"
+      ],
+      "fact": "The Eagle Nebula contains the famous Pillars of Creation.",
+      "difficulty": "medium",
+      "category": "nebula",
+      "tags": [
+        "deep-space",
+        "medium",
+        "nebula",
+        "starter"
+      ]
+    },
+    {
+      "id": "titan",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA12778/PIA12778~orig.jpg",
+      "nasaId": "PIA12778",
+      "source": "NASA Image and Video Library",
+      "answer": "Titan",
+      "wrongAnswers": [
+        "Europa",
+        "Mars",
+        "Venus"
+      ],
+      "fact": "Titan is Saturn's largest moon and has lakes of liquid methane.",
+      "difficulty": "medium",
+      "category": "moon",
+      "tags": [
+        "medium",
+        "moon",
+        "solar-system",
+        "starter"
+      ]
+    },
+    {
+      "id": "europa",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA17658/PIA17658~orig.jpg",
+      "nasaId": "PIA17658",
+      "source": "NASA Image and Video Library",
+      "answer": "Europa",
+      "wrongAnswers": [
+        "Titan",
+        "The Moon",
+        "Mercury"
+      ],
+      "fact": "Europa may hide a global ocean beneath its icy outer crust.",
+      "difficulty": "medium",
+      "category": "moon",
+      "tags": [
+        "medium",
+        "moon",
+        "solar-system",
+        "starter"
+      ]
+    },
+    {
+      "id": "mercury",
+      "imageUrl": "https://images-assets.nasa.gov/image/GSFC_20171208_Archive_e001625/GSFC_20171208_Archive_e001625~orig.jpg",
+      "nasaId": "GSFC_20171208_Archive_e001625",
+      "source": "NASA Image and Video Library",
+      "answer": "Mercury",
+      "wrongAnswers": [
+        "The Moon",
+        "Mars",
+        "Ceres"
+      ],
+      "fact": "Mercury is heavily cratered because it has almost no atmosphere.",
+      "difficulty": "easy",
+      "category": "planet",
+      "tags": [
+        "easy",
+        "planet",
+        "solar-system",
+        "starter"
+      ]
+    },
+    {
+      "id": "pluto",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA19693/PIA19693~orig.jpg",
+      "nasaId": "PIA19693",
+      "source": "NASA Image and Video Library",
+      "answer": "Pluto",
+      "wrongAnswers": [
+        "Neptune",
+        "Titan",
+        "Europa"
+      ],
+      "fact": "New Horizons showed Pluto as a world of plains, mountains, and haze.",
+      "difficulty": "hard",
+      "category": "dwarf-planet",
+      "tags": [
+        "dwarf-planet",
+        "hard",
+        "solar-system",
+        "starter"
+      ]
+    },
+    {
+      "id": "ring-nebula",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA14443/PIA14443~orig.jpg",
+      "nasaId": "PIA14443",
+      "source": "NASA Image and Video Library",
+      "answer": "Ring Nebula",
+      "wrongAnswers": [
+        "Orion Nebula",
+        "Andromeda Galaxy",
+        "Eagle Nebula"
+      ],
+      "fact": "The Ring Nebula is a glowing shell of gas from a dying star.",
+      "difficulty": "hard",
+      "category": "nebula",
+      "tags": [
+        "deep-space",
+        "hard",
+        "nebula"
+      ]
+    },
+    {
+      "id": "crab-nebula",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA03606/PIA03606~orig.jpg",
+      "nasaId": "PIA03606",
+      "source": "NASA Image and Video Library",
+      "answer": "Crab Nebula",
+      "wrongAnswers": [
+        "Ring Nebula",
+        "Jupiter",
+        "Sombrero Galaxy"
+      ],
+      "fact": "The Crab Nebula is the expanding remnant of a supernova.",
+      "difficulty": "hard",
+      "category": "nebula",
+      "tags": [
+        "deep-space",
+        "hard",
+        "nebula"
+      ]
+    },
+    {
+      "id": "sombrero-galaxy",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA15226/PIA15226~orig.jpg",
+      "nasaId": "PIA15226",
+      "source": "NASA Image and Video Library",
+      "answer": "Sombrero Galaxy",
+      "wrongAnswers": [
+        "Andromeda Galaxy",
+        "Crab Nebula",
+        "Saturn"
+      ],
+      "fact": "The Sombrero Galaxy is named for its bright core and dust lane.",
+      "difficulty": "hard",
+      "category": "galaxy",
+      "tags": [
+        "deep-space",
+        "galaxy",
+        "hard"
+      ]
+    },
+    {
+      "id": "tarantula-nebula",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA10957/PIA10957~orig.jpg",
+      "nasaId": "PIA10957",
+      "source": "NASA Image and Video Library",
+      "answer": "Tarantula Nebula",
+      "wrongAnswers": [
+        "Eagle Nebula",
+        "Ring Nebula",
+        "Europa"
+      ],
+      "fact": "The Tarantula Nebula is one of our nearest major star nurseries.",
+      "difficulty": "hard",
+      "category": "nebula",
+      "tags": [
+        "deep-space",
+        "hard",
+        "nebula"
+      ]
+    },
+    {
+      "id": "ceres",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA20309/PIA20309~orig.jpg",
+      "nasaId": "PIA20309",
+      "source": "NASA Image and Video Library",
+      "answer": "Ceres",
+      "wrongAnswers": [
+        "Mercury",
+        "The Moon",
+        "Phobos"
+      ],
+      "fact": "Ceres is the largest object in the asteroid belt and a dwarf planet.",
+      "difficulty": "medium",
+      "category": "dwarf-planet",
+      "tags": [
+        "dwarf-planet",
+        "medium",
+        "solar-system"
+      ]
+    },
+    {
+      "id": "enceladus",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA17211/PIA17211~orig.jpg",
+      "nasaId": "PIA17211",
+      "source": "NASA Image and Video Library",
+      "answer": "Enceladus",
+      "wrongAnswers": [
+        "Europa",
+        "Titan",
+        "The Moon"
+      ],
+      "fact": "Enceladus sends icy plumes into space from below its crust.",
+      "difficulty": "medium",
+      "category": "moon",
+      "tags": [
+        "medium",
+        "moon",
+        "solar-system"
+      ]
+    },
+    {
+      "id": "phobos",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA22056/PIA22056~orig.jpg",
+      "nasaId": "PIA22056",
+      "source": "NASA Image and Video Library",
+      "answer": "Phobos",
+      "wrongAnswers": [
+        "Deimos",
+        "Ceres",
+        "Mercury"
+      ],
+      "fact": "Phobos is the larger of Mars' two moons and orbits very close in.",
+      "difficulty": "hard",
+      "category": "moon",
+      "tags": [
+        "hard",
+        "moon",
+        "solar-system"
+      ]
+    },
+    {
+      "id": "whirlpool-galaxy",
+      "imageUrl": "https://images-assets.nasa.gov/image/GSFC_20171208_Archive_e001925/GSFC_20171208_Archive_e001925~orig.jpg",
+      "nasaId": "GSFC_20171208_Archive_e001925",
+      "source": "NASA Image and Video Library",
+      "answer": "Whirlpool Galaxy",
+      "wrongAnswers": [
+        "Sombrero Galaxy",
+        "Andromeda Galaxy",
+        "Crab Nebula"
+      ],
+      "fact": "The Whirlpool Galaxy is a spiral galaxy with a close companion.",
+      "difficulty": "hard",
+      "category": "galaxy",
+      "tags": [
+        "deep-space",
+        "galaxy",
+        "hard"
+      ]
+    },
+    {
+      "id": "horsehead-nebula",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA04215/PIA04215~orig.jpg",
+      "nasaId": "PIA04215",
+      "source": "NASA Image and Video Library",
+      "answer": "Horsehead Nebula",
+      "wrongAnswers": [
+        "Orion Nebula",
+        "Ring Nebula",
+        "Tarantula Nebula"
+      ],
+      "fact": "The Horsehead Nebula is a dark dust cloud set against glowing gas.",
+      "difficulty": "hard",
+      "category": "nebula",
+      "tags": [
+        "deep-space",
+        "hard",
+        "nebula"
+      ]
+    },
+    {
+      "id": "lagoon-nebula",
+      "imageUrl": "https://images-assets.nasa.gov/image/GSFC_20171208_Archive_e001955/GSFC_20171208_Archive_e001955~orig.jpg",
+      "nasaId": "GSFC_20171208_Archive_e001955",
+      "source": "NASA Image and Video Library",
+      "answer": "Lagoon Nebula",
+      "wrongAnswers": [
+        "Orion Nebula",
+        "Eagle Nebula",
+        "Crab Nebula"
+      ],
+      "fact": "The Lagoon Nebula is a huge star-forming region in Sagittarius.",
+      "difficulty": "hard",
+      "category": "nebula",
+      "tags": [
+        "deep-space",
+        "hard",
+        "nebula"
+      ]
+    },
+    {
+      "id": "rosette-nebula",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA09268/PIA09268~orig.jpg",
+      "nasaId": "PIA09268",
+      "source": "NASA Image and Video Library",
+      "answer": "Rosette Nebula",
+      "wrongAnswers": [
+        "Ring Nebula",
+        "Lagoon Nebula",
+        "Horsehead Nebula"
+      ],
+      "fact": "The Rosette Nebula surrounds a young star cluster with glowing gas.",
+      "difficulty": "hard",
+      "category": "nebula",
+      "tags": [
+        "deep-space",
+        "hard",
+        "nebula"
+      ]
+    },
+    {
+      "id": "cat-s-eye-nebula",
+      "imageUrl": "https://images-assets.nasa.gov/image/GSFC_20171208_Archive_e002155/GSFC_20171208_Archive_e002155~orig.jpg",
+      "nasaId": "GSFC_20171208_Archive_e002155",
+      "source": "NASA Image and Video Library",
+      "answer": "Cat's Eye Nebula",
+      "wrongAnswers": [
+        "Ring Nebula",
+        "Crab Nebula",
+        "Tarantula Nebula"
+      ],
+      "fact": "The Cat's Eye Nebula has layered shells around a dying star.",
+      "difficulty": "hard",
+      "category": "nebula",
+      "tags": [
+        "deep-space",
+        "hard",
+        "nebula"
+      ]
+    },
+    {
+      "id": "veil-nebula",
+      "imageUrl": "https://images-assets.nasa.gov/image/GSFC_20171208_Archive_e002058/GSFC_20171208_Archive_e002058~orig.jpg",
+      "nasaId": "GSFC_20171208_Archive_e002058",
+      "source": "NASA Image and Video Library",
+      "answer": "Veil Nebula",
+      "wrongAnswers": [
+        "Crab Nebula",
+        "Ring Nebula",
+        "Orion Nebula"
+      ],
+      "fact": "The Veil Nebula is the expanding remnant of an exploded star.",
+      "difficulty": "hard",
+      "category": "nebula",
+      "tags": [
+        "deep-space",
+        "hard",
+        "nebula"
+      ]
+    },
+    {
+      "id": "pleiades",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA09262/PIA09262~orig.jpg",
+      "nasaId": "PIA09262",
+      "source": "NASA Image and Video Library",
+      "answer": "Pleiades",
+      "wrongAnswers": [
+        "Andromeda Galaxy",
+        "Lagoon Nebula",
+        "Whirlpool Galaxy"
+      ],
+      "fact": "The Pleiades is a bright star cluster also called the Seven Sisters.",
+      "difficulty": "hard",
+      "category": "deep-space",
+      "tags": [
+        "deep-space",
+        "hard"
+      ]
+    },
+    {
+      "id": "large-magellanic-cloud",
+      "imageUrl": "https://images-assets.nasa.gov/image/GSFC_20171208_Archive_e001642/GSFC_20171208_Archive_e001642~orig.jpg",
+      "nasaId": "GSFC_20171208_Archive_e001642",
+      "source": "NASA Image and Video Library",
+      "answer": "Large Magellanic Cloud",
+      "wrongAnswers": [
+        "Small Magellanic Cloud",
+        "Andromeda Galaxy",
+        "Sombrero Galaxy"
+      ],
+      "fact": "The Large Magellanic Cloud is a nearby dwarf galaxy by the Milky Way.",
+      "difficulty": "hard",
+      "category": "galaxy",
+      "tags": [
+        "deep-space",
+        "galaxy",
+        "hard"
+      ]
+    },
+    {
+      "id": "small-magellanic-cloud",
+      "imageUrl": "https://images-assets.nasa.gov/image/GSFC_20171208_Archive_e002039/GSFC_20171208_Archive_e002039~orig.jpg",
+      "nasaId": "GSFC_20171208_Archive_e002039",
+      "source": "NASA Image and Video Library",
+      "answer": "Small Magellanic Cloud",
+      "wrongAnswers": [
+        "Large Magellanic Cloud",
+        "Whirlpool Galaxy",
+        "Eagle Nebula"
+      ],
+      "fact": "The Small Magellanic Cloud is a nearby dwarf galaxy in southern skies.",
+      "difficulty": "hard",
+      "category": "galaxy",
+      "tags": [
+        "deep-space",
+        "galaxy",
+        "hard"
+      ]
+    },
+    {
+      "id": "messier-87",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA23122/PIA23122~orig.jpg",
+      "nasaId": "PIA23122",
+      "source": "NASA Image and Video Library",
+      "answer": "Messier 87",
+      "wrongAnswers": [
+        "Andromeda Galaxy",
+        "Sombrero Galaxy",
+        "Whirlpool Galaxy"
+      ],
+      "fact": "Messier 87 is a giant galaxy famous for its central black hole.",
+      "difficulty": "hard",
+      "category": "galaxy",
+      "tags": [
+        "deep-space",
+        "galaxy",
+        "hard"
+      ]
+    },
+    {
+      "id": "jupiter-s-great-red-spot",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA21770/PIA21770~orig.jpg",
+      "nasaId": "PIA21770",
+      "source": "NASA Image and Video Library",
+      "answer": "Jupiter's Great Red Spot",
+      "wrongAnswers": [
+        "Saturn's Hexagon",
+        "Neptune's Dark Spot",
+        "Mars"
+      ],
+      "fact": "Jupiter's Great Red Spot is a storm larger than Earth.",
+      "difficulty": "hard",
+      "category": "landmark",
+      "tags": [
+        "hard",
+        "landmark",
+        "solar-system"
+      ]
+    },
+    {
+      "id": "ganymede",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA00521/PIA00521~orig.jpg",
+      "nasaId": "PIA00521",
+      "source": "NASA Image and Video Library",
+      "answer": "Ganymede",
+      "wrongAnswers": [
+        "Callisto",
+        "Europa",
+        "Titan"
+      ],
+      "fact": "Ganymede is Jupiter's largest moon and the biggest moon of all.",
+      "difficulty": "hard",
+      "category": "moon",
+      "tags": [
+        "hard",
+        "moon",
+        "solar-system"
+      ]
+    },
+    {
+      "id": "callisto",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA03456/PIA03456~orig.jpg",
+      "nasaId": "PIA03456",
+      "source": "NASA Image and Video Library",
+      "answer": "Callisto",
+      "wrongAnswers": [
+        "Ganymede",
+        "Europa",
+        "The Moon"
+      ],
+      "fact": "Callisto is a Galilean moon with an old, heavily cratered surface.",
+      "difficulty": "hard",
+      "category": "moon",
+      "tags": [
+        "hard",
+        "moon",
+        "solar-system"
+      ]
+    },
+    {
+      "id": "dione",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA17195/PIA17195~orig.jpg",
+      "nasaId": "PIA17195",
+      "source": "NASA Image and Video Library",
+      "answer": "Dione",
+      "wrongAnswers": [
+        "Rhea",
+        "Tethys",
+        "Enceladus"
+      ],
+      "fact": "Dione is an icy moon of Saturn with bright fractured terrain.",
+      "difficulty": "hard",
+      "category": "moon",
+      "tags": [
+        "hard",
+        "moon",
+        "solar-system"
+      ]
+    },
+    {
+      "id": "rhea",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA12546/PIA12546~orig.jpg",
+      "nasaId": "PIA12546",
+      "source": "NASA Image and Video Library",
+      "answer": "Rhea",
+      "wrongAnswers": [
+        "Dione",
+        "Mimas",
+        "Iapetus"
+      ],
+      "fact": "Rhea is Saturn's second-largest moon and is heavily cratered.",
+      "difficulty": "hard",
+      "category": "moon",
+      "tags": [
+        "hard",
+        "moon",
+        "solar-system"
+      ]
+    },
+    {
+      "id": "iapetus",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA12521/PIA12521~orig.jpg",
+      "nasaId": "PIA12521",
+      "source": "NASA Image and Video Library",
+      "answer": "Iapetus",
+      "wrongAnswers": [
+        "Rhea",
+        "Tethys",
+        "Titan"
+      ],
+      "fact": "Iapetus is famous for its dramatic two-tone surface colors.",
+      "difficulty": "hard",
+      "category": "moon",
+      "tags": [
+        "hard",
+        "moon",
+        "solar-system"
+      ]
+    },
+    {
+      "id": "ariel",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA00037/PIA00037~orig.jpg",
+      "nasaId": "PIA00037",
+      "source": "NASA Image and Video Library",
+      "answer": "Ariel",
+      "wrongAnswers": [
+        "Miranda",
+        "Triton",
+        "Europa"
+      ],
+      "fact": "Ariel is a moon of Uranus photographed up close by Voyager 2.",
+      "difficulty": "hard",
+      "category": "moon",
+      "tags": [
+        "hard",
+        "moon",
+        "solar-system"
+      ]
+    },
+    {
+      "id": "miranda",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA01490/PIA01490~orig.jpg",
+      "nasaId": "PIA01490",
+      "source": "NASA Image and Video Library",
+      "answer": "Miranda",
+      "wrongAnswers": [
+        "Ariel",
+        "Dione",
+        "Callisto"
+      ],
+      "fact": "Miranda has one of the strangest patchwork surfaces Voyager 2 saw.",
+      "difficulty": "hard",
+      "category": "moon",
+      "tags": [
+        "hard",
+        "moon",
+        "solar-system"
+      ]
+    },
+    {
+      "id": "triton",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA01994/PIA01994~orig.jpg",
+      "nasaId": "PIA01994",
+      "source": "NASA Image and Video Library",
+      "answer": "Triton",
+      "wrongAnswers": [
+        "Titan",
+        "Europa",
+        "Ganymede"
+      ],
+      "fact": "Triton is Neptune's largest moon and orbits in reverse direction.",
+      "difficulty": "hard",
+      "category": "moon",
+      "tags": [
+        "hard",
+        "moon",
+        "solar-system"
+      ]
+    },
+    {
+      "id": "valles-marineris",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA13693/PIA13693~orig.jpg",
+      "nasaId": "PIA13693",
+      "source": "NASA Image and Video Library",
+      "answer": "Valles Marineris",
+      "wrongAnswers": [
+        "Olympus Mons",
+        "Gale Crater",
+        "Phobos"
+      ],
+      "fact": "Valles Marineris is a vast canyon system stretching across Mars.",
+      "difficulty": "hard",
+      "category": "landmark",
+      "tags": [
+        "hard",
+        "landmark",
+        "solar-system"
+      ]
+    },
+    {
+      "id": "pale-blue-dot",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA00452/PIA00452~orig.jpg",
+      "nasaId": "PIA00452",
+      "source": "NASA Image and Video Library",
+      "answer": "Pale Blue Dot",
+      "wrongAnswers": [
+        "Earthrise",
+        "Blue Marble",
+        "Andromeda Galaxy"
+      ],
+      "fact": "Pale Blue Dot shows Earth from billions of kilometers away.",
+      "difficulty": "medium",
+      "category": "landmark",
+      "tags": [
+        "landmark",
+        "medium",
+        "solar-system"
+      ]
+    },
+    {
+      "id": "hubble-ultra-deep-field",
+      "imageUrl": "https://images-assets.nasa.gov/image/GSFC_20171208_Archive_e001651/GSFC_20171208_Archive_e001651~orig.jpg",
+      "nasaId": "GSFC_20171208_Archive_e001651",
+      "source": "NASA Image and Video Library",
+      "answer": "Hubble Ultra Deep Field",
+      "wrongAnswers": [
+        "Andromeda Galaxy",
+        "Whirlpool Galaxy",
+        "Pleiades"
+      ],
+      "fact": "The Hubble Ultra Deep Field reveals thousands of distant galaxies.",
+      "difficulty": "hard",
+      "category": "deep-space",
+      "tags": [
+        "deep-space",
+        "hard"
+      ]
+    },
+    {
+      "id": "venus",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA13001/PIA13001~small.jpg",
+      "nasaId": "PIA13001",
+      "source": "NASA Image and Video Library",
+      "answer": "Venus",
+      "wrongAnswers": [
+        "Mercury",
+        "Mars",
+        "Io"
+      ],
+      "fact": "Venus is wrapped in thick clouds and has one of the hottest surfaces in the solar system.",
+      "difficulty": "easy",
+      "category": "planet",
+      "tags": [
+        "easy",
+        "planet",
+        "solar-system",
+        "starter"
+      ]
+    },
+    {
+      "id": "io",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA02201/PIA02201~small.jpg",
+      "nasaId": "PIA02201",
+      "source": "NASA Image and Video Library",
+      "answer": "Io",
+      "wrongAnswers": [
+        "Europa",
+        "Ganymede",
+        "Callisto"
+      ],
+      "fact": "Io is Jupiter's volcanic moon and the most geologically active world known.",
+      "difficulty": "medium",
+      "category": "moon",
+      "tags": [
+        "medium",
+        "moon",
+        "solar-system"
+      ]
+    },
+    {
+      "id": "deimos",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA11826/PIA11826~small.jpg",
+      "nasaId": "PIA11826",
+      "source": "NASA Image and Video Library",
+      "answer": "Deimos",
+      "wrongAnswers": [
+        "Phobos",
+        "Ceres",
+        "The Moon"
+      ],
+      "fact": "Deimos is the smaller outer moon of Mars and looks like a captured asteroid.",
+      "difficulty": "hard",
+      "category": "moon",
+      "tags": [
+        "hard",
+        "moon",
+        "solar-system"
+      ]
+    },
+    {
+      "id": "mimas",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA06572/PIA06572~small.jpg",
+      "nasaId": "PIA06572",
+      "source": "NASA Image and Video Library",
+      "answer": "Mimas",
+      "wrongAnswers": [
+        "Tethys",
+        "Enceladus",
+        "Rhea"
+      ],
+      "fact": "Mimas is a Saturn moon famous for the giant Herschel crater that dominates one hemisphere.",
+      "difficulty": "hard",
+      "category": "moon",
+      "tags": [
+        "hard",
+        "moon",
+        "solar-system"
+      ]
+    },
+    {
+      "id": "tethys",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA02276/PIA02276~small.jpg",
+      "nasaId": "PIA02276",
+      "source": "NASA Image and Video Library",
+      "answer": "Tethys",
+      "wrongAnswers": [
+        "Dione",
+        "Rhea",
+        "Mimas"
+      ],
+      "fact": "Tethys is an icy moon of Saturn marked by a huge canyon called Ithaca Chasma.",
+      "difficulty": "hard",
+      "category": "moon",
+      "tags": [
+        "hard",
+        "moon",
+        "solar-system"
+      ]
+    },
+    {
+      "id": "hyperion",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA07742/PIA07742~small.jpg",
+      "nasaId": "PIA07742",
+      "source": "NASA Image and Video Library",
+      "answer": "Hyperion",
+      "wrongAnswers": [
+        "Phoebe",
+        "Iapetus",
+        "Mimas"
+      ],
+      "fact": "Hyperion has a porous sponge-like surface and tumbles chaotically around Saturn.",
+      "difficulty": "hard",
+      "category": "moon",
+      "tags": [
+        "hard",
+        "moon",
+        "solar-system"
+      ]
+    },
+    {
+      "id": "oberon",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA00034/PIA00034~thumb.jpg",
+      "nasaId": "PIA00034",
+      "source": "NASA Image and Video Library",
+      "answer": "Oberon",
+      "wrongAnswers": [
+        "Titania",
+        "Umbriel",
+        "Ariel"
+      ],
+      "fact": "Oberon is the outermost large moon of Uranus seen up close by Voyager 2.",
+      "difficulty": "hard",
+      "category": "moon",
+      "tags": [
+        "hard",
+        "moon",
+        "solar-system"
+      ]
+    },
+    {
+      "id": "umbriel",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA00040/PIA00040~thumb.jpg",
+      "nasaId": "PIA00040",
+      "source": "NASA Image and Video Library",
+      "answer": "Umbriel",
+      "wrongAnswers": [
+        "Oberon",
+        "Titania",
+        "Miranda"
+      ],
+      "fact": "Umbriel is a dark Uranian moon with an old cratered surface.",
+      "difficulty": "hard",
+      "category": "moon",
+      "tags": [
+        "hard",
+        "moon",
+        "solar-system"
+      ]
+    },
+    {
+      "id": "titania",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA00039/PIA00039~small.jpg",
+      "nasaId": "PIA00039",
+      "source": "NASA Image and Video Library",
+      "answer": "Titania",
+      "wrongAnswers": [
+        "Oberon",
+        "Umbriel",
+        "Triton"
+      ],
+      "fact": "Titania is the largest moon of Uranus and shows giant faults and bright scarps.",
+      "difficulty": "hard",
+      "category": "moon",
+      "tags": [
+        "hard",
+        "moon",
+        "solar-system"
+      ]
+    },
+    {
+      "id": "sun",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA18906/PIA18906~medium.jpg",
+      "nasaId": "PIA18906",
+      "source": "NASA Image and Video Library",
+      "answer": "Sun",
+      "wrongAnswers": [
+        "Venus",
+        "Jupiter",
+        "Helix Nebula"
+      ],
+      "fact": "This view shows the Sun in high-energy X-rays, highlighting magnetic activity and hot plasma.",
+      "difficulty": "easy",
+      "category": "landmark",
+      "tags": [
+        "easy",
+        "landmark",
+        "solar-system",
+        "starter"
+      ]
+    },
+    {
+      "id": "helix-nebula",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA15658/PIA15658~medium.jpg",
+      "nasaId": "PIA15658",
+      "source": "NASA Image and Video Library",
+      "answer": "Helix Nebula",
+      "wrongAnswers": [
+        "Ring Nebula",
+        "Cat's Eye Nebula",
+        "Rosette Nebula"
+      ],
+      "fact": "The Helix Nebula is a nearby planetary nebula formed as a sun-like star shed its outer layers.",
+      "difficulty": "medium",
+      "category": "nebula",
+      "tags": [
+        "deep-space",
+        "medium",
+        "nebula"
+      ]
+    },
+    {
+      "id": "carina-nebula",
+      "imageUrl": "https://images-assets.nasa.gov/image/carina_nebula/carina_nebula~medium.jpg",
+      "nasaId": "carina_nebula",
+      "source": "NASA Image and Video Library",
+      "answer": "Carina Nebula",
+      "wrongAnswers": [
+        "Lagoon Nebula",
+        "Trifid Nebula",
+        "Tarantula Nebula"
+      ],
+      "fact": "The Carina Nebula is a turbulent star-forming region home to massive young stars.",
+      "difficulty": "medium",
+      "category": "nebula",
+      "tags": [
+        "deep-space",
+        "medium",
+        "nebula"
+      ]
+    },
+    {
+      "id": "trifid-nebula",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA04220/PIA04220~small.jpg",
+      "nasaId": "PIA04220",
+      "source": "NASA Image and Video Library",
+      "answer": "Trifid Nebula",
+      "wrongAnswers": [
+        "Lagoon Nebula",
+        "Orion Nebula",
+        "Eagle Nebula"
+      ],
+      "fact": "The Trifid Nebula mixes glowing emission gas with dark dust lanes that split its bright core.",
+      "difficulty": "hard",
+      "category": "nebula",
+      "tags": [
+        "deep-space",
+        "hard",
+        "nebula"
+      ]
+    },
+    {
+      "id": "flame-nebula",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA15635/PIA15635~medium.jpg",
+      "nasaId": "PIA15635",
+      "source": "NASA Image and Video Library",
+      "answer": "Flame Nebula",
+      "wrongAnswers": [
+        "Horsehead Nebula",
+        "Cone Nebula",
+        "Helix Nebula"
+      ],
+      "fact": "The Flame Nebula glows near Alnitak in Orion and is threaded by dark dust.",
+      "difficulty": "hard",
+      "category": "nebula",
+      "tags": [
+        "deep-space",
+        "hard",
+        "nebula"
+      ]
+    },
+    {
+      "id": "butterfly-nebula",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA23121/PIA23121~medium.jpg",
+      "nasaId": "PIA23121",
+      "source": "NASA Image and Video Library",
+      "answer": "Butterfly Nebula",
+      "wrongAnswers": [
+        "Ring Nebula",
+        "Cat's Eye Nebula",
+        "Flame Nebula"
+      ],
+      "fact": "The Butterfly Nebula is a bipolar planetary nebula with two bright wing-like lobes.",
+      "difficulty": "hard",
+      "category": "nebula",
+      "tags": [
+        "deep-space",
+        "hard",
+        "nebula"
+      ]
+    },
+    {
+      "id": "triangulum-galaxy",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA25165/PIA25165~medium.jpg",
+      "nasaId": "PIA25165",
+      "source": "NASA Image and Video Library",
+      "answer": "Triangulum Galaxy",
+      "wrongAnswers": [
+        "Andromeda Galaxy",
+        "Whirlpool Galaxy",
+        "Pinwheel Galaxy"
+      ],
+      "fact": "The Triangulum Galaxy, also called M33, is one of the closest spiral galaxies to the Milky Way.",
+      "difficulty": "hard",
+      "category": "galaxy",
+      "tags": [
+        "deep-space",
+        "galaxy",
+        "hard"
+      ]
+    },
+    {
+      "id": "pinwheel-galaxy",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA14403/PIA14403~medium.jpg",
+      "nasaId": "PIA14403",
+      "source": "NASA Image and Video Library",
+      "answer": "Pinwheel Galaxy",
+      "wrongAnswers": [
+        "Triangulum Galaxy",
+        "Whirlpool Galaxy",
+        "Sombrero Galaxy"
+      ],
+      "fact": "The Pinwheel Galaxy, also known as M101, is a face-on spiral rich in star formation.",
+      "difficulty": "hard",
+      "category": "galaxy",
+      "tags": [
+        "deep-space",
+        "galaxy",
+        "hard"
+      ]
+    },
+    {
+      "id": "cartwheel-galaxy",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA03296/PIA03296~medium.jpg",
+      "nasaId": "PIA03296",
+      "source": "NASA Image and Video Library",
+      "answer": "Cartwheel Galaxy",
+      "wrongAnswers": [
+        "Whirlpool Galaxy",
+        "Antennae Galaxies",
+        "Stephan Quintet"
+      ],
+      "fact": "The Cartwheel Galaxy likely got its ring shape after a dramatic galactic collision.",
+      "difficulty": "hard",
+      "category": "galaxy",
+      "tags": [
+        "deep-space",
+        "galaxy",
+        "hard"
+      ]
+    },
+    {
+      "id": "centaurus-a",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA04624/PIA04624~medium.jpg",
+      "nasaId": "PIA04624",
+      "source": "NASA Image and Video Library",
+      "answer": "Centaurus A",
+      "wrongAnswers": [
+        "Messier 87",
+        "Sculptor Galaxy",
+        "Sombrero Galaxy"
+      ],
+      "fact": "Centaurus A is a peculiar galaxy with a bright core and a thick dark dust lane.",
+      "difficulty": "hard",
+      "category": "deep-space",
+      "tags": [
+        "deep-space",
+        "hard"
+      ]
+    },
+    {
+      "id": "sculptor-galaxy",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA17256/PIA17256~medium.jpg",
+      "nasaId": "PIA17256",
+      "source": "NASA Image and Video Library",
+      "answer": "Sculptor Galaxy",
+      "wrongAnswers": [
+        "Centaurus A",
+        "Pinwheel Galaxy",
+        "M82 Galaxy"
+      ],
+      "fact": "The Sculptor Galaxy is a nearby spiral often studied in infrared and X-ray light.",
+      "difficulty": "hard",
+      "category": "galaxy",
+      "tags": [
+        "deep-space",
+        "galaxy",
+        "hard"
+      ]
+    },
+    {
+      "id": "antennae-galaxies",
+      "imageUrl": "https://images-assets.nasa.gov/image/GSFC_20171208_Archive_e001327/GSFC_20171208_Archive_e001327~small.jpg",
+      "nasaId": "GSFC_20171208_Archive_e001327",
+      "source": "NASA Image and Video Library",
+      "answer": "Antennae Galaxies",
+      "wrongAnswers": [
+        "Stephan Quintet",
+        "Cartwheel Galaxy",
+        "Whirlpool Galaxy"
+      ],
+      "fact": "The Antennae Galaxies are two colliding spirals throwing out long tidal tails of stars and gas.",
+      "difficulty": "hard",
+      "category": "deep-space",
+      "tags": [
+        "deep-space",
+        "hard"
+      ]
+    },
+    {
+      "id": "m81-galaxy",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA09579/PIA09579~medium.jpg",
+      "nasaId": "PIA09579",
+      "source": "NASA Image and Video Library",
+      "answer": "M81 Galaxy",
+      "wrongAnswers": [
+        "M82 Galaxy",
+        "Triangulum Galaxy",
+        "Andromeda Galaxy"
+      ],
+      "fact": "M81 is a grand-design spiral galaxy in the same sky neighborhood as starburst galaxy M82.",
+      "difficulty": "hard",
+      "category": "galaxy",
+      "tags": [
+        "deep-space",
+        "galaxy",
+        "hard"
+      ]
+    },
+    {
+      "id": "m82-galaxy",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA04218/PIA04218~medium.jpg",
+      "nasaId": "PIA04218",
+      "source": "NASA Image and Video Library",
+      "answer": "M82 Galaxy",
+      "wrongAnswers": [
+        "M81 Galaxy",
+        "Whirlpool Galaxy",
+        "Centaurus A"
+      ],
+      "fact": "M82 is a starburst galaxy blasting material into space from intense stellar activity.",
+      "difficulty": "hard",
+      "category": "galaxy",
+      "tags": [
+        "deep-space",
+        "galaxy",
+        "hard"
+      ]
+    },
+    {
+      "id": "stephan-quintet",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA04201/PIA04201~medium.jpg",
+      "nasaId": "PIA04201",
+      "source": "NASA Image and Video Library",
+      "answer": "Stephan Quintet",
+      "wrongAnswers": [
+        "Antennae Galaxies",
+        "Cartwheel Galaxy",
+        "Messier 87"
+      ],
+      "fact": "Stephan Quintet is a famous compact group of interacting galaxies.",
+      "difficulty": "hard",
+      "category": "galaxy",
+      "tags": [
+        "deep-space",
+        "galaxy",
+        "hard"
+      ]
+    },
+    {
+      "id": "pillars-of-creation",
+      "imageUrl": "https://images-assets.nasa.gov/image/GSFC_20171208_Archive_e000842/GSFC_20171208_Archive_e000842~medium.jpg",
+      "nasaId": "GSFC_20171208_Archive_e000842",
+      "source": "NASA Image and Video Library",
+      "answer": "Pillars of Creation",
+      "wrongAnswers": [
+        "Horsehead Nebula",
+        "Carina Nebula",
+        "Veil Nebula"
+      ],
+      "fact": "The Pillars of Creation are towering columns of gas and dust inside the Eagle Nebula.",
+      "difficulty": "hard",
+      "category": "nebula",
+      "tags": [
+        "deep-space",
+        "hard",
+        "nebula"
+      ]
+    },
+    {
+      "id": "charon",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA19968/PIA19968~medium.jpg",
+      "nasaId": "PIA19968",
+      "source": "NASA Image and Video Library",
+      "answer": "Charon",
+      "wrongAnswers": [
+        "Pluto",
+        "Nix",
+        "Triton"
+      ],
+      "fact": "Charon is Pluto's largest moon and shows canyons, fractures, and contrasting terrain colors.",
+      "difficulty": "hard",
+      "category": "moon",
+      "tags": [
+        "hard",
+        "moon",
+        "solar-system"
+      ]
+    },
+    {
+      "id": "nix",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA20287/PIA20287~small.jpg",
+      "nasaId": "PIA20287",
+      "source": "NASA Image and Video Library",
+      "answer": "Nix",
+      "wrongAnswers": [
+        "Hydra",
+        "Charon",
+        "Deimos"
+      ],
+      "fact": "Nix is one of Pluto's small moons and has an irregular shape with bright icy patches.",
+      "difficulty": "hard",
+      "category": "moon",
+      "tags": [
+        "hard",
+        "moon",
+        "solar-system"
+      ]
+    },
+    {
+      "id": "hydra",
+      "imageUrl": "https://www.nasa.gov/wp-content/uploads/2016/05/hydra_solo.jpg?w=648",
+      "nasaId": "hydra_solo",
+      "source": "NASA",
+      "answer": "Hydra",
+      "wrongAnswers": [
+        "Nix",
+        "Charon",
+        "Phoebe"
+      ],
+      "fact": "Hydra is a small outer moon of Pluto discovered in 2005.",
+      "difficulty": "hard",
+      "category": "moon",
+      "tags": [
+        "hard",
+        "moon",
+        "solar-system"
+      ]
+    },
+    {
+      "id": "phoebe",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA06062/PIA06062~thumb.jpg",
+      "nasaId": "PIA06062",
+      "source": "NASA Image and Video Library",
+      "answer": "Phoebe",
+      "wrongAnswers": [
+        "Hyperion",
+        "Iapetus",
+        "Mimas"
+      ],
+      "fact": "Phoebe is a dark irregular moon of Saturn that may have been captured from the outer solar system.",
+      "difficulty": "hard",
+      "category": "moon",
+      "tags": [
+        "hard",
+        "moon",
+        "solar-system"
+      ]
+    },
+    {
+      "id": "olympus-mons",
+      "imageUrl": "https://images-assets.nasa.gov/image/PIA10063/PIA10063~medium.jpg",
+      "nasaId": "PIA10063",
+      "source": "NASA Image and Video Library",
+      "answer": "Olympus Mons",
+      "wrongAnswers": [
+        "Valles Marineris",
+        "Gale Crater",
+        "Venus"
+      ],
+      "fact": "Olympus Mons is the tallest volcano in the solar system and rises high above the Martian plains.",
+      "difficulty": "medium",
+      "category": "landmark",
+      "tags": [
+        "landmark",
+        "medium",
+        "solar-system"
+      ]
+    }
+  ],
+  "packs": [
+    {
+      "id": "all",
+      "label": "All Images",
+      "description": "The full SpaceGuessr image pool.",
+      "difficulty": "mixed",
+      "questionIds": [
+        "mars",
+        "the-moon",
+        "jupiter",
+        "saturn",
+        "earth",
+        "orion-nebula",
+        "uranus",
+        "neptune",
+        "andromeda-galaxy",
+        "eagle-nebula",
+        "titan",
+        "europa",
+        "mercury",
+        "pluto",
+        "ring-nebula",
+        "crab-nebula",
+        "sombrero-galaxy",
+        "tarantula-nebula",
+        "ceres",
+        "enceladus",
+        "phobos",
+        "whirlpool-galaxy",
+        "horsehead-nebula",
+        "lagoon-nebula",
+        "rosette-nebula",
+        "cat-s-eye-nebula",
+        "veil-nebula",
+        "pleiades",
+        "large-magellanic-cloud",
+        "small-magellanic-cloud",
+        "messier-87",
+        "jupiter-s-great-red-spot",
+        "ganymede",
+        "callisto",
+        "dione",
+        "rhea",
+        "iapetus",
+        "ariel",
+        "miranda",
+        "triton",
+        "valles-marineris",
+        "pale-blue-dot",
+        "hubble-ultra-deep-field",
+        "venus",
+        "io",
+        "deimos",
+        "mimas",
+        "tethys",
+        "hyperion",
+        "oberon",
+        "umbriel",
+        "titania",
+        "sun",
+        "helix-nebula",
+        "carina-nebula",
+        "trifid-nebula",
+        "flame-nebula",
+        "butterfly-nebula",
+        "triangulum-galaxy",
+        "pinwheel-galaxy",
+        "cartwheel-galaxy",
+        "centaurus-a",
+        "sculptor-galaxy",
+        "antennae-galaxies",
+        "m81-galaxy",
+        "m82-galaxy",
+        "stephan-quintet",
+        "pillars-of-creation",
+        "charon",
+        "nix",
+        "hydra",
+        "phoebe",
+        "olympus-mons"
+      ]
+    },
+    {
+      "id": "starter",
+      "label": "Starter Pack",
+      "description": "Familiar planets, famous objects, and easier first guesses.",
+      "difficulty": "easy",
+      "questionIds": [
+        "mars",
+        "the-moon",
+        "jupiter",
+        "saturn",
+        "earth",
+        "orion-nebula",
+        "uranus",
+        "neptune",
+        "andromeda-galaxy",
+        "eagle-nebula",
+        "titan",
+        "europa",
+        "mercury",
+        "pluto",
+        "venus",
+        "sun"
+      ]
+    },
+    {
+      "id": "solar-system",
+      "label": "Solar System",
+      "description": "Planets, moons, dwarf planets, and close-by landmarks.",
+      "difficulty": "mixed",
+      "questionIds": [
+        "mars",
+        "the-moon",
+        "jupiter",
+        "saturn",
+        "earth",
+        "uranus",
+        "neptune",
+        "titan",
+        "europa",
+        "mercury",
+        "pluto",
+        "ceres",
+        "enceladus",
+        "phobos",
+        "jupiter-s-great-red-spot",
+        "ganymede",
+        "callisto",
+        "dione",
+        "rhea",
+        "iapetus",
+        "ariel",
+        "miranda",
+        "triton",
+        "valles-marineris",
+        "pale-blue-dot",
+        "venus",
+        "io",
+        "deimos",
+        "mimas",
+        "tethys",
+        "hyperion",
+        "oberon",
+        "umbriel",
+        "titania",
+        "sun",
+        "charon",
+        "nix",
+        "hydra",
+        "phoebe",
+        "olympus-mons"
+      ]
+    },
+    {
+      "id": "moons",
+      "label": "Moons",
+      "description": "Natural satellites from Earth, Mars, Jupiter, Saturn, Uranus, Neptune, and Pluto.",
+      "difficulty": "hard",
+      "questionIds": [
+        "the-moon",
+        "titan",
+        "europa",
+        "enceladus",
+        "phobos",
+        "ganymede",
+        "callisto",
+        "dione",
+        "rhea",
+        "iapetus",
+        "ariel",
+        "miranda",
+        "triton",
+        "io",
+        "deimos",
+        "mimas",
+        "tethys",
+        "hyperion",
+        "oberon",
+        "umbriel",
+        "titania",
+        "charon",
+        "nix",
+        "hydra",
+        "phoebe"
+      ]
+    },
+    {
+      "id": "deep-space",
+      "label": "Deep Space",
+      "description": "Nebulae, galaxies, star clusters, and other far-away targets.",
+      "difficulty": "hard",
+      "questionIds": [
+        "orion-nebula",
+        "andromeda-galaxy",
+        "eagle-nebula",
+        "ring-nebula",
+        "crab-nebula",
+        "sombrero-galaxy",
+        "tarantula-nebula",
+        "whirlpool-galaxy",
+        "horsehead-nebula",
+        "lagoon-nebula",
+        "rosette-nebula",
+        "cat-s-eye-nebula",
+        "veil-nebula",
+        "pleiades",
+        "large-magellanic-cloud",
+        "small-magellanic-cloud",
+        "messier-87",
+        "hubble-ultra-deep-field",
+        "helix-nebula",
+        "carina-nebula",
+        "trifid-nebula",
+        "flame-nebula",
+        "butterfly-nebula",
+        "triangulum-galaxy",
+        "pinwheel-galaxy",
+        "cartwheel-galaxy",
+        "centaurus-a",
+        "sculptor-galaxy",
+        "antennae-galaxies",
+        "m81-galaxy",
+        "m82-galaxy",
+        "stephan-quintet",
+        "pillars-of-creation"
+      ]
+    },
+    {
+      "id": "expert",
+      "label": "Expert Pack",
+      "description": "Only the harder questions for special challenge modes.",
+      "difficulty": "hard",
+      "questionIds": [
+        "pluto",
+        "ring-nebula",
+        "crab-nebula",
+        "sombrero-galaxy",
+        "tarantula-nebula",
+        "phobos",
+        "whirlpool-galaxy",
+        "horsehead-nebula",
+        "lagoon-nebula",
+        "rosette-nebula",
+        "cat-s-eye-nebula",
+        "veil-nebula",
+        "pleiades",
+        "large-magellanic-cloud",
+        "small-magellanic-cloud",
+        "messier-87",
+        "jupiter-s-great-red-spot",
+        "ganymede",
+        "callisto",
+        "dione",
+        "rhea",
+        "iapetus",
+        "ariel",
+        "miranda",
+        "triton",
+        "valles-marineris",
+        "hubble-ultra-deep-field",
+        "deimos",
+        "mimas",
+        "tethys",
+        "hyperion",
+        "oberon",
+        "umbriel",
+        "titania",
+        "trifid-nebula",
+        "flame-nebula",
+        "butterfly-nebula",
+        "triangulum-galaxy",
+        "pinwheel-galaxy",
+        "cartwheel-galaxy",
+        "centaurus-a",
+        "sculptor-galaxy",
+        "antennae-galaxies",
+        "m81-galaxy",
+        "m82-galaxy",
+        "stephan-quintet",
+        "pillars-of-creation",
+        "charon",
+        "nix",
+        "hydra",
+        "phoebe"
+      ]
+    }
+  ]
+}
