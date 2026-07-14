@@ -131,16 +131,21 @@
 
       <div id="help-widget" class="help-fab-wrap">
         <button id="help-toggle-button" class="help-fab" type="button" aria-expanded="false" aria-controls="help-panel" aria-label="How to play">
-          <span class="help-fab-icon" aria-hidden="true">?</span>
+          <span class="help-fab-glyph" aria-hidden="true">?</span>
+          <span class="help-fab-copy">
+            <span class="help-fab-label">How to Play</span>
+            <span class="help-fab-meta">Scoring and rules</span>
+          </span>
         </button>
 
         <div id="help-panel" class="help-panel" aria-hidden="true">
           <div class="help-panel-top">
             <span class="help-kicker">Mission brief</span>
+            <span class="help-badge">Quick guide</span>
             <button id="help-close-button" class="help-close-button" type="button" aria-label="Close help">×</button>
           </div>
           <h3>How scoring works</h3>
-          <p class="help-copy">Guess the space object from the NASA image. Correct answers build your streak, wrong answers reset it.</p>
+          <p class="help-copy">Guess the space object from the NASA image. Correct answers build streak, wrong answers break momentum.</p>
           <ul class="help-list">
             <li><strong>Correct:</strong> +50 points in normal modes.</li>
             <li><strong>Blind Reveal:</strong> starts at +80 and drops with each reveal.</li>
@@ -311,8 +316,17 @@
         </form>
         <p id="save-message" class="save-message auto-save-message leaderboard-only hidden" aria-live="polite"></p>
 
+        <button
+          id="end-leaderboard-toggle"
+          class="subtle-link-button end-leaderboard-toggle leaderboard-only hidden"
+          type="button"
+          aria-expanded="false"
+          aria-controls="end-leaderboard-panel">
+          Show leaderboard
+        </button>
+
         <!-- Endscreen leaderboard -->
-        <div class="leaderboard-panel end-leaderboard-panel leaderboard-only hidden">
+        <div id="end-leaderboard-panel" class="leaderboard-panel end-leaderboard-panel leaderboard-only hidden" aria-hidden="true">
           <div class="leaderboard-header">
             <h3>Global leaderboard</h3>
             <span id="leaderboard-mode">Classic</span>

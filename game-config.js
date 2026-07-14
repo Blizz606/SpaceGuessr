@@ -27,14 +27,14 @@ const gameModes = {
     index: 3,
     hints: 1,
     seconds: 15,
-    description: "A hidden image slowly reveals itself, the countdown runs, and every reveal lowers the reward."
+    description: "The image slowly reveals itself, and each reveal lowers the reward."
   },
   learn: {
     label: "Learn",
     rounds: 4,
     index: 4,
     hints: 3,
-    description: "A guided mode for learning the clues behind each space image without leaderboard pressure."
+    description: "A guided mode for learning the clues without leaderboard pressure."
   },
   daily: {
     label: "Daily",

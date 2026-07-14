@@ -27,6 +27,9 @@ const helpWidget = document.getElementById("help-widget");
 const helpToggleButton = document.getElementById("help-toggle-button");
 const helpCloseButton = document.getElementById("help-close-button");
 const helpPanel = document.getElementById("help-panel");
+if (helpCloseButton) {
+  helpCloseButton.textContent = "\u00D7";
+}
 const homeButtons = document.querySelectorAll(".home-button, .end-home-button");
 const playAgainButton = document.getElementById("play-again-button");
 const nextButton = document.getElementById("next-button");
@@ -77,6 +80,8 @@ const playerNameInput = document.getElementById("player-name");
 const autoNameForm = document.getElementById("auto-name-form");
 const autoPlayerNameInput = document.getElementById("auto-player-name");
 const saveMessage = document.getElementById("save-message");
+const endLeaderboardToggle = document.getElementById("end-leaderboard-toggle");
+const endLeaderboardPanel = document.getElementById("end-leaderboard-panel");
 const leaderboardList = document.getElementById("leaderboard-list");
 const leaderboardMode = document.getElementById("leaderboard-mode");
 const menuScoreboardToggle = document.getElementById("menu-scoreboard-toggle");
@@ -143,6 +148,7 @@ let toastTimer;
 let modeGroupTransitionTimer;
 let menuLeaderboardCache = null;
 let menuLeaderboardPrefetchPromise = null;
+let isEndLeaderboardOpen = false;
 let audioContext = null;
 let audioMasterGain = null;
 const TRANSITION_MIN_DURATION = 420;
@@ -1142,6 +1148,24 @@ function updateLeaderboardVisibility() {
   );
 
   updateMistakesLabel();
+  updateEndLeaderboardVisibility();
+}
+
+function updateEndLeaderboardVisibility() {
+  if (!endLeaderboardPanel || !endLeaderboardToggle) {
+    return;
+  }
+
+  const shouldShowLeaderboardUi = hasLeaderboardMode();
+  const shouldShowPanel = shouldShowLeaderboardUi && isEndLeaderboardOpen;
+
+  endLeaderboardToggle.classList.toggle("hidden", !shouldShowLeaderboardUi);
+  endLeaderboardToggle.setAttribute("aria-hidden", String(!shouldShowLeaderboardUi));
+  endLeaderboardToggle.setAttribute("aria-expanded", String(shouldShowPanel));
+  endLeaderboardToggle.textContent = shouldShowPanel ? "Hide leaderboard" : "Show leaderboard";
+
+  endLeaderboardPanel.classList.toggle("hidden", !shouldShowPanel);
+  endLeaderboardPanel.setAttribute("aria-hidden", String(!shouldShowPanel));
 }
 
 function applyFeatureVisibility() {
@@ -1321,6 +1345,11 @@ function showScreen(screenName) {
     themeToggle.setAttribute("aria-hidden", String(screenName !== "start"));
   }
   setUiState("resultsView", screenName === "end");
+
+  if (screenName === "end") {
+    isEndLeaderboardOpen = false;
+    updateEndLeaderboardVisibility();
+  }
 
   if (screenName !== "game") {
     setUiState("answering", false);
@@ -2424,6 +2453,11 @@ learnPackClose?.addEventListener("click", () => {
 learnPackStart?.addEventListener("click", () => {
   setLearnPackPickerOpen(false);
   startGame("learn");
+});
+
+endLeaderboardToggle?.addEventListener("click", () => {
+  isEndLeaderboardOpen = !isEndLeaderboardOpen;
+  updateEndLeaderboardVisibility();
 });
 
 themeToggle?.addEventListener("click", () => {
