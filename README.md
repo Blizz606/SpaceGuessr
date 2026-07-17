@@ -26,10 +26,13 @@ Live demo: [blizz606.github.io/SpaceGuessr](https://blizz606.github.io/SpaceGues
 ## Features
 
 - Curated library of 73 NASA space images with facts, source metadata, and difficulty tags
-- Six playable modes: `Quick`, `Classic`, `Timed`, `Daily`, `Blind Reveal`, and `Learn`
+- Seven playable modes: `Quick`, `Classic`, `Timed`, `Daily`, `Blind Reveal`, `Learn`, and `Reverse Learn`
 - Casual and Special mode groups with a smooth menu background transition
 - Responsive UI for desktop and mobile
 - Animated score flow, result states, confetti, streak effects, and polished game feedback
+- Reverse Learn clue cards that appear in the center and dissolve into the image reveal
+- Learn / Reverse Learn review popups for missed images at the end of a run
+- Refined in-game help panel, share modal, and end-screen polish
 - Lightweight in-browser audio feedback for hints, answers, streaks, and run endings
 - Online leaderboard support for score-chasing modes
 - Local fallback storage if the online leaderboard is unavailable
@@ -46,20 +49,23 @@ Live demo: [blizz606.github.io/SpaceGuessr](https://blizz606.github.io/SpaceGues
 | `Daily` | 1 shared image per day | Same challenge for everyone on that date |
 | `Blind Reveal` | 5 rounds, 15 seconds each | The image starts hidden and reveals more over time |
 | `Learn` | 4 guided rounds | Beginner-friendly explanations after every answer, with no leaderboard pressure |
+| `Reverse Learn` | 4 clue-first rounds | The clue appears first, then the image is revealed after your answer |
 
 Leaderboard-supported modes submit scores automatically after a run.  
 If Supabase is unavailable, the game falls back to local score storage.
+Daily, Learn, and Reverse Learn runs are not saved in the DB.
 Runs with `0` points are not saved.
 
 ## Scoring
 
 - Correct answers are worth `+50` points in normal modes.
 - Blind Reveal starts at `+80` points, then drops to `70`, `60`, `50`, `40`, `30`, and `20` as more of the image is revealed.
-- Learn Mode uses lighter `+35` point rewards and does not punish wrong answers, because the goal is practice.
+- Learn and Reverse Learn use lighter `+35` point rewards and do not punish wrong answers, because the goal is practice.
 - Streaks add bonus points on top of the base reward: `+10` at a 2x streak, `+20` at 3x, `+30` at 4x, and so on.
 - Wrong answers cost `-25` points and reset the current streak.
 - The visible score never drops below `0`.
 - A continued streak adds more points each time, so fast clean runs scale better than cautious low-streak runs.
+- Reverse Learn shows the clue first, keeps the image obscured, and reveals it only after the answer is locked in.
 
 ## Tech Stack
 
@@ -189,30 +195,7 @@ with check (
 ```
 
 The game also compares scores by player name and only replaces an existing score when the new result is better.
-Daily and Learn modes do not save scores, and runs with `0` points are intentionally excluded from saving.
-
-## Deployment
-
-Because the project is fully static, it works well with:
-
-- GitHub Pages
-- Netlify
-- Vercel static hosting
-- Any simple web server
-
-### GitHub Pages
-
-The repo includes a GitHub Actions workflow at `.github/workflows/deploy-pages.yml` for deploying the static site.
-
-Recommended setup:
-
-1. Push to `main`
-2. In GitHub repository settings, open `Pages`
-3. Set the publishing source to `GitHub Actions`
-
-The `.nojekyll` file is included so GitHub Pages serves the project as a plain static site without Jekyll processing.
-
-
+Daily, Learn, and Reverse Learn modes do not save scores, and runs with `0` points are intentionally excluded from saving.
 
 ## Reviews
 "I love space and I could genuinely play this for hours on end, well done!"

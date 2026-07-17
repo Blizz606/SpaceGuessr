@@ -512,7 +512,7 @@ body.menu-bg-special .start-background-special {
   left: 24px;
   bottom: 24px;
   z-index: 12;
-  width: 176px;
+  width: 204px;
   height: 56px;
   pointer-events: auto;
 }
@@ -521,12 +521,12 @@ body.menu-bg-special .start-background-special {
   position: absolute;
   left: 0;
   bottom: 0;
-  width: 176px;
+  width: 204px;
   height: 56px;
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 0 18px 0 10px;
+  padding: 0 18px 0 11px;
   border-radius: 999px;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(216, 232, 249, 0.9));
@@ -573,7 +573,7 @@ body.menu-bg-special .start-background-special {
 .help-fab-copy {
   min-width: 0;
   display: grid;
-  gap: 2px;
+  gap: 1px;
   justify-items: start;
 }
 
@@ -585,16 +585,16 @@ body.menu-bg-special .start-background-special {
 
 .help-fab-label {
   color: #102036;
-  font-size: 0.86rem;
+  font-size: 0.88rem;
   font-weight: 900;
   letter-spacing: 0.02em;
 }
 
 .help-fab-meta {
   color: rgba(16, 32, 54, 0.62);
-  font-size: 0.68rem;
+  font-size: 0.62rem;
   font-weight: 800;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
@@ -609,18 +609,14 @@ body.menu-bg-special .start-background-special {
   left: 0;
   bottom: 0;
   width: min(390px, calc(100vw - 48px));
-  padding: 20px 18px 18px;
-  border-radius: 22px;
+  padding: 18px 18px 16px;
+  border-radius: 18px;
   background:
-    radial-gradient(circle at 18% 14%, rgba(148, 197, 255, 0.18), transparent 34%),
-    linear-gradient(180deg, rgba(21, 38, 66, 0.94), rgba(10, 20, 38, 0.96));
-  backdrop-filter: blur(18px) saturate(130%);
-  -webkit-backdrop-filter: blur(18px) saturate(130%);
-  border: 1px solid rgba(180, 210, 246, 0.16);
+    linear-gradient(180deg, rgba(16, 28, 49, 0.98), rgba(9, 17, 31, 0.99));
+  border: 1px solid rgba(108, 131, 168, 0.34);
   box-shadow:
-    0 28px 64px rgba(3, 10, 24, 0.46),
-    0 0 0 1px rgba(255, 255, 255, 0.04),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    0 20px 48px rgba(3, 10, 24, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
   text-align: left;
   transform-origin: 28px calc(100% - 28px);
   opacity: 0;
@@ -637,9 +633,9 @@ body.menu-bg-special .start-background-special {
   pointer-events: auto;
   transform: translateY(0) scale(1);
   box-shadow:
-    0 32px 82px rgba(3, 10, 24, 0.54),
-    0 0 0 200vmax rgba(4, 8, 16, 0.34),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    0 24px 64px rgba(3, 10, 24, 0.48),
+    0 0 0 200vmax rgba(4, 8, 16, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
 .help-panel-top {
@@ -658,59 +654,58 @@ body.menu-bg-special .start-background-special {
 }
 
 .help-kicker {
-  color: rgba(198, 220, 246, 0.66);
-  font-size: 0.66rem;
+  color: rgba(168, 190, 222, 0.72);
+  font-size: 0.62rem;
   font-weight: 900;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
 .help-badge {
-  padding: 6px 10px;
-  border-radius: 999px;
-  background: rgba(115, 177, 255, 0.1);
-  border: 1px solid rgba(129, 188, 255, 0.18);
-  color: rgba(225, 238, 255, 0.86);
-  font-size: 0.64rem;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: rgba(95, 120, 160, 0.16);
+  border: 1px solid rgba(117, 144, 186, 0.24);
+  color: rgba(220, 232, 248, 0.82);
+  font-size: 0.6rem;
   font-weight: 800;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
 .help-panel h3 {
   margin-top: 14px;
-  font-size: 1.18rem;
+  font-size: 1.08rem;
   font-weight: 900;
-  color: #f5fbff;
-  letter-spacing: 0.01em;
-  line-height: 1.1;
+  color: #edf5ff;
+  letter-spacing: 0;
+  line-height: 1.2;
 }
 
 .help-copy {
   margin-top: 10px;
-  color: rgba(222, 234, 248, 0.78);
-  font-size: 0.88rem;
-  line-height: 1.58;
+  color: rgba(214, 226, 242, 0.76);
+  font-size: 0.84rem;
+  line-height: 1.52;
 }
 
 .help-list {
   display: grid;
-  gap: 8px;
-  margin-top: 16px;
+  gap: 7px;
+  margin-top: 15px;
   padding: 0;
   list-style: none;
-  color: rgba(232, 241, 252, 0.84);
-  font-size: 0.84rem;
-  line-height: 1.48;
+  color: rgba(226, 236, 248, 0.84);
+  font-size: 0.8rem;
+  line-height: 1.42;
 }
 
 .help-list li {
   position: relative;
-  padding: 11px 12px 11px 14px;
-  border-radius: 14px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.025));
-  border: 1px solid rgba(185, 213, 246, 0.1);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  padding: 10px 12px 10px 14px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(148, 173, 210, 0.12);
 }
 
 .help-list li::before {
@@ -720,8 +715,8 @@ body.menu-bg-special .start-background-special {
   top: 10px;
   bottom: 10px;
   width: 3px;
-  border-radius: 999px;
-  background: linear-gradient(180deg, #8bd6ff, #60a5fa);
+  border-radius: 3px;
+  background: linear-gradient(180deg, #76baff, #4f8ff0);
 }
 
 .help-list strong {
@@ -834,9 +829,9 @@ body.menu-bg-special .start-background-special {
   display: grid;
   place-items: center;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(185, 213, 246, 0.12);
-  color: #f5fbff;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(152, 175, 208, 0.16);
+  color: rgba(232, 240, 250, 0.8);
   font-size: 1.1rem;
   font-weight: 900;
   transition:
@@ -846,8 +841,8 @@ body.menu-bg-special .start-background-special {
 }
 
 .help-close-button:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(185, 213, 246, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(176, 198, 228, 0.22);
   transform: translateY(-1px);
 }
 
@@ -1068,13 +1063,20 @@ h2 {
 }
 
 .learn-review-panel {
-  margin-top: 22px;
   padding: 18px;
   border-radius: 22px;
   background: rgba(255, 255, 255, 0.045);
   border: 1px solid rgba(255, 255, 255, 0.1);
   animation: endReveal 0.58s ease both;
   animation-delay: 180ms;
+}
+
+.learn-review-toggle {
+  justify-self: center;
+  margin-top: 20px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .learn-review-header {
@@ -1157,6 +1159,91 @@ h2 {
   color: var(--game-ui-muted);
   font-size: 0.82rem;
   line-height: 1.45;
+}
+
+.learn-review-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 24;
+}
+
+.learn-review-modal.hidden {
+  display: none;
+}
+
+.learn-review-modal.open {
+  display: grid;
+  place-items: center;
+  padding: 28px 20px;
+}
+
+.learn-review-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(4, 10, 22, 0.54);
+  backdrop-filter: blur(14px) saturate(135%);
+  -webkit-backdrop-filter: blur(14px) saturate(135%);
+}
+
+.learn-review-modal-card {
+  position: relative;
+  z-index: 1;
+  width: min(720px, calc(100vw - 36px));
+  max-height: min(78vh, 720px);
+  overflow: auto;
+  border-radius: 26px;
+  background:
+    radial-gradient(circle at top, rgba(116, 176, 255, 0.14), transparent 44%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04)),
+    rgba(9, 20, 44, 0.94);
+  border: 1px solid rgba(214, 234, 255, 0.2);
+  box-shadow:
+    0 32px 72px rgba(6, 16, 34, 0.38),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  opacity: 0;
+  transform: translateY(18px) scale(0.96);
+  transition:
+    opacity 0.38s var(--ease-soft),
+    transform 0.46s var(--ease-smooth);
+}
+
+.learn-review-modal.open .learn-review-modal-card {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.learn-review-modal .learn-review-panel {
+  margin-top: 0;
+  padding-right: 56px;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  animation: none;
+}
+
+.learn-review-close-button {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 2;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(248, 251, 255, 0.88);
+  font-size: 1.25rem;
+  line-height: 1;
+  transition:
+    background var(--motion-base) var(--ease-soft),
+    transform var(--motion-base) var(--ease-smooth);
+}
+
+.learn-review-close-button:hover {
+  background: rgba(255, 255, 255, 0.14);
+  transform: translateY(-1px);
 }
 
 .end-stat {
@@ -3243,6 +3330,85 @@ h2 {
   background: #030303;
 }
 
+.reverse-prompt-overlay {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 6;
+  width: min(560px, calc(100% - 52px));
+  display: grid;
+  gap: 12px;
+  justify-items: center;
+  padding: 22px 24px;
+  border-radius: 28px;
+  text-align: center;
+  background:
+    linear-gradient(180deg, rgba(8, 16, 30, 0.88), rgba(8, 14, 26, 0.78));
+  border: 1px solid rgba(160, 210, 255, 0.2);
+  box-shadow:
+    0 24px 56px rgba(2, 8, 18, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(16px) saturate(120%);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  filter: blur(0);
+  opacity: 0;
+  transform: translate(-50%, -50%) translateY(20px) scale(0.96);
+  transition:
+    opacity 420ms var(--ease-soft),
+    transform 620ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 460ms var(--ease-soft);
+}
+
+.reverse-prompt-overlay:not(.hidden) {
+  opacity: 1;
+  transform: translate(-50%, -50%) translateY(0) scale(1);
+}
+
+.reverse-prompt-overlay.is-exiting {
+  opacity: 0;
+  filter: blur(6px);
+  transform: translate(-50%, -50%) translateY(-76px) scale(0.91);
+  pointer-events: none;
+}
+
+.reverse-prompt-label,
+.reverse-prompt-copy {
+  margin: 0;
+  transition:
+    opacity 420ms var(--ease-soft),
+    transform 620ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 460ms var(--ease-soft);
+}
+
+.reverse-prompt-label {
+  color: rgba(147, 204, 255, 0.9);
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.reverse-prompt-copy {
+  max-width: 34ch;
+  color: rgba(244, 248, 255, 0.98);
+  font-size: clamp(1.1rem, 1rem + 0.5vw, 1.45rem);
+  font-weight: 800;
+  line-height: 1.4;
+  text-wrap: balance;
+}
+
+.reverse-prompt-overlay.is-exiting .reverse-prompt-label {
+  opacity: 0;
+  filter: blur(4px);
+  transform: translateY(-8px);
+}
+
+.reverse-prompt-overlay.is-exiting .reverse-prompt-copy {
+  opacity: 0;
+  filter: blur(6px);
+  transform: translateY(-14px);
+}
+
 .image-frame img {
   --blind-reveal-blur: 0px;
   --blind-reveal-progress: 100%;
@@ -3300,6 +3466,12 @@ h2 {
   transform: scale(1.08);
 }
 
+.image-frame.reverse-learn-pending img.loaded {
+  opacity: 0.12;
+  transform: scale(1.09);
+  filter: blur(20px) saturate(0.76);
+}
+
 .image-frame::after {
   content: "";
   position: absolute;
@@ -3321,6 +3493,20 @@ h2 {
   background:
     radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.12), transparent 42%),
     radial-gradient(circle at 50% 25%, rgba(160, 205, 255, 0.1), transparent 34%);
+}
+
+.image-frame.reverse-learn-pending::before {
+  opacity: 1;
+  background:
+    radial-gradient(circle at 50% 36%, rgba(145, 205, 255, 0.26), transparent 34%),
+    radial-gradient(circle at 50% 58%, rgba(82, 151, 255, 0.12), transparent 42%),
+    linear-gradient(180deg, rgba(7, 16, 34, 0.14), rgba(3, 7, 14, 0.62));
+}
+
+.image-frame.reverse-learn-pending::after {
+  background:
+    radial-gradient(circle at 50% 18%, rgba(160, 205, 255, 0.18), transparent 30%),
+    linear-gradient(180deg, rgba(7, 16, 34, 0.3) 0%, rgba(7, 14, 28, 0.14) 34%, rgba(8, 14, 26, 0.26) 68%, rgba(3, 6, 12, 0.72) 100%);
 }
 
 .image-frame.round-intro img.loaded {
@@ -4767,6 +4953,14 @@ body.game-ui-dark .streak-pill::before {
   color: var(--game-ui-muted);
 }
 
+.prompt-copy {
+  margin: 8px 0 0;
+  max-width: 60ch;
+  font-size: 0.96rem;
+  line-height: 1.5;
+  color: var(--game-ui-text);
+}
+
 .answers-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -4928,6 +5122,44 @@ body.learn-mode .prompt-label::after {
   font-weight: 900;
   letter-spacing: 0.08em;
   vertical-align: middle;
+}
+
+body.reverse-learn-mode .prompt-label::after {
+  content: "Reverse Learn";
+  background: rgba(112, 190, 255, 0.16);
+  color: #5faeff;
+}
+
+body.reverse-learn-mode .prompt-label {
+  color: rgba(53, 67, 89, 0.86);
+}
+
+body.reverse-learn-mode .prompt-block {
+  min-height: 0;
+}
+
+body.reverse-learn-mode .bottom-dock {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(250, 252, 255, 0.95));
+  border-color: rgba(222, 232, 247, 0.98);
+  box-shadow:
+    0 24px 48px rgba(6, 16, 34, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.98);
+}
+
+body.reverse-learn-mode .answer-button {
+  background: rgba(255, 255, 255, 0.94);
+  border-color: rgba(220, 230, 244, 0.96);
+  color: #152033;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+body.reverse-learn-mode .prompt-copy {
+  display: none;
+}
+
+body.reverse-learn-mode .dock-top {
+  align-items: flex-start;
 }
 
 .next-icon-button.ready-pulse:not(.staged) {

@@ -1,6 +1,6 @@
-import { gameModes, rankTiers } from "./game-config.js";
-import { spaceLocations } from "./game-data.js";
-import { isFeatureEnabled } from "./features-toggle.js";
+import { gameModes, rankTiers } from "./game-config.js?v=20260716-reverse-learn-center";
+import { spaceLocations } from "./game-data.js?v=20260716-reverse-learn-center";
+import { isFeatureEnabled } from "./features-toggle.js?v=20260716-reverse-learn-center";
 
 // Small DOM grab section so everything important is up here in one place.
 const screens = {
@@ -43,12 +43,17 @@ const timerLabel = document.getElementById("timer-label");
 const scoreLabel = document.getElementById("score-label");
 const spaceImage = document.getElementById("space-image");
 const imageFrame = document.querySelector(".image-frame");
+const reversePromptOverlay = document.getElementById("reverse-prompt-overlay");
+const reversePromptLabel = document.getElementById("reverse-prompt-label");
+const reversePromptCopy = document.getElementById("reverse-prompt-copy");
 const confettiLayer = document.getElementById("confetti-layer");
 const answersContainer = document.getElementById("answers-container");
 const feedbackPanel = document.getElementById("feedback-panel");
 const feedbackText = document.getElementById("feedback-text");
 const factText = document.getElementById("fact-text");
 const sourceText = document.getElementById("source-text");
+const promptLabel = document.getElementById("prompt-label");
+const promptCopy = document.getElementById("prompt-copy");
 const hintRow = document.querySelector(".hint-row");
 const hintButton = document.getElementById("hint-button");
 const hintCount = document.getElementById("hint-count");
@@ -61,7 +66,10 @@ const rankBadge = document.getElementById("rank-badge");
 const endStatCorrect = document.getElementById("end-stat-correct");
 const endStatWrong = document.getElementById("end-stat-wrong");
 const endStatAccuracy = document.getElementById("end-stat-accuracy");
-const learnReviewPanel = document.getElementById("learn-review-panel");
+const openLearnReviewButton = document.getElementById("open-learn-review-button");
+const learnReviewModal = document.getElementById("learn-review-modal");
+const closeLearnReviewButton = document.getElementById("close-learn-review-button");
+const learnReviewPanel = document.querySelector(".learn-review-modal .learn-review-panel");
 const learnReviewCount = document.getElementById("learn-review-count");
 const learnReviewList = document.getElementById("learn-review-list");
 const openShareButton = document.getElementById("open-share-button");
@@ -149,6 +157,7 @@ let modeGroupTransitionTimer;
 let menuLeaderboardCache = null;
 let menuLeaderboardPrefetchPromise = null;
 let isEndLeaderboardOpen = false;
+let isLearnReviewModalOpen = false;
 let audioContext = null;
 let audioMasterGain = null;
 const TRANSITION_MIN_DURATION = 420;
@@ -171,7 +180,7 @@ const AUDIO_MASTER_LEVEL = 0.22;
 const preloadedImageUrls = new Set();
 const modeGroups = {
   casual: ["quick", "classic", "timed", "blind"],
-  special: ["learn"]
+  special: ["learn", "reverse"]
 };
 
 const fallbackLearnPacks = [
@@ -494,6 +503,14 @@ function isLearnMode() {
   return selectedModeKey === "learn";
 }
 
+function isReverseLearnMode() {
+  return selectedModeKey === "reverse";
+}
+
+function isStudyMode() {
+  return isLearnMode() || isReverseLearnMode();
+}
+
 function isModeEnabled(modeKey) {
   return isFeatureEnabled(`modes.${modeKey}`);
 }
@@ -503,7 +520,7 @@ function hasRoundCountdown() {
 }
 
 function hasLeaderboardMode() {
-  return isFeatureEnabled("leaderboard.autoSave") && !isDailyMode() && !isLearnMode();
+  return isFeatureEnabled("leaderboard.autoSave") && !isDailyMode() && !isStudyMode();
 }
 
 function hasLearnPackSelection() {
@@ -515,9 +532,9 @@ function getActiveModeConfig() {
 }
 
 function updateHintUI() {
-  hintRow.classList.toggle("hidden", isDailyMode() || isLearnMode() || !isFeatureEnabled("gameplay.hints"));
+  hintRow.classList.toggle("hidden", isDailyMode() || isStudyMode() || !isFeatureEnabled("gameplay.hints"));
 
-  if (isDailyMode() || isLearnMode() || !isFeatureEnabled("gameplay.hints")) {
+  if (isDailyMode() || isStudyMode() || !isFeatureEnabled("gameplay.hints")) {
     return;
   }
 
@@ -589,7 +606,7 @@ function getStreakBonus(streakValue) {
 }
 
 function getPointsForCorrectGuess(streakValue) {
-  const basePoints = isBlindRevealMode() ? getBlindRevealPoints() : isLearnMode() ? 35 : 50;
+  const basePoints = isBlindRevealMode() ? getBlindRevealPoints() : isStudyMode() ? 35 : 50;
   const streakBonus = getStreakBonus(streakValue);
 
   return {
@@ -624,6 +641,33 @@ function getLearningNote(question) {
   }
 
   return `For ${answer}, focus on shape, texture, color, and whether the image looks like a surface, planet disk, nebula, or galaxy.`;
+}
+
+function updatePromptContent(question = null) {
+  if (!promptLabel || !promptCopy || !reversePromptOverlay || !reversePromptLabel || !reversePromptCopy) {
+    return;
+  }
+
+  if (isReverseLearnMode() && question) {
+    promptLabel.textContent = "Pick the right object";
+    promptCopy.textContent = "Read the clue in the center before you answer.";
+    promptCopy.classList.remove("hidden");
+    promptCopy.setAttribute("aria-hidden", "false");
+    reversePromptLabel.textContent = "Which object fits this clue?";
+    reversePromptCopy.textContent = question.fact;
+    reversePromptOverlay.classList.remove("hidden", "is-exiting");
+    reversePromptOverlay.setAttribute("aria-hidden", "false");
+    return;
+  }
+
+  promptLabel.textContent = "Where are you?";
+  promptCopy.textContent = "";
+  promptCopy.classList.add("hidden");
+  promptCopy.setAttribute("aria-hidden", "true");
+  reversePromptCopy.textContent = "";
+  reversePromptOverlay.classList.add("hidden");
+  reversePromptOverlay.classList.remove("is-exiting");
+  reversePromptOverlay.setAttribute("aria-hidden", "true");
 }
 
 function setHelpPanelOpen(isOpen) {
@@ -798,7 +842,7 @@ async function animateHintRemoval(buttonsToRemove) {
 }
 
 async function useHint() {
-  if (isDailyMode() || isLearnMode()) {
+  if (isDailyMode() || isStudyMode()) {
     return;
   }
 
@@ -870,17 +914,23 @@ function updateStats() {
 }
 
 function renderLearnReview() {
-  if (!learnReviewPanel || !learnReviewList || !learnReviewCount) {
+  if (!learnReviewList || !learnReviewCount || !openLearnReviewButton) {
     return;
   }
 
   const missedCount = learnMissedQuestions.length;
-  learnReviewPanel.classList.toggle("hidden", !isLearnMode());
-  learnReviewPanel.setAttribute("aria-hidden", String(!isLearnMode()));
+  const shouldShowReviewToggle = isStudyMode();
+
+  openLearnReviewButton.classList.toggle("hidden", !shouldShowReviewToggle);
+  openLearnReviewButton.setAttribute("aria-hidden", String(!shouldShowReviewToggle));
+  openLearnReviewButton.textContent = missedCount > 0
+    ? `Review missed images (${missedCount})`
+    : "Review lesson";
   learnReviewCount.textContent = missedCount === 1 ? "1 missed" : `${missedCount} missed`;
   learnReviewList.innerHTML = "";
 
-  if (!isLearnMode()) {
+  if (!isStudyMode()) {
+    toggleLearnReviewModal(false);
     return;
   }
 
@@ -922,6 +972,22 @@ function renderLearnReview() {
     card.append(image, body);
     learnReviewList.appendChild(card);
   });
+}
+
+function toggleLearnReviewModal(forceOpen) {
+  if (!learnReviewModal || !openLearnReviewButton) {
+    return;
+  }
+
+  const shouldOpen = typeof forceOpen === "boolean"
+    ? forceOpen
+    : learnReviewModal.classList.contains("hidden");
+
+  isLearnReviewModalOpen = shouldOpen;
+  learnReviewModal.classList.toggle("hidden", !shouldOpen);
+  learnReviewModal.classList.toggle("open", shouldOpen);
+  learnReviewModal.setAttribute("aria-hidden", String(!shouldOpen));
+  openLearnReviewButton.setAttribute("aria-expanded", String(shouldOpen));
 }
 
 function getAccuracyValue() {
@@ -1237,10 +1303,10 @@ function updateModeGroupUI() {
   const groupIndex = Math.max(groupKeys.indexOf(selectedModeGroup), 0);
 
   updateMenuBackgroundMode();
-  document.body.classList.toggle("learn-pack-menu", isLearnMode());
+  document.body.classList.toggle("learn-pack-menu", isStudyMode());
   modeGroupSwitch?.classList.toggle("hidden", !groupingEnabled);
 
-  if (!isLearnMode()) {
+  if (!isStudyMode()) {
     setLearnPackPickerOpen(false);
   }
 
@@ -1308,7 +1374,8 @@ function selectMode(modeKey) {
   const activeMode = getActiveModeConfig();
   selectedModeGroup = getModeGroupForMode(modeKey);
 
-  document.body.classList.toggle("learn-mode", isLearnMode());
+  document.body.classList.toggle("learn-mode", isStudyMode());
+  document.body.classList.toggle("reverse-learn-mode", isReverseLearnMode());
 
   modeButtons.forEach((button) => {
     const isSelected = button.dataset.mode === selectedModeKey;
@@ -1379,6 +1446,10 @@ function setTransitionState(isVisible, label = "Loading mission...") {
 }
 
 function getRoundTransitionLabel() {
+  if (isReverseLearnMode()) {
+    return "Preparing reverse lesson...";
+  }
+
   return isLearnMode() ? "Starting lesson..." : "Preparing mission...";
 }
 
@@ -1450,7 +1521,7 @@ function preloadImageOnce(src) {
 }
 
 function getQuestionPool() {
-  if (isLearnMode() && hasLearnPackSelection()) {
+  if (isStudyMode() && hasLearnPackSelection()) {
     return getLearnPackQuestions();
   }
 
@@ -1504,6 +1575,7 @@ function goHome() {
   stopBlindRevealTimer();
   clearConfetti();
   applyBlindRevealState();
+  toggleLearnReviewModal(false);
   setUiState("answering", false);
   setUiState("feedbackOpen", false);
   setUiState("roundComplete", false);
@@ -1586,7 +1658,8 @@ async function startGame(modeKey = selectedModeKey) {
   }
 
   selectedModeKey = modeKey;
-  document.body.classList.toggle("learn-mode", isLearnMode());
+  document.body.classList.toggle("learn-mode", isStudyMode());
+  document.body.classList.toggle("reverse-learn-mode", isReverseLearnMode());
   totalRounds = getActiveModeConfig().rounds;
   randomBag = shuffleArray(getQuestionPool());
   gameDeck = [];
@@ -1625,6 +1698,7 @@ async function startGame(modeKey = selectedModeKey) {
   updateLeaderboardVisibility();
   updateStats();
   renderLearnReview();
+  updatePromptContent();
   updateStreakLabel();
   updateHintUI();
   updateTimerUI();
@@ -1644,8 +1718,8 @@ async function startGame(modeKey = selectedModeKey) {
 }
 
 function updateScore() {
-  if (isLearnMode()) {
-    scoreLabel.textContent = "Learn";
+  if (isStudyMode()) {
+    scoreLabel.textContent = isReverseLearnMode() ? "Reverse" : "Learn";
     scoreLabel.classList.add("zero-score");
     return;
   }
@@ -1687,14 +1761,16 @@ function endGame() {
   const finalBestStreakValue = bestStreak;
   finalHeading.textContent = isDailyMode()
     ? "Daily result"
-    : isLearnMode()
-      ? "Lesson review"
+    : isStudyMode()
+      ? isReverseLearnMode()
+        ? "Reverse lesson review"
+        : "Lesson review"
       : "Your final score";
   saveMessage.textContent = "";
   updateLeaderboardVisibility();
   ratingText.textContent = isDailyMode()
     ? getDailyResultText(finalScoreValue)
-    : isLearnMode()
+    : isStudyMode()
       ? "Space Student"
       : getRating(finalScoreValue);
   rankBadge.classList.toggle("daily-badge", isDailyMode());
@@ -1713,9 +1789,9 @@ function endGame() {
     return;
   }
 
-  if (isLearnMode()) {
+  if (isStudyMode()) {
     finalScore.classList.remove("daily-result", "success", "failed", "zero-score");
-    finalScore.textContent = `${totalRounds} studied`;
+    finalScore.textContent = isReverseLearnMode() ? `${totalRounds} decoded` : `${totalRounds} studied`;
     playSoundEffect(finalAccuracyValue >= 70 ? "finish-good" : "finish-bad");
     return;
   }
@@ -1749,6 +1825,7 @@ async function renderRound(showTransition = false) {
 
   updateRoundDisplay();
   updateMistakesLabel();
+  updatePromptContent(currentQuestion);
   applyBlindRevealState();
 
   if (showTransition) {
@@ -1793,6 +1870,9 @@ async function renderRound(showTransition = false) {
   if (showTransition) {
     setTransitionState(false);
   }
+
+  imageFrame?.classList.toggle("reverse-learn-pending", isReverseLearnMode());
+  reversePromptOverlay?.classList.remove("is-exiting");
 
   answerOptions.forEach((answer, index) => {
     const button = document.createElement("button");
@@ -1840,18 +1920,18 @@ async function handleAnswer(selectedButton, selectedAnswer) {
     const pointBreakdown = getPointsForCorrectGuess(currentStreak);
     earnedPoints = pointBreakdown.totalPoints;
     streakBonus = pointBreakdown.streakBonus;
-    if (!isLearnMode()) {
+    if (!isStudyMode()) {
       setScore(score + earnedPoints);
       showCorrectAnswerReward();
       showConfetti();
     }
     playSoundEffect("correct");
-    if (currentStreak >= 2 && !isLearnMode()) {
+    if (currentStreak >= 2 && !isStudyMode()) {
       showStreakFeedback();
       playSoundEffect("streak");
     }
   } else {
-    if (!isLearnMode()) {
+    if (!isStudyMode()) {
       setScore(score - 25);
       showScorePenaltyFeedback();
     }
@@ -1859,7 +1939,7 @@ async function handleAnswer(selectedButton, selectedAnswer) {
     currentStreak = 0;
     playSoundEffect("wrong");
 
-    if (isLearnMode()) {
+    if (isStudyMode()) {
       learnMissedQuestions.push({
         correctAnswer: currentQuestion.correctAnswer,
         selectedAnswer,
@@ -1870,6 +1950,8 @@ async function handleAnswer(selectedButton, selectedAnswer) {
   }
 
   replayClass(gamePanel, panelFeedbackClass, 1800);
+  reversePromptOverlay?.classList.add("is-exiting");
+  imageFrame?.classList.remove("reverse-learn-pending");
   replayClass(imageFrame, isCorrect ? "round-resolve-good" : "round-resolve-bad", 1200);
   replayClass(imageFrame, "round-final-reveal", 950);
   showRoundStatus(isCorrect ? "Locked in" : "Try again", isCorrect);
@@ -1896,19 +1978,23 @@ async function handleAnswer(selectedButton, selectedAnswer) {
   }
 
   feedbackText.textContent = isCorrect
-    ? isLearnMode()
-      ? "Nice read. You spotted the right object."
+    ? isReverseLearnMode()
+      ? "Nice clue read. You matched the fact to the right object."
+      : isLearnMode()
+        ? "Nice read. You spotted the right object."
       : streakBonus > 0
       ? `+${earnedPoints} points. +${streakBonus} streak bonus. ${currentStreak}x streak.`
       : `+${earnedPoints} points. Clean guess.`
     : isTimeOut
       ? `Time is up. The correct answer was ${currentQuestion.correctAnswer}.`
-      : isLearnMode()
+      : isStudyMode()
         ? `Not quite, but no penalty here. The correct answer was ${currentQuestion.correctAnswer}.`
         : `Not quite. The correct answer was ${currentQuestion.correctAnswer}.`;
 
-  factText.textContent = isLearnMode()
-    ? `${currentQuestion.fact} ${getLearningNote(currentQuestion)}`
+  factText.textContent = isStudyMode()
+    ? isReverseLearnMode()
+      ? `Image reveal: ${currentQuestion.fact} ${getLearningNote(currentQuestion)}`
+      : `${currentQuestion.fact} ${getLearningNote(currentQuestion)}`
     : currentQuestion.fact;
   sourceText.textContent = `Source: ${currentQuestion.source} (${currentQuestion.nasaId})`;
   await wait(FEEDBACK_OPEN_DELAY);
@@ -1949,10 +2035,12 @@ function getRunSummary(scoreValue = score, accuracy = getAccuracyValue(), streak
         };
   }
 
-  if (isLearnMode()) {
+  if (isStudyMode()) {
     return {
-      title: "Learning orbit complete",
-      text: `You studied ${totalRounds} images with ${accuracy}% accuracy. The real win is recognizing the clues faster next run.`
+      title: isReverseLearnMode() ? "Clue reading complete" : "Learning orbit complete",
+      text: isReverseLearnMode()
+        ? `You decoded ${totalRounds} clues with ${accuracy}% accuracy. The real win is linking facts to objects faster each run.`
+        : `You studied ${totalRounds} images with ${accuracy}% accuracy. The real win is recognizing the clues faster next run.`
     };
   }
 
@@ -2467,7 +2555,7 @@ themeToggle?.addEventListener("click", () => {
 mobileThemeLock.addEventListener("change", syncThemeForViewport);
 
 startButton.addEventListener("click", () => {
-  if (isLearnMode() && hasLearnPackSelection()) {
+  if (isStudyMode() && hasLearnPackSelection()) {
     renderLearnPackPicker();
     setLearnPackPickerOpen(true);
     return;
@@ -2566,6 +2654,12 @@ hintButton.addEventListener("click", useHint);
 openShareButton.addEventListener("click", () => {
   toggleShareModal(true);
 });
+openLearnReviewButton?.addEventListener("click", () => {
+  toggleLearnReviewModal(true);
+});
+closeLearnReviewButton?.addEventListener("click", () => {
+  toggleLearnReviewModal(false);
+});
 closeShareButton.addEventListener("click", () => {
   toggleShareModal(false);
 });
@@ -2576,6 +2670,11 @@ nativeShareButton.addEventListener("click", () => {
   shareRun();
 });
 
+document.addEventListener("click", (event) => {
+  if (event.target instanceof HTMLElement && event.target.dataset.closeLearnReview === "true") {
+    toggleLearnReviewModal(false);
+  }
+});
 document.addEventListener("click", (event) => {
   if (event.target instanceof HTMLElement && event.target.dataset.closeShare === "true") {
     toggleShareModal(false);
@@ -2589,6 +2688,11 @@ document.addEventListener("click", (event) => {
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && helpWidget?.classList.contains("open")) {
     setHelpPanelOpen(false);
+    return;
+  }
+
+  if (event.key === "Escape" && isLearnReviewModalOpen) {
+    toggleLearnReviewModal(false);
     return;
   }
 

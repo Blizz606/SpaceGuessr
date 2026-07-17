@@ -36,6 +36,13 @@ const gameModes = {
     hints: 3,
     description: "A guided mode for learning the clues without leaderboard pressure."
   },
+  reverse: {
+    label: "Reverse Learn",
+    rounds: 4,
+    index: 5,
+    hints: 0,
+    description: "Read the clue first, then guess the object before the image is revealed."
+  },
   daily: {
     label: "Daily",
     rounds: 1,

@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-  <link rel="stylesheet" href="style.css?v=20260705-blind-reveal">
+  <link rel="stylesheet" href="style.css?v=20260716-help-polish">
   <link rel="icon" href="favicon.ico">
 
   <!-- Preview data for Discord, Twitter and the usual link-card chaos -->
@@ -57,6 +57,7 @@
                 <option value="timed" data-mode-group="casual">Timed · 10s</option>
                 <option value="blind" data-mode-group="casual">Blind Reveal · Uncover it</option>
                 <option value="learn" data-mode-group="special">Learn · Guided</option>
+                <option value="reverse" data-mode-group="special">Reverse Learn · Fact first</option>
               </select>
             </label>
 
@@ -86,6 +87,10 @@
               <button class="mode-card hidden" data-mode="learn">
                 <span class="mode-name">Learn</span>
                 <span class="mode-meta">Guided</span>
+              </button>
+              <button class="mode-card hidden" data-mode="reverse">
+                <span class="mode-name">Reverse Learn</span>
+                <span class="mode-meta">Fact first</span>
               </button>
             </div>
 
@@ -140,16 +145,17 @@
 
         <div id="help-panel" class="help-panel" aria-hidden="true">
           <div class="help-panel-top">
-            <span class="help-kicker">Mission brief</span>
-            <span class="help-badge">Quick guide</span>
+            <span class="help-kicker">How it works</span>
+            <span class="help-badge">Game rules</span>
             <button id="help-close-button" class="help-close-button" type="button" aria-label="Close help">×</button>
           </div>
-          <h3>How scoring works</h3>
-          <p class="help-copy">Guess the space object from the NASA image. Correct answers build streak, wrong answers break momentum.</p>
+          <h3>Guess the object. Build score. Learn the patterns.</h3>
+          <p class="help-copy">Each round shows a NASA image or clue. Pick the right object, keep your streak alive, and watch out for the special mode twists.</p>
           <ul class="help-list">
             <li><strong>Correct:</strong> +50 points in normal modes.</li>
             <li><strong>Blind Reveal:</strong> starts at +80 and drops with each reveal.</li>
             <li><strong>Learn:</strong> gives extra explanations and skips leaderboard pressure.</li>
+            <li><strong>Reverse Learn:</strong> shows the clue first and reveals the image after your guess.</li>
             <li><strong>Streak:</strong> every continued streak adds +10 more points than the last.</li>
             <li><strong>Wrong:</strong> -25 points and your streak goes back to zero.</li>
           </ul>
@@ -220,6 +226,10 @@
         <div class="image-frame">
           <div class="image-loading-skeleton" aria-hidden="true"></div>
           <img id="space-image" src="" alt="A space scene to identify">
+          <div id="reverse-prompt-overlay" class="reverse-prompt-overlay hidden" aria-hidden="true">
+            <p id="reverse-prompt-label" class="reverse-prompt-label">Which object fits this clue?</p>
+            <p id="reverse-prompt-copy" class="reverse-prompt-copy"></p>
+          </div>
         </div>
 
         <div id="confetti-layer" class="confetti-layer" aria-hidden="true"></div>
@@ -228,7 +238,8 @@
         <div class="bottom-dock">
           <div class="dock-top">
             <div class="prompt-block">
-              <p class="prompt-label">Where are you?</p>
+              <p id="prompt-label" class="prompt-label">Where are you?</p>
+              <p id="prompt-copy" class="prompt-copy hidden"></p>
             </div>
 
             <!-- The plain text hint icon is hidden in CSS. SVG one is the real star here. -->
@@ -302,13 +313,14 @@
           </div>
         </div>
 
-        <div id="learn-review-panel" class="learn-review-panel hidden" aria-hidden="true">
-          <div class="learn-review-header">
-            <h3>Review missed images</h3>
-            <span id="learn-review-count">0 missed</span>
-          </div>
-          <div id="learn-review-list" class="learn-review-list"></div>
-        </div>
+        <button
+          id="open-learn-review-button"
+          class="subtle-link-button learn-review-toggle hidden"
+          type="button"
+          aria-expanded="false"
+          aria-controls="learn-review-modal">
+          Review missed images
+        </button>
 
         <form id="auto-name-form" class="auto-name-form leaderboard-only hidden" aria-hidden="true">
           <input id="auto-player-name" class="auto-name-input" type="text" maxlength="18" placeholder="Leaderboard name" autocomplete="off">
@@ -344,6 +356,20 @@
         </div>
       </div>
     </section>
+
+    <div id="learn-review-modal" class="learn-review-modal hidden" aria-hidden="true">
+      <div class="learn-review-backdrop" data-close-learn-review="true"></div>
+      <div class="learn-review-modal-card" role="dialog" aria-modal="true" aria-labelledby="learn-review-title">
+        <button id="close-learn-review-button" class="learn-review-close-button" type="button" aria-label="Close review">&times;</button>
+        <div class="learn-review-panel">
+          <div class="learn-review-header">
+            <h3 id="learn-review-title">Review missed images</h3>
+            <span id="learn-review-count">0 missed</span>
+          </div>
+          <div id="learn-review-list" class="learn-review-list"></div>
+        </div>
+      </div>
+    </div>
 
     <!-- Learn pack chooser -->
     <div id="learn-pack-modal" class="learn-pack-modal" aria-hidden="true">
@@ -401,6 +427,6 @@
 
   <!-- Supabase comes from CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script type="module" src="script.js?v=20260710-structure"></script>
+  <script type="module" src="script.js?v=20260716-reverse-learn-center"></script>
 </body>
 </html>

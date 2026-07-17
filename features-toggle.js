@@ -7,6 +7,7 @@ const featureToggles = {
     timed: true,
     blind: true,
     learn: true,
+    reverse: true,
     daily: true
   },
   menu: {
