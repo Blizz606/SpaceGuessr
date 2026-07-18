@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-  <link rel="stylesheet" href="style.css?v=20260717-mode-best-score">
+  <link rel="stylesheet" href="style.css?v=20260718-profile-stats">
   <link rel="icon" href="favicon.ico">
 
   <!-- Preview data for Discord, Twitter and the usual link-card chaos -->
@@ -160,6 +160,52 @@
             <li><strong>Streak:</strong> every continued streak adds +10 more points than the last.</li>
             <li><strong>Wrong:</strong> -25 points and your streak goes back to zero.</li>
           </ul>
+        </div>
+      </div>
+
+      <div id="stats-widget" class="stats-fab-wrap">
+        <button id="stats-toggle-button" class="stats-fab" type="button" aria-expanded="false" aria-controls="stats-panel" aria-label="Open profile stats">
+          <span class="stats-fab-icon" aria-hidden="true">
+            <i class="fa-solid fa-user"></i>
+          </span>
+        </button>
+
+        <div id="stats-panel" class="stats-panel" aria-hidden="true">
+          <div class="stats-panel-top">
+            <span class="stats-kicker">Local profile</span>
+            <button id="stats-close-button" class="stats-close-button" type="button" aria-label="Close stats">&times;</button>
+          </div>
+          <h3>Your SpaceGuessr stats</h3>
+          <p class="stats-copy">A small local overview of your runs on this device.</p>
+
+          <div class="stats-grid">
+            <article class="stats-card">
+              <span class="stats-card-label">Games played</span>
+              <strong id="stats-games-played" class="stats-card-value">0</strong>
+            </article>
+            <article class="stats-card">
+              <span class="stats-card-label">Best score</span>
+              <strong id="stats-best-score" class="stats-card-value">0 pts</strong>
+            </article>
+            <article class="stats-card">
+              <span class="stats-card-label">Best streak</span>
+              <strong id="stats-best-streak" class="stats-card-value">0</strong>
+            </article>
+            <article class="stats-card">
+              <span class="stats-card-label">Correct total</span>
+              <strong id="stats-correct-total" class="stats-card-value">0</strong>
+            </article>
+            <article class="stats-card">
+              <span class="stats-card-label">Favorite mode</span>
+              <strong id="stats-favorite-mode" class="stats-card-value">None yet</strong>
+            </article>
+            <article class="stats-card">
+              <span class="stats-card-label">Accuracy</span>
+              <strong id="stats-accuracy" class="stats-card-value">0%</strong>
+            </article>
+          </div>
+
+          <button id="reset-local-stats-button" class="stats-reset-button" type="button">Reset local stats</button>
         </div>
       </div>
 
@@ -428,6 +474,6 @@
 
   <!-- Supabase comes from CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script type="module" src="script.js?v=20260717-mode-best-score"></script>
+  <script type="module" src="script.js?v=20260718-profile-stats"></script>
 </body>
 </html>

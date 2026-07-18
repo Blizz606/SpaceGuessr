@@ -1,6 +1,6 @@
-import { gameModes, rankTiers } from "./game-config.js?v=20260717-mode-best-score";
-import { spaceLocations } from "./game-data.js?v=20260717-mode-best-score";
-import { isFeatureEnabled } from "./features-toggle.js?v=20260717-mode-best-score";
+import { gameModes, rankTiers } from "./game-config.js?v=20260718-profile-stats";
+import { spaceLocations } from "./game-data.js?v=20260718-profile-stats";
+import { isFeatureEnabled } from "./features-toggle.js?v=20260718-profile-stats";
 
 // Small DOM grab section so everything important is up here in one place.
 const screens = {
@@ -28,6 +28,17 @@ const helpWidget = document.getElementById("help-widget");
 const helpToggleButton = document.getElementById("help-toggle-button");
 const helpCloseButton = document.getElementById("help-close-button");
 const helpPanel = document.getElementById("help-panel");
+const statsWidget = document.getElementById("stats-widget");
+const statsToggleButton = document.getElementById("stats-toggle-button");
+const statsCloseButton = document.getElementById("stats-close-button");
+const statsPanel = document.getElementById("stats-panel");
+const statsGamesPlayed = document.getElementById("stats-games-played");
+const statsBestScore = document.getElementById("stats-best-score");
+const statsBestStreak = document.getElementById("stats-best-streak");
+const statsCorrectTotal = document.getElementById("stats-correct-total");
+const statsFavoriteMode = document.getElementById("stats-favorite-mode");
+const statsAccuracy = document.getElementById("stats-accuracy");
+const resetLocalStatsButton = document.getElementById("reset-local-stats-button");
 if (helpCloseButton) {
   helpCloseButton.textContent = "\u00D7";
 }
@@ -113,6 +124,7 @@ const supabaseUrl = "https://dqevbyrtagkmgesrixrf.supabase.co";
 const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRxZXZieXJ0YWdrbWdlc3JpeHJmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE2MjA1NTUsImV4cCI6MjA5NzE5NjU1NX0.-OITqkgJLIGi1KPHQcxxdPsccUk6UYwr6kKo5wUVjUc";
 const leaderboardTable = "leaderboard";
 const leaderboardStorageKey = "spaceguessr-leaderboard";
+const localStatsStorageKey = "spaceguessr-local-stats";
 const playerNameStorageKey = "spaceguessr-player-name";
 const dailyPlayedStorageKey = "spaceguessr-daily-played";
 const gameThemeStorageKey = "spaceguessr-game-theme";
@@ -159,6 +171,7 @@ let menuLeaderboardCache = null;
 let menuLeaderboardPrefetchPromise = null;
 let isEndLeaderboardOpen = false;
 let isLearnReviewModalOpen = false;
+let isStatsPanelOpen = false;
 let audioContext = null;
 let audioMasterGain = null;
 const TRANSITION_MIN_DURATION = 420;
@@ -680,6 +693,113 @@ function setHelpPanelOpen(isOpen) {
   helpPanel.classList.toggle("open", isOpen);
   helpPanel.setAttribute("aria-hidden", String(!isOpen));
   helpToggleButton.setAttribute("aria-expanded", String(isOpen));
+}
+
+function getDefaultLocalStats() {
+  return {
+    gamesPlayed: 0,
+    bestScore: 0,
+    bestStreak: 0,
+    totalCorrect: 0,
+    totalWrong: 0,
+    totalRoundsPlayed: 0,
+    modePlays: {}
+  };
+}
+
+function getLocalStats() {
+  const savedStats = localStorage.getItem(localStatsStorageKey);
+
+  if (!savedStats) {
+    return getDefaultLocalStats();
+  }
+
+  try {
+    const parsedStats = JSON.parse(savedStats);
+    return {
+      ...getDefaultLocalStats(),
+      ...parsedStats,
+      modePlays: {
+        ...getDefaultLocalStats().modePlays,
+        ...(parsedStats.modePlays || {})
+      }
+    };
+  } catch {
+    return getDefaultLocalStats();
+  }
+}
+
+function getFavoriteModeLabel(stats = getLocalStats()) {
+  const entries = Object.entries(stats.modePlays || {})
+    .sort((a, b) => b[1] - a[1]);
+
+  if (!entries.length || entries[0][1] <= 0) {
+    return "None yet";
+  }
+
+  const [modeKey] = entries[0];
+  return gameModes[modeKey]?.label || "None yet";
+}
+
+function renderLocalStats() {
+  if (
+    !statsGamesPlayed
+    || !statsBestScore
+    || !statsBestStreak
+    || !statsCorrectTotal
+    || !statsFavoriteMode
+    || !statsAccuracy
+  ) {
+    return;
+  }
+
+  const stats = getLocalStats();
+  const totalGuesses = stats.totalCorrect + stats.totalWrong;
+  const accuracyValue = totalGuesses > 0
+    ? Math.round((stats.totalCorrect / totalGuesses) * 100)
+    : 0;
+
+  statsGamesPlayed.textContent = String(stats.gamesPlayed);
+  statsBestScore.textContent = `${stats.bestScore} pts`;
+  statsBestStreak.textContent = `${stats.bestStreak}x`;
+  statsCorrectTotal.textContent = String(stats.totalCorrect);
+  statsFavoriteMode.textContent = getFavoriteModeLabel(stats);
+  statsAccuracy.textContent = `${accuracyValue}%`;
+}
+
+function saveLocalStats(stats) {
+  localStorage.setItem(localStatsStorageKey, JSON.stringify(stats));
+  renderLocalStats();
+}
+
+function setStatsPanelOpen(isOpen) {
+  if (!statsWidget || !statsToggleButton || !statsPanel) {
+    return;
+  }
+
+  isStatsPanelOpen = isOpen;
+  statsWidget.classList.toggle("open", isOpen);
+  statsPanel.classList.toggle("open", isOpen);
+  statsPanel.setAttribute("aria-hidden", String(!isOpen));
+  statsToggleButton.setAttribute("aria-expanded", String(isOpen));
+
+  if (isOpen) {
+    renderLocalStats();
+  }
+}
+
+function recordLocalRunStats() {
+  const stats = getLocalStats();
+
+  stats.gamesPlayed += 1;
+  stats.bestScore = Math.max(stats.bestScore, score);
+  stats.bestStreak = Math.max(stats.bestStreak, bestStreak);
+  stats.totalCorrect += correctGuessCount;
+  stats.totalWrong += wrongAnswerCount;
+  stats.totalRoundsPlayed += totalRounds;
+  stats.modePlays[selectedModeKey] = (stats.modePlays[selectedModeKey] || 0) + 1;
+
+  saveLocalStats(stats);
 }
 
 function setBlindRevealProgress(progress) {
@@ -1578,6 +1698,7 @@ function goHome() {
   clearConfetti();
   applyBlindRevealState();
   toggleLearnReviewModal(false);
+  setStatsPanelOpen(false);
   setUiState("answering", false);
   setUiState("feedbackOpen", false);
   setUiState("roundComplete", false);
@@ -1761,6 +1882,7 @@ function endGame() {
   const finalScoreValue = score;
   const finalAccuracyValue = getAccuracyValue();
   const finalBestStreakValue = bestStreak;
+  recordLocalRunStats();
   finalHeading.textContent = isDailyMode()
     ? "Daily result"
     : isStudyMode()
@@ -2671,10 +2793,22 @@ document.addEventListener("click", (event) => {
     setHelpPanelOpen(false);
   }
 });
+document.addEventListener("click", (event) => {
+  if (!statsWidget || !isStatsPanelOpen) {
+    return;
+  }
+
+  const target = event.target;
+
+  if (target instanceof Node && !statsWidget.contains(target)) {
+    setStatsPanelOpen(false);
+  }
+});
 selectMode(selectedModeKey);
 void loadContentPacks();
 loadGameTheme();
 applyFeatureVisibility();
+renderLocalStats();
 updateLeaderboardVisibility();
 updateDailyAvailability();
 updateStreakLabel();
@@ -2697,6 +2831,17 @@ openLearnReviewButton?.addEventListener("click", () => {
 });
 closeLearnReviewButton?.addEventListener("click", () => {
   toggleLearnReviewModal(false);
+});
+statsToggleButton?.addEventListener("click", () => {
+  setStatsPanelOpen(!isStatsPanelOpen);
+});
+statsCloseButton?.addEventListener("click", () => {
+  setStatsPanelOpen(false);
+});
+resetLocalStatsButton?.addEventListener("click", () => {
+  saveLocalStats(getDefaultLocalStats());
+  setStatsPanelOpen(false);
+  showToast("Local stats reset.", "success");
 });
 closeShareButton.addEventListener("click", () => {
   toggleShareModal(false);
@@ -2726,6 +2871,11 @@ document.addEventListener("click", (event) => {
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && helpWidget?.classList.contains("open")) {
     setHelpPanelOpen(false);
+    return;
+  }
+
+  if (event.key === "Escape" && isStatsPanelOpen) {
+    setStatsPanelOpen(false);
     return;
   }
 
