@@ -1,6 +1,6 @@
-import { gameModes, rankTiers } from "./game-config.js?v=20260716-reverse-learn-center";
-import { spaceLocations } from "./game-data.js?v=20260716-reverse-learn-center";
-import { isFeatureEnabled } from "./features-toggle.js?v=20260716-reverse-learn-center";
+import { gameModes, rankTiers } from "./game-config.js?v=20260717-mode-best-score";
+import { spaceLocations } from "./game-data.js?v=20260717-mode-best-score";
+import { isFeatureEnabled } from "./features-toggle.js?v=20260717-mode-best-score";
 
 // Small DOM grab section so everything important is up here in one place.
 const screens = {
@@ -21,6 +21,7 @@ const learnPackPicker = document.getElementById("learn-pack-picker");
 const learnPackSelectedLabel = document.getElementById("learn-pack-selected-label");
 const learnPackStart = document.getElementById("learn-pack-start");
 const modeDescription = document.getElementById("mode-description");
+const modeBestScore = document.getElementById("mode-best-score");
 const startButton = document.getElementById("start-button");
 const dailyButton = document.getElementById("daily-button");
 const helpWidget = document.getElementById("help-widget");
@@ -1386,6 +1387,7 @@ function selectMode(modeKey) {
   updateDailyAvailability();
 
   modeDescription.textContent = activeMode.description;
+  updateModeBestScore();
   startButton.textContent = `Start ${activeMode.label}`;
   syncGameHeaderLayout();
   updateLeaderboardVisibility();
@@ -2156,8 +2158,44 @@ function getLeaderboard() {
   }
 }
 
+function getBestLocalScoreForMode(modeKey = selectedModeKey) {
+  return getLeaderboard()
+    .filter((entry) => entry.mode === modeKey)
+    .sort((a, b) => b.score - a.score || b.rounds - a.rounds)[0] || null;
+}
+
+function updateModeBestScore() {
+  if (!modeBestScore) {
+    return;
+  }
+
+  if (selectedModeKey === "daily") {
+    modeBestScore.textContent = "Daily mode uses shared runs, so no personal best is shown here.";
+    modeBestScore.classList.add("is-muted");
+    return;
+  }
+
+  if (isStudyMode()) {
+    modeBestScore.textContent = "Practice mode, so scores are not saved.";
+    modeBestScore.classList.add("is-muted");
+    return;
+  }
+
+  const bestEntry = getBestLocalScoreForMode(selectedModeKey);
+
+  if (!bestEntry) {
+    modeBestScore.textContent = "Best local score: none yet";
+    modeBestScore.classList.add("is-muted");
+    return;
+  }
+
+  modeBestScore.textContent = `Best local score: ${bestEntry.score} pts`;
+  modeBestScore.classList.remove("is-muted");
+}
+
 function saveLeaderboard(scores) {
   localStorage.setItem(leaderboardStorageKey, JSON.stringify(scores));
+  updateModeBestScore();
 }
 
 function getCurrentModeEntries() {

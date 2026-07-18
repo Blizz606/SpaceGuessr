@@ -3060,6 +3060,20 @@ h2 {
   text-align: center;
 }
 
+.mode-best-score {
+  margin: 8px auto 0;
+  color: rgba(222, 233, 247, 0.74);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.mode-best-score.is-muted {
+  color: rgba(199, 213, 231, 0.58);
+}
+
 .custom-settings {
   margin-top: 14px;
   padding: 14px;
