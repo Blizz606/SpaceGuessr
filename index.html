@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-  <link rel="stylesheet" href="style.css?v=20260718-profile-stats">
+  <link rel="stylesheet" href="style.css?v=20260719-school-profile">
   <link rel="icon" href="favicon.ico">
 
   <!-- Preview data for Discord, Twitter and the usual link-card chaos -->
@@ -172,11 +172,11 @@
 
         <div id="stats-panel" class="stats-panel" aria-hidden="true">
           <div class="stats-panel-top">
-            <span class="stats-kicker">Local profile</span>
+            <span class="stats-kicker">My profile</span>
             <button id="stats-close-button" class="stats-close-button" type="button" aria-label="Close stats">&times;</button>
           </div>
-          <h3>Your SpaceGuessr stats</h3>
-          <p class="stats-copy">A small local overview of your runs on this device.</p>
+          <h3>My stats</h3>
+          <p class="stats-copy">Only saved here.</p>
 
           <div class="stats-grid">
             <article class="stats-card">
@@ -204,6 +204,17 @@
               <strong id="stats-accuracy" class="stats-card-value">0%</strong>
             </article>
           </div>
+
+          <section class="recent-runs-block" aria-labelledby="recent-runs-title">
+            <div class="recent-runs-head">
+              <div>
+                <span class="recent-runs-kicker">History</span>
+                <h4 id="recent-runs-title">Last games</h4>
+              </div>
+              <span id="recent-runs-count" class="recent-runs-count">0 saved</span>
+            </div>
+            <ol id="recent-runs-list" class="recent-runs-list"></ol>
+          </section>
 
           <button id="reset-local-stats-button" class="stats-reset-button" type="button">Reset local stats</button>
         </div>
@@ -474,6 +485,6 @@
 
   <!-- Supabase comes from CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script type="module" src="script.js?v=20260718-profile-stats"></script>
+  <script type="module" src="script.js?v=20260719-recent-runs"></script>
 </body>
 </html>

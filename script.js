@@ -1,8 +1,8 @@
-import { gameModes, rankTiers } from "./game-config.js?v=20260718-profile-stats";
-import { spaceLocations } from "./game-data.js?v=20260718-profile-stats";
-import { isFeatureEnabled } from "./features-toggle.js?v=20260718-profile-stats";
+import { gameModes, rankTiers } from "./game-config.js?v=20260719-recent-runs";
+import { spaceLocations } from "./game-data.js?v=20260719-recent-runs";
+import { isFeatureEnabled } from "./features-toggle.js?v=20260719-recent-runs";
 
-// Small DOM grab section so everything important is up here in one place.
+// Small DOM grab section so everything important is up in one place.
 const screens = {
   start: document.getElementById("start-screen"),
   game: document.getElementById("game-screen"),
@@ -38,6 +38,8 @@ const statsBestStreak = document.getElementById("stats-best-streak");
 const statsCorrectTotal = document.getElementById("stats-correct-total");
 const statsFavoriteMode = document.getElementById("stats-favorite-mode");
 const statsAccuracy = document.getElementById("stats-accuracy");
+const recentRunsList = document.getElementById("recent-runs-list");
+const recentRunsCount = document.getElementById("recent-runs-count");
 const resetLocalStatsButton = document.getElementById("reset-local-stats-button");
 if (helpCloseButton) {
   helpCloseButton.textContent = "\u00D7";
@@ -172,6 +174,7 @@ let menuLeaderboardPrefetchPromise = null;
 let isEndLeaderboardOpen = false;
 let isLearnReviewModalOpen = false;
 let isStatsPanelOpen = false;
+let hasRecordedCurrentRunStats = false;
 let audioContext = null;
 let audioMasterGain = null;
 const TRANSITION_MIN_DURATION = 420;
@@ -703,7 +706,8 @@ function getDefaultLocalStats() {
     totalCorrect: 0,
     totalWrong: 0,
     totalRoundsPlayed: 0,
-    modePlays: {}
+    modePlays: {},
+    recentRuns: []
   };
 }
 
@@ -722,11 +726,87 @@ function getLocalStats() {
       modePlays: {
         ...getDefaultLocalStats().modePlays,
         ...(parsedStats.modePlays || {})
-      }
+      },
+      recentRuns: Array.isArray(parsedStats.recentRuns)
+        ? parsedStats.recentRuns.slice(0, 5)
+        : []
     };
   } catch {
     return getDefaultLocalStats();
   }
+}
+
+function getRunTimeLabel(dateValue) {
+  if (!dateValue) {
+    return "Just now";
+  }
+
+  const date = new Date(dateValue);
+
+  if (Number.isNaN(date.getTime())) {
+    return "Just now";
+  }
+
+  return date.toLocaleDateString(undefined, {
+    month: "short",
+    day: "numeric"
+  });
+}
+
+function getRunScoreLabel(run) {
+  if (run.isStudyMode) {
+    return `${run.correct || 0}/${run.rounds || 0} learned`;
+  }
+
+  return `${run.score || 0} pts`;
+}
+
+function renderRecentRuns(stats) {
+  if (!recentRunsList || !recentRunsCount) {
+    return;
+  }
+
+  const recentRuns = Array.isArray(stats.recentRuns)
+    ? stats.recentRuns.slice(0, 5)
+    : [];
+
+  recentRunsCount.textContent = `${recentRuns.length} saved`;
+  recentRunsList.innerHTML = "";
+
+  if (!recentRuns.length) {
+    const emptyItem = document.createElement("li");
+    emptyItem.className = "recent-run-empty";
+    emptyItem.textContent = "Play a game and it will show up here.";
+    recentRunsList.append(emptyItem);
+    return;
+  }
+
+  recentRuns.forEach((run, index) => {
+    const item = document.createElement("li");
+    item.className = "recent-run-item";
+    item.style.setProperty("--run-index", String(index));
+
+    const badge = document.createElement("span");
+    badge.className = "recent-run-badge";
+    badge.textContent = String(index + 1);
+
+    const main = document.createElement("div");
+    main.className = "recent-run-main";
+
+    const title = document.createElement("strong");
+    title.textContent = run.label || gameModes[run.mode]?.label || "Run";
+
+    const meta = document.createElement("span");
+    meta.textContent = `${getRunScoreLabel(run)} - ${run.accuracy || 0}% accuracy`;
+
+    const time = document.createElement("span");
+    time.className = "recent-run-time";
+    time.textContent = getRunTimeLabel(run.date);
+
+    main.append(title, meta);
+    item.append(badge, main, time);
+    recentRunsList.append(item);
+  });
 }
 
 function getFavoriteModeLabel(stats = getLocalStats()) {
@@ -765,6 +845,7 @@ function renderLocalStats() {
   statsCorrectTotal.textContent = String(stats.totalCorrect);
   statsFavoriteMode.textContent = getFavoriteModeLabel(stats);
   statsAccuracy.textContent = `${accuracyValue}%`;
+  renderRecentRuns(stats);
 }
 
 function saveLocalStats(stats) {
@@ -789,7 +870,28 @@ function setStatsPanelOpen(isOpen) {
 }
 
 function recordLocalRunStats() {
+  if (hasRecordedCurrentRunStats) {
+    return;
+  }
+
   const stats = getLocalStats();
+  const totalGuesses = correctGuessCount + wrongAnswerCount;
+  const accuracyValue = totalGuesses > 0
+    ? Math.round((correctGuessCount / totalGuesses) * 100)
+    : 0;
+  const activeMode = getActiveModeConfig();
+  const runSummary = {
+    mode: selectedModeKey,
+    label: activeMode?.label || "Run",
+    score,
+    accuracy: accuracyValue,
+    rounds: totalRounds,
+    correct: correctGuessCount,
+    wrong: wrongAnswerCount,
+    bestStreak,
+    isStudyMode: isStudyMode(),
+    date: new Date().toISOString()
+  };
 
   stats.gamesPlayed += 1;
   stats.bestScore = Math.max(stats.bestScore, score);
@@ -798,6 +900,8 @@ function recordLocalRunStats() {
   stats.totalWrong += wrongAnswerCount;
   stats.totalRoundsPlayed += totalRounds;
   stats.modePlays[selectedModeKey] = (stats.modePlays[selectedModeKey] || 0) + 1;
+  stats.recentRuns = [runSummary, ...(stats.recentRuns || [])].slice(0, 5);
+  hasRecordedCurrentRunStats = true;
 
   saveLocalStats(stats);
 }
@@ -1790,6 +1894,7 @@ async function startGame(modeKey = selectedModeKey) {
   score = 0;
   hasAnswered = false;
   hasSavedCurrentScore = false;
+  hasRecordedCurrentRunStats = false;
   wrongAnswerCount = 0;
   correctGuessCount = 0;
   currentStreak = 0;
